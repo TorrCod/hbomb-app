@@ -10,12 +10,17 @@ import { _imageData } from '../../../../../api/CustomType';
 import { RcFile } from 'antd/lib/upload';
 
 function ClassicteeSection() {
+    const backgStyle = {
+        backgroundImage: 'url("https://pixabay.com/images/search/sunset/")',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
+      }
+
     return ( 
-        <div className="section classicteeSection flex-column defaultPadding bgImage">
+        <div className="section classicteeSection flex-column defaultPadding bgImage" style={backgStyle}>
             <ClassicteeSlider/>
             <div className='dotNavigator'></div>
             <h1>ClassicTee</h1>
-            <SliderSetting/>
         </div>
      );
 }
@@ -157,6 +162,7 @@ function ClassicteeSlider() {
             <button onClick={classicContext.nextClassSlide} className='button aiIcons aiIcons-right'>
                 <AiIcons.AiFillCaretRight/>
             </button>
+            <SliderSetting/>
         </div>
     );
 }

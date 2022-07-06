@@ -1,4 +1,7 @@
-
+footer .logo{
+    width: 10em;
+    fill: white;
+}
 footer {
     min-height: 5rem;
     color: white;

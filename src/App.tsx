@@ -7,7 +7,6 @@ import AboutUs from './Component/Page/AboutUs/AboutUs';
 import Product from './Component/Page/Product/Product';
 import Footer from './Component/Footer/Footer';
 import { useEffect} from 'react';
-import { ModelProvider } from './hooks/HomeContext';
 import { GlobalContext } from './hooks/GlobalContext';
 import HbombLogo from './Component/Logo/HbombLogo';
 
@@ -25,15 +24,13 @@ const App = () => {
         {(!globalContext.globalState.onLoading)?
         <>
           <BackgroundImage/>
-          <div className='section-overflowx-disabled'>
-            <NavBar/>
-            <Routes>
-              <Route path='/' element={<Home/>}/>
-              <Route path='/aboutus' element={<AboutUs/>}/>
-              <Route path='/product' element={<Product/>}/>
-            </Routes>
-            <Footer/>
-          </div>
+          <NavBar/>
+          <Routes>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/aboutus' element={<AboutUs/>}/>
+            <Route path='/product' element={<Product/>}/>
+          </Routes>
+          <Footer/>
         </>:null}
       </div>
   );

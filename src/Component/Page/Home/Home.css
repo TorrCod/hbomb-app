@@ -10,6 +10,8 @@ header {
     align-items: center;
     margin: 0 auto;
     margin-bottom: 6em;
+    position: relative;
+    max-width: 80%;
 }
 
 .flex-column {

@@ -16,6 +16,7 @@
     width: 100vw;
     height: 100%;
     z-index: -99;
+    max-width: 100%;
 }
 
 .allbg svg {
@@ -120,15 +121,16 @@
     min-width: 7em;
 }
 .loadingpage {
-    height: 100vh;
-    position: absolute;
-    width: 100vw;
-    background-color: var(--primary);
-    flex-direction: column;
-    transition: 0.4s;
-    transition-timing-function: ease-out;
-    overflow: hidden;
-    z-index: 99;
+  max-width: 100%;
+  height: 100vh;
+  position: absolute;
+  width: 100vw;
+  background-color: var(--primary);
+  flex-direction: column;
+  transition: 0.4s;
+  transition-timing-function: ease-out;
+  overflow: hidden;
+  z-index: 99;
 }
 .loadingpage .logo{
     fill: white;
@@ -190,10 +192,7 @@
     }
   }
 
-  .section-overflowx-disabled{
-    width: 100vw;
-    overflow-x: hidden;
-  }
+ 
 
   .image {
     position:absolute;

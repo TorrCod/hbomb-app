@@ -60,6 +60,7 @@
     position: fixed;
     transition: 0.3s;
     transition-timing-function: ease-out;
+    max-width: 100%;
 }
 
 .menu-loginform {

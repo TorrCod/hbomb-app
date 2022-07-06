@@ -1,15 +1,12 @@
 import { PlusOutlined } from '@ant-design/icons';
 import * as AiIcons from 'react-icons/ai'
-import { Button, Modal, UploadFile, UploadProps, Space, Upload, Dropdown, Menu } from 'antd';
-import { Content } from 'antd/lib/layout/layout';
+import { Button, UploadFile, UploadProps, Space, Upload, Dropdown } from 'antd';
 import { RcFile } from 'antd/lib/upload';
-import { _imageData, _uploadFile } from '../../../../../api/CustomType';
-import { getBase64, uploadToCloud } from '../../../../../api/utils';
+import { _imageData} from '../../../../../api/CustomType';
+import { getBase64} from '../../../../../api/utils';
 import { GlobalContext } from '../../../../../hooks/GlobalContext';
-import { ClassicContext, CollectionContext } from '../../../../../hooks/HomeContext';
+import { CollectionContext } from '../../../../../hooks/HomeContext';
 import './CollectionSection.css'
-import { CollectionSectionData } from './CollectionSectionData';
-import Form from 'antd/lib/form/Form';
 
 function CollectionSection() {
     const globalContext = GlobalContext();
@@ -101,6 +98,7 @@ function WindowSetting(){
                 originFileObj: items.originFileObj,
             })
         }
+        // globalContext.UpdateNewData(previewFile,'collectionImgData')
         globalContext.updateImageData(previewFile)
         // modelHooks.modelSlideHandle.handleAddNewItem(previewFile)
     }
