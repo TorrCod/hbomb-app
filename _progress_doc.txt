@@ -1,0 +1,32 @@
+04/07/2022
+    --done--
+    created new function to handel the deleted items, set the items to deleted stated
+
+    --next--
+    after handeling the deleted images, user need to click button which is cancel or ok from 
+    modals. build a logic where when the user press cancel, slider should be restore the image
+    back to apiStates.
+
+    ---problem---
+    seems like there a multirendering.
+    
+    hola imout ...
+
+05/07/2022
+
+    i need to solve the upload mechanism fuck
+
+    solution in mind:
+    check if the uploading image name is exist on the bucket dont upload mf...
+
+    -- hopefully this will work
+
+    --- next 
+    after handeling the deleted images, user need to click button which is cancel or ok from 
+    modals. build a logic where when the user press cancel, slider should be restore the image
+    back to apiStates.
+
+06/07/2022
+    I think I fixed all the problem
+
+    I need to revise it the colorings and responsive

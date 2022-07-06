@@ -1,0 +1,46 @@
+.classicteeSection{
+    position: relative;
+}
+
+.classicteeSection > h1 {
+    color: black;
+}
+
+.classic-buttonsetting{
+    position:absolute;
+    bottom: 5em;
+    left: 5em;
+}
+
+.classictee-slider {
+    background-color: grey;
+    display: flex;
+    align-items: center;
+    height: 40em;
+    width: 100%;
+    max-width: 24em;
+    position: relative;
+    margin-top: 4em;
+    overflow: hidden;
+}
+
+.classicSliderImage {
+    position: absolute;
+    align-self: flex-start;
+    display: flex;
+    height: 100%;
+    background-color: lightblue;
+    transition-timing-function: ease-in;
+    transition: 1s;
+}
+
+.classicImage {
+    overflow: hidden;
+    position: relative;
+    width: 24em;
+}
+
+.classic-image {
+    width: auto;
+    height: 100%;
+}

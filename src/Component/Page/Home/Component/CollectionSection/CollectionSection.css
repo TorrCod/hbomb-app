@@ -1,0 +1,35 @@
+.collectionSection {
+    position: relative;
+}
+.collectionSection > h1 {
+    color: black;
+}
+
+.collectionSection-box {
+    position: relative;
+    background-color: grey;
+    height: 8em;
+    width: 80vw;
+    max-width: 25em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1em;
+    margin-bottom: 1em;
+    overflow: hidden;
+}
+
+.highlight {
+    height: 20em;
+}
+
+.collection-buttonsetting{
+    position: absolute;
+    bottom: -4em;
+}
+
+.collection-setting {
+    position: relative;
+    background-color: var(--bg);
+    padding: 1em;
+}

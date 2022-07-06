@@ -1,0 +1,32 @@
+header {
+    /* background-color: #f4e0c8; */
+    position: relative;
+}
+
+.section {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 6em;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.defaultPadding {
+    padding: 0em 0.5em;
+}
+
+.dotNavigator {
+    display: block;
+    height: 2em;
+    width: 100%;
+}
+
+.defaultBlockMargin {
+    margin-block: 2em;
+}
