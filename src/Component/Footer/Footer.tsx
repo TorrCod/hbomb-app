@@ -3,6 +3,7 @@ import {ReactComponent as FooterLogo} from './Logo.svg'
 import * as aiIcons from 'react-icons/ai'
 import {FaTiktok} from 'react-icons/fa'
 import {BsFillMapFill} from 'react-icons/bs'
+import HbombLogo from '../Logo/HbombLogo'
 
 function Footer() {
     const footerContent = [
@@ -49,7 +50,8 @@ function Footer() {
 
     return ( 
         <footer className="flex-center defaultPadding flex-column">
-            <FooterLogo className='footer-logo'/>
+            <HbombLogo/>
+            {/* <FooterLogo className='footer-logo'/> */}
             <div className='footer-content'>
                 {
                     footerContent.map((child, index) => {

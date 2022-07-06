@@ -32,7 +32,7 @@ function ModelSection() {
         modelContext.dispatch({type:'showmodal'})
     };
     return ( 
-        <div className='section flex-column defaultPadding flex-center'>
+        <div className='section flex-column flex-center'>
             <div 
                 className='slider'
                 onTouchStart= {(e) => {

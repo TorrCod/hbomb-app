@@ -3,7 +3,10 @@ import { cloudStorage } from "../api/utils";
 import {getMetadata, listAll, getDownloadURL, ref} from "firebase/storage";
 import { _imageData, _uploadFile, _uploadFile_init_ } from "../api/CustomType";
 
+const newImageSet:_imageData = {collectionImgData:[],classicImgData:[],modelImgData:[]}
+
 export type GlobalStateContent = {
+    UpdateNewData: (file:_imageData,itemKey:keyof _imageData) => void,
     startFetchingData: () => void,
     globalState:GlobalState,
     updateImageData:(images:_imageData)=>void,
@@ -70,6 +73,7 @@ const GlobalReducer = (state:GlobalState,action:GlobalAction): GlobalState => {
 }
 
 export const globalStateContentinit:GlobalStateContent = {
+    UpdateNewData:()=>{},
     updateImageData: () => {},
     startFetchingData: () => {},
     globalState:{...globalReducerInit},
@@ -79,6 +83,19 @@ const useGlobalContext = createContext<GlobalStateContent>({...globalStateConten
 export function GlobalProvider ({children}:any) {
     const [state, dispatch] = useReducer(GlobalReducer,{...globalReducerInit})
     
+    const UpdateNewData = (file:_imageData,itemKey:keyof _imageData)=>{
+        for (const key in file) {
+            const objChild = file[key as keyof _imageData]
+            if(objChild?.length){
+                for (const iterator of objChild) {
+                    newImageSet[itemKey]?.push(iterator)
+                }
+            }
+        }
+        console.log('newImageSet: ');
+        console.log(newImageSet);
+    }
+
     const startFetchingData = async () => {
         const modelRef = ref(cloudStorage,"gs://hbomb-d8887.appspot.com/ModelData")
         const classicRef = ref(cloudStorage,"gs://hbomb-d8887.appspot.com/ClassicData")
@@ -153,6 +170,7 @@ export function GlobalProvider ({children}:any) {
         dispatch({type:"onLoading",payload:images})
     }
     const value:GlobalStateContent = {
+        UpdateNewData,
         startFetchingData,
         globalState:state,
         updateImageData,
