@@ -6,15 +6,24 @@ import { ClassicContext } from '../../../../../hooks/HomeContext';
 import { Button, Modal, Space, Upload, UploadFile, UploadProps } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import { PlusOutlined } from '@ant-design/icons';
-import { _imageData } from '../../../../../api/CustomType';
 import { RcFile } from 'antd/lib/upload';
 
 function ClassicteeSection() {
-    const backgStyle = {
-        backgroundImage: 'url("https://pixabay.com/images/search/sunset/")',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed',
-      }
+    const globalContext = GlobalContext();
+    const classicContext = ClassicContext();
+    const classicData = globalContext.globalState.imageApi.ClassicData;
+    const currentSlide = classicContext.state.classicSlide
+    let backgStyle:object = {}
+
+    for (const iterator of Object.keys(classicData)) {
+        const index = Object.keys(classicData).indexOf(iterator)
+        if (index === currentSlide){
+            const url = classicData[iterator].url
+            backgStyle = {
+                backgroundImage: 'url('+url+')'
+            }
+        } 
+    }
 
     return ( 
         <div className="section classicteeSection flex-column defaultPadding bgImage" style={backgStyle}>
@@ -26,11 +35,25 @@ function ClassicteeSection() {
 }
 
 function SliderSetting (){
+    const globalContext = GlobalContext()
     const classicContext = ClassicContext()
     const isVisible = classicContext.state.settingVisible
     const onCancel = classicContext.handleCancel
     const onOk = classicContext.handleOk
-    const handleButton = () =>  classicContext.dispatch({type:'previewSetting',payload:true})
+
+    const handleButton = () =>  {
+        const ClassicData = globalContext.globalState.imageApi.ClassicData
+            let addImage:UploadFile[] = []
+            for (const iterator of Object.keys(ClassicData)) {
+                addImage.push({
+                    uid : ClassicData[iterator].id,
+                    name : ClassicData[iterator].name,
+                    url : ClassicData[iterator].url,
+                })
+            }
+           classicContext.dispatch({type:'onUpload',payload:addImage})
+        classicContext.dispatch({type:'previewSetting',payload:true})
+    }
 
     return(
         <>
@@ -58,6 +81,7 @@ function ClassicSetting(){
     const classicContext = ClassicContext()
     const fileCollection : UploadFile<any>[] = []
     const previewVisible = classicContext.state.previewVisible
+    const onUploadImage = classicContext.state.previewState.imageSetting
 
     globalContext.globalState.ImageDataApi.classicImgData.forEach((item) => {
         fileCollection.push({
@@ -69,20 +93,16 @@ function ClassicSetting(){
     })
 
     const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList }) =>{
-        let previewFile:_imageData = {classicImgData:[],modelImgData:[]}
-        for (const items of newFileList) {
-            if(!items.url){
-                items.url = await getBase64(items.originFileObj as RcFile)
-            };
-            previewFile.classicImgData.push({
-                url:items.url!,
-                name:'class'+items.uid,
-                id: items.uid,
-                originFileObj: items.originFileObj,
-            })
+        let previewChange:UploadFile[] = []
+        for (const iterator of newFileList) {
+        if(!iterator.url) iterator.url = await getBase64(iterator.originFileObj as RcFile)
+        previewChange.push({
+            uid:iterator.uid,
+            name:iterator.name,
+            url:iterator.url,
+        })
         }
-        globalContext.updateImageData(previewFile)
-        // modelHooks.modelSlideHandle.handleAddNewItem(previewFile)
+        classicContext.dispatch({type:'onUpload',payload:previewChange})
     }
 
     const uploadButton = (
@@ -104,7 +124,7 @@ function ClassicSetting(){
                     }}
                     onPreview={classicContext.handlePreview}
                     listType="picture-card"
-                    fileList={fileCollection}
+                    fileList={onUploadImage}
                     onChange={handleChange}
                 >
                     {fileCollection.length>= 8 ? null : uploadButton}
@@ -126,8 +146,9 @@ function ClassicteeSlider() {
     const globalState = GlobalContext()
     const classicContext = ClassicContext()
     const classicSlide = classicContext.state.classicSlide
-    const imgData = globalState.globalState.ImageDataApi.classicImgData
-    const value = 'translateX(-' + (100/imgData.length)*classicSlide + '%)';
+    const clasicData = globalState.globalState.imageApi.ClassicData
+    const classicLength = Object.keys(clasicData).length
+    const value = 'translateX(-' + (100/classicLength)*classicSlide + '%)';
     let onSwipeLocation = {start: 0, end: 0}
     const slideStyle = {
         transform: value
@@ -150,12 +171,12 @@ function ClassicteeSlider() {
             </button>
             <div className='classicSliderImage'  style={slideStyle}>
                 {
-                    imgData.map((child,index)=>{
-                            return (
-                                <div key = {"classicSlide" + index} className = "classicImage flex-center">
-                                    <img src={child.url} id={child.id} className="image classic-image" alt=''/>
-                                </div>
-                            )
+                    Object.keys(clasicData).map((child,index) => {
+                        return(
+                            <div key = {"classicSlide" + index} className = "classicImage flex-center">
+                                <img src={clasicData[child].url} id={clasicData[child].id} className="image collection-image" alt=''/>
+                            </div>
+                        )
                     })
                 }
             </div>

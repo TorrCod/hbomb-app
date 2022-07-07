@@ -1,29 +1,49 @@
 import { UploadFile } from "antd";
 import { RcFile} from "antd/lib/upload";
-import React, { createContext, useContext, useReducer } from "react"
-import { _imageData, _uploadFile } from "../api/CustomType";
-import { ButtonHandle, getBase64, uploadToCloud } from "../api/utils";
+import React, { createContext, useContext, useEffect, useReducer } from "react"
+import { ButtonHandle, getBase64, HomeFunction, updateDb } from "../api/utils";
 import { GlobalContext } from "./GlobalContext";
 
 export type _collectionStateType = {
     dropdownState : {
         isVisible: boolean
     }
+    previewState:{
+        imageSetting:UploadFile[]
+    }
 }
 
 type _collectionStateAction = 
 |{type:'togggledropdown'}
+|{type:'onUpload',payload:UploadFile[]}
 
 const  _collection_state_init = {
+    previewState:{
+        imageSetting:[]
+    },
     dropdownState : {
         isVisible: false
     }
 }
 
 export function CollectionReducer(state:_collectionStateType,action: _collectionStateAction):_collectionStateType {
+
     switch(action.type){
         case 'togggledropdown':
-            return {...state, dropdownState:{...state.dropdownState,isVisible:!state.dropdownState.isVisible}}
+            return {...state, 
+                dropdownState:{
+                ...state.dropdownState,
+                isVisible:!state.dropdownState.isVisible
+                }
+            };
+        case 'onUpload':
+            return {
+                ...state,
+                previewState:{
+                    ...state.previewState,
+                    imageSetting:action.payload
+                }
+            }
     }
 }
 
@@ -55,25 +75,28 @@ export const CollectionProvider = ({children}:any) => {
 
     const handleDropDown = {
         onCancelSetting: () => {
-            globalContext.updateImageData(globalContext.globalState.imageApiDefault)
             dispatch({type:'togggledropdown'})
         },
 
         onConfirmSetting: () => {
-            const imageData:_imageData = {modelImgData:[],classicImgData:[],collectionImgData:[]}
-
-            for (const iterator of globalContext.globalState.ImageDataApi.collectionImgData!) {
-                const collectonimage:_uploadFile=iterator
-                imageData.collectionImgData!.push(collectonimage)
-            }
-
-            const path = 'gs://hbomb-d8887.appspot.com/CollectionData';
-            uploadToCloud(imageData,path)
-            globalContext.dispatch({type:'setdefault',payload:imageData})
-            dispatch({type:'togggledropdown'})
+            dispatch({type:"togggledropdown"})
+            const defaultImageApi = globalContext.globalState.imageApi;
+            const result = HomeFunction.toImageApi(state.previewState.imageSetting,defaultImageApi,'CollectionData')
+            globalContext.dispatch({type:'setImageApi',payload:result})
+            updateDb('ImageDataApi/','CollectionData',result.CollectionData)
         },
 
         toggleDropdown: () => {
+            const CollectionData = globalContext.globalState.imageApi.CollectionData
+            let addImage:UploadFile[] = []
+            for (const iterator of Object.keys(CollectionData)) {
+                addImage.push({
+                    uid : CollectionData[iterator].id,
+                    name : CollectionData[iterator].name,
+                    url : CollectionData[iterator].url,
+                })
+            }
+            dispatch({type:'onUpload',payload:addImage})
             dispatch({type:'togggledropdown'})
         }
     }
@@ -91,6 +114,7 @@ export const CollectionContext = () => useContext(useCollectionContext)
 //------- Collection Section-----//
 //------- Classic Section -----//
 export type ClassicStatetype = {
+    previewState: {imageSetting:UploadFile[]}
     previewVisible:boolean
     settingVisible:boolean
     previewTitle:string
@@ -99,12 +123,16 @@ export type ClassicStatetype = {
 }
 
 export type ClassicStateAction = 
+|{type:'onUpload',payload:UploadFile[]}
 |{type: 'onCancel'}
 |{type: 'onpreview',previewImage:string,previewTitle:string}
 |{type: 'previewSetting',payload:boolean}
 |{type:'setModelSlide',payload:number}
 
 export const InitClassicState = {
+    previewState:{
+        imageSetting:[]
+    },
     previewVisible:false,
     settingVisible:false,
     previewTitle:'',
@@ -114,6 +142,14 @@ export const InitClassicState = {
 
 export function reducerClassicState(state:ClassicStatetype,action:ClassicStateAction):ClassicStatetype{
     switch(action.type){
+        case 'onUpload':
+            return {
+                ...state,
+                previewState:{
+                    ...state.previewState,
+                    imageSetting:action.payload
+                }
+            };
         case'onCancel':
         return{
             ...state,
@@ -179,15 +215,11 @@ export const ClassicProvider =({children}:any) => {
     }
 
     const handleOk = () => {
-        const imageData:_imageData = {modelImgData:[],classicImgData:[]}
-        for (const iterator of globalContext.globalState.ImageDataApi.classicImgData) {
-            const classicImages:_uploadFile=iterator
-            imageData.classicImgData.push(classicImages)
-        }
-        const path = 'gs://hbomb-d8887.appspot.com/ClassicData';
-        uploadToCloud(imageData,path)
         dispatch({type:"previewSetting",payload:false})
-        globalContext.dispatch({type:'setdefault',payload:imageData})
+        const defaultImageApi = globalContext.globalState.imageApi;
+        const result = HomeFunction.toImageApi(state.previewState.imageSetting,defaultImageApi,'ClassicData')
+        globalContext.dispatch({type:'setImageApi',payload:result})
+        updateDb('ImageDataApi/','ClassicData',result.ClassicData)
     }
     
     const handleCancel = () => {
@@ -198,18 +230,17 @@ export const ClassicProvider =({children}:any) => {
     const handleChange = () => {
 
     }
-
     const nextClassSlide = () => {
         const nextButton =  ButtonHandle.carousel.next
         const dataState = state.classicSlide
-        const imageArr = globalContext.globalState.ImageDataApi.classicImgData
+        const imageArr = Object.keys(globalContext.globalState.imageApi.ClassicData)
         const value = nextButton(dataState,imageArr)
         dispatch({type:'setModelSlide',payload:value})
     }
     const previousClassSlide = () => {
         const nextButton =  ButtonHandle.carousel.previous
         const dataState = state.classicSlide
-        const imageArr = globalContext.globalState.ImageDataApi.classicImgData
+        const imageArr = Object.keys(globalContext.globalState.imageApi.ClassicData)
         const value = nextButton(dataState,imageArr)
         dispatch({type:'setModelSlide',payload:value})
     }
@@ -232,6 +263,7 @@ export const ClassicContext = () => useContext(useClassicContext)
 //------- Model Section-----//
 
 export type ModelStateType = {
+    previewChange:UploadFile[]
     previewVisible:boolean;
     previewImage:string;
     previewTitle:string;
@@ -244,12 +276,13 @@ export type ModelStateType = {
 }
 
 export type ModelAction =  
+|{type:'onupload',payload:UploadFile[]}
 |{type: 'onpreview',previewImage:string,previewTitle:string}
 |{type:'oncancel'}
 |{type:'slidingState', payload: number}
 |{type:'nextslide',payload:number}
-|{type: 'previousslide',payload:number}
-|{type: 'showmodal'}
+|{type:'previousslide',payload:number}
+|{type:'showmodal'}
 |{type:'handleok'}
 |{type:'handlecancel'}
 
@@ -260,12 +293,18 @@ export const initializeModelState: ModelStateType = {
         isModalVisible:false,
         onConfirm:false
     },
+    previewChange:[],
     previewVisible:false,
     previewImage:"",
     previewTitle:"",
 }
 export function editModelReducer(state:ModelStateType,action:ModelAction):ModelStateType{
     switch(action.type){
+        case 'onupload':
+        return{
+            ...state,
+            previewChange:action.payload
+        };
         case'oncancel':
         return{
             ...state,
@@ -336,10 +375,9 @@ export type ModelStateContent = {
     state: ModelStateType
     dispatch: React.Dispatch<ModelAction>
     modelSlideHandle: {
-        handleAddNewItem: (newFile:_imageData) => void
         handleCancelSetting: () => void
         handleOk:() => void
-        handleSliding:() => void
+        handleSliding:(nextSlide:number) => void
         handleNext:() => void
         handlePrevious:() => void
     }
@@ -348,10 +386,9 @@ export type ModelStateContent = {
 export const useModelContext = createContext<ModelStateContent>(
     {
         modelSlideHandle: {
-            handleAddNewItem:() => {},
             handleCancelSetting: () => {},
             handleOk:() => {},
-            handleSliding:() => {}, 
+            handleSliding:() => {},
             handleNext:() => {},
             handlePrevious:() => {}},
         handlePreview:()=>{},
@@ -360,14 +397,14 @@ export const useModelContext = createContext<ModelStateContent>(
         dispatch: () => {}
     }
 )
-let fileCollection:_imageData={modelImgData:[],classicImgData:[]}
 export const ModelProvider = ({children}:any) => {
-    const [state, dispatch] = useReducer(editModelReducer, initializeModelState);
     const globalContext = GlobalContext()
-
-    const handleAddNewItem = (newFile:_imageData) => {
-        fileCollection = {...newFile};
-    }
+    const [state, dispatch] = useReducer(editModelReducer,initializeModelState);
+    const modelLength = Object.keys(globalContext.globalState.imageApi.ModelData).length/2
+    
+    useEffect(() => {
+        dispatch({type:'nextslide',payload:Math.trunc(modelLength)})
+    },[modelLength])
 
     const handleCancelSetting = () => {
         globalContext.updateImageData(globalContext.globalState.imageApiDefault)
@@ -375,52 +412,54 @@ export const ModelProvider = ({children}:any) => {
     }
     
     const handleOk = () => {
-        const imageData:_imageData = {modelImgData:[],classicImgData:[]}
-        for (const iterator of globalContext.globalState.ImageDataApi.modelImgData) {
-            const modelImages:_uploadFile=iterator
-            imageData.modelImgData.push(modelImages)
-        }
-        uploadToCloud(imageData,'gs://hbomb-d8887.appspot.com/ModelData')
+        const defaultImageApi = globalContext.globalState.imageApi;
+        const result = HomeFunction.toImageApi(state.previewChange,defaultImageApi,'ModelData')
         dispatch({type:"handleok"})
-        globalContext.dispatch({type:'setdefault',payload:fileCollection})
+        globalContext.dispatch({type:'setImageApi',payload:result})
+        updateDb('ImageDataApi/','ModelData',result.ModelData)
     }
 
-    const handleSliding = () => {
-        const imageDataApi = globalContext.globalState.ImageDataApi
-        const defaultVal = Math.trunc(imageDataApi.modelImgData.length/2)
-        const modelSlide = state.ModelSectionState.modelSlide
+    const handleSliding = (nextSlide:number) => {
+        const modelImgApi = globalContext.globalState.imageApi.ModelData
+        const length = Object.keys(modelImgApi).length
+        const defaultVal = Math.trunc(length/2)
         let valueContent = 0;
-        if(imageDataApi.modelImgData.length%2===0){
-            let x =100/imageDataApi.modelImgData.length
+
+        if(length%2===0){
+            let x =100/length
             let y = x/2
-            if(imageDataApi.modelImgData.length===6){
-                valueContent = y-((-x)*(1-modelSlide+1))
-            }else if(imageDataApi.modelImgData.length === 8){
-                valueContent = y-((-x)*(1-modelSlide+2))
+            if(length===6){
+                valueContent = y-((-x)*(1-nextSlide+1))
+            }else if(length === 8){
+                valueContent = y-((-x)*(1-nextSlide+2))
             }else{
-                valueContent = y-((-x)*(1-modelSlide))
+                valueContent = y-((-x)*(1-nextSlide))
             }
         }
         else {
-            valueContent = ((defaultVal-modelSlide)*100/imageDataApi.modelImgData.length)
+            let x =100/length
+            valueContent = -1*(nextSlide-defaultVal)*(x)
         }
+
         dispatch({type:'slidingState',payload:valueContent})
     }
 
     const handleNext = () => {
         const prevButton =  ButtonHandle.carousel.previous
-        const arrayData = globalContext.globalState.ImageDataApi.modelImgData
+        const arrayData = Object.keys(globalContext.globalState.imageApi.ModelData)
         const imageSlideState = state.ModelSectionState.modelSlide
         const payloadValue = prevButton(imageSlideState,arrayData)
         dispatch({type:'nextslide',payload:payloadValue})
+        handleSliding(payloadValue)
     }
 
     const handlePrevious = () => {
         const nexButton =  ButtonHandle.carousel.next
-        const arrayData = globalContext.globalState.ImageDataApi.modelImgData
+        const arrayData = Object.keys(globalContext.globalState.imageApi.ModelData)
         const imageSlideState = state.ModelSectionState.modelSlide
         const payloadValue = nexButton(imageSlideState,arrayData)
         dispatch({type:'nextslide',payload:payloadValue})
+        handleSliding(payloadValue)
     }
 
     const handlePreview = async (fileCollection:UploadFile) => {
@@ -440,7 +479,6 @@ export const ModelProvider = ({children}:any) => {
 
     const value = {
         modelSlideHandle:{
-            handleAddNewItem,
             handleCancelSetting,
             handleOk,
             handleSliding,

@@ -1,5 +1,18 @@
 .classicteeSection{
     position: relative;
+    background-size: cover;
+    background-attachment: fixed;
+    transition: 1s;
+    background-repeat: no-repeat;
+    transition-timing-function: ease-in;
+}
+
+.classicteeSection::before {
+    content: "";
+    background-color: rgba(55, 55, 55, 0.5);
+    position: absolute;
+    left: 0; right: 0;
+    width: 100%; height: 100%;
 }
 
 .classicteeSection > h1 {
@@ -38,6 +51,11 @@
     overflow: hidden;
     position: relative;
     width: 24em;
+}
+
+.classicImage img {
+    width: auto;
+    height: 100%;
 }
 
 .classic-image {

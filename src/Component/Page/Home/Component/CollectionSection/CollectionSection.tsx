@@ -1,16 +1,15 @@
-import { PlusOutlined } from '@ant-design/icons';
-import * as AiIcons from 'react-icons/ai'
-import { Button, UploadFile, UploadProps, Space, Upload, Dropdown } from 'antd';
-import { RcFile } from 'antd/lib/upload';
-import { _imageData} from '../../../../../api/CustomType';
-import { getBase64} from '../../../../../api/utils';
-import { GlobalContext } from '../../../../../hooks/GlobalContext';
-import { CollectionContext } from '../../../../../hooks/HomeContext';
 import './CollectionSection.css'
+import { Dropdown, Button, Space, UploadProps, UploadFile, Upload } from "antd";
+import { RcFile } from "antd/lib/upload";
+import { getBase64 } from "../../../../../api/utils";
+import { GlobalContext } from "../../../../../hooks/GlobalContext";
+import { CollectionContext } from "../../../../../hooks/HomeContext";
+import {AiTwotoneEdit} from 'react-icons/ai';
+import {PlusOutlined} from '@ant-design/icons'
 
 function CollectionSection() {
     const globalContext = GlobalContext();
-    const collectionData = globalContext.globalState.ImageDataApi.collectionImgData;
+    const collectoinData = globalContext.globalState.imageApi.CollectionData
 
     return ( 
         <div className='positionRelative'>
@@ -18,10 +17,10 @@ function CollectionSection() {
             <div className="section collectionSection flex-column defaultPadding">
                 <h1>Collections</h1>
                 {
-                    collectionData!.map((child,index) => {
-                        return (
-                            <div className={'collectionSection-box ' + ((index === 0)? 'highlight':'')} key={'collectionSection-box-' + child.id}>
-                                <img src={child.url} id={child.id} className="image collection-image" alt=''/>
+                    Object.keys(collectoinData).map((child,index) => {
+                        return(
+                            <div className={'collectionSection-box ' + ((index === 0)? 'highlight':'')} key={'collectionSection-box-' + collectoinData[child].id}>
+                                <img src={collectoinData[child].url} id={collectoinData[child].id} className="image collection-image" alt=''/>
                             </div>
                         )
                     })
@@ -44,7 +43,7 @@ function SliderSetting (){
                         onClick={handleButton}
                         type="primary" 
                         shape="round"
-                        icon={<AiIcons.AiTwotoneEdit/>} 
+                        icon={<AiTwotoneEdit/>} 
                         size={'large'}/>
                 </Dropdown>
             </div>
@@ -73,34 +72,21 @@ const SettingContainer = () => {
 let onRemove = true
 
 function WindowSetting(){
-    const globalContext = GlobalContext()
-    const fileCollection : UploadFile<any>[] = []
-
-    globalContext.globalState.ImageDataApi.collectionImgData!.forEach((item) => {
-        fileCollection.push({
-        uid: item.id,
-        name: item.name,
-        url: item.url,
-        originFileObj: item.originFileObj
-        })
-    })
+    const collectionContext = CollectionContext()
+    const onUploadImage = collectionContext.state.previewState.imageSetting
+    const onUploadImageLength = onUploadImage.length
 
     const handleChange: UploadProps['onChange'] = async ({ fileList: newFileList }) =>{
-        let previewFile:_imageData = {classicImgData:[],modelImgData:[],collectionImgData:[]}
-        for (const items of newFileList) {
-            if(!items.url){
-                items.url = await getBase64(items.originFileObj as RcFile)
-            };
-            previewFile.collectionImgData!.push({
-                url:items.url!,
-                name:'class'+items.uid,
-                id: items.uid,
-                originFileObj: items.originFileObj,
-            })
+        let previewChange:UploadFile[] = []
+        for (const iterator of newFileList) {
+        if(!iterator.url) iterator.url = await getBase64(iterator.originFileObj as RcFile)
+        previewChange.push({
+            uid:iterator.uid,
+            name:iterator.name,
+            url:iterator.url,
+        })
         }
-        // globalContext.UpdateNewData(previewFile,'collectionImgData')
-        globalContext.updateImageData(previewFile)
-        // modelHooks.modelSlideHandle.handleAddNewItem(previewFile)
+        collectionContext.dispatch({type:'onUpload',payload:previewChange})
     }
 
     const uploadButton = (
@@ -112,7 +98,7 @@ function WindowSetting(){
 
     return (
         <Space direction='vertical' className='flex-center' >
-            {fileCollection.length>= 3 ? <div className=''>Remove One Image to upload</div> : null}
+            {onUploadImageLength>= 3 ? <div className=''>Remove One Image to upload</div> : null}
             <Upload 
                 customRequest={({file,onSuccess}) => {
                     setTimeout(() => {
@@ -120,13 +106,13 @@ function WindowSetting(){
                     },0);
                 }}
                 listType="picture-card"
-                fileList={fileCollection}
+                fileList={onUploadImage}
                 onChange={handleChange}
                 onPreview = {() => {}}
                 showUploadList={{showPreviewIcon:false}}
                 onRemove={() => {onRemove = !onRemove;return onRemove}}
             >
-                {fileCollection.length>= 3 ? null : uploadButton}
+                {onUploadImageLength >= 3 ? null : uploadButton}
             </Upload>
         </Space>
     )

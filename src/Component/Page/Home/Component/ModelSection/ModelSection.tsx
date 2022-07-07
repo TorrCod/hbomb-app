@@ -1,36 +1,40 @@
 import './ModelSection.css'
 import * as AiIcons from 'react-icons/ai'
-import {useEffect} from 'react';
 import { onSwipe } from '../../../../../api/utils';
 import { Button , Modal} from 'antd';
 import HbombLogo from '../../../../Logo/HbombLogo';
 import EditModelSlide from './EditModelSlide';
 import { GlobalContext } from '../../../../../hooks/GlobalContext';
 import { ModelContext } from '../../../../../hooks/HomeContext';
+import { UploadFile } from 'antd/es/upload';
 
 function ModelSection() {
     const modelContext= ModelContext()
+    const globalContext = GlobalContext()
     const modelSectionState = modelContext.state.ModelSectionState
-    const imageDataApi = GlobalContext().globalState.ImageDataApi
-    useEffect(() => {
-        modelContext.modelSlideHandle.handleSliding()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[imageDataApi.modelImgData.length])
-
+    const modelData = globalContext.globalState.imageApi.ModelData
     const modelSlide = modelSectionState.modelSlide
-    useEffect(() => {
-        modelContext.modelSlideHandle.handleSliding()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[modelSlide])
-
     let onSwipeLocation = {start: 0, end: 0};
+
     const imageActive = {
         transform: "scale(1.3)",
         zIndex:'5'
     }
+
     const showModal = () => {
+        const modelData = globalContext.globalState.imageApi.ModelData
+        let addImage:UploadFile[] = []
+        for (const iterator of Object.keys(modelData)) {
+            addImage.push({
+                uid : modelData[iterator].id,
+                name : modelData[iterator].name,
+                url : modelData[iterator].url,
+            })
+        }
+        modelContext.dispatch({type:'onupload',payload:addImage})
         modelContext.dispatch({type:'showmodal'})
     };
+    
     return ( 
         <div className='section flex-column flex-center'>
             <div 
@@ -50,14 +54,14 @@ function ModelSection() {
                 style={{transform: 'translateX('+modelSectionState.effectValue+'%)'}}
                 >
                     {
-                        imageDataApi.modelImgData.map((child,index) => {
+                        Object.keys(modelData).map((child,index) => {
                             return(
                                 <div 
                                 className="model-img-item flex-center" 
-                                key={""+child.id+index}
+                                key={""+modelData[child].id+index}
                                 style = {(modelSlide===index)?imageActive:{}}
                                 >
-                                    <img src={child.url} id={child.id} className="image model-image" alt=''/>
+                                    <img src={modelData[child].url} id={modelData[child].id} className="image model-image" alt=''/>
                                 </div>
                             )
                         })
