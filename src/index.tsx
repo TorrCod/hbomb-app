@@ -5,14 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import  {GlobalProvider} from './hooks/GlobalContext';
-import { ClassicProvider, CollectionProvider, ModelProvider } from './hooks/HomeContext';
+import { ClassicProvider, CollectionProvider, ModelProvider, OfferProvider } from './hooks/HomeContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <>
+  <React.StrictMode>
     <GlobalProvider>
+      <OfferProvider>
       <CollectionProvider>
       <ModelProvider>
       <ClassicProvider>
@@ -22,8 +23,9 @@ root.render(
       </ClassicProvider>
       </ModelProvider>
       </CollectionProvider>
+      </OfferProvider>
     </GlobalProvider>
-  </>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

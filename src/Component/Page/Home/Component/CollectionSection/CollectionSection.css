@@ -17,6 +17,8 @@
     border-radius: 1em;
     margin-bottom: 1em;
     overflow: hidden;
+    transition: 0.5s;
+    transition-timing-function: ease-in;
 }
 
 .highlight {
@@ -25,7 +27,9 @@
 
 .collection-buttonsetting{
     position: absolute;
-    bottom: -4em;
+    bottom: 0.5em;
+    left: 0.5em;
+    z-index: 500;
 }
 
 .collection-setting {

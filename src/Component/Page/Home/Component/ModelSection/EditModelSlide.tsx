@@ -8,8 +8,6 @@ import { getBase64} from '../../../../../api/utils';
 
 function EditModelSlide() {
   const modelHooks = ModelContext();
-  const fileCollection : UploadFile<any>[] = [];
-
   const handleChange:UploadProps['onChange'] = async ({fileList:newFileList}) =>{
     let previewChange:UploadFile[] = []
     for (const iterator of newFileList) {
@@ -40,8 +38,9 @@ function EditModelSlide() {
           fileList={modelHooks.state.previewChange}
           onPreview={modelHooks.handlePreview}
           onChange={handleChange}
+          showUploadList={(modelHooks.state.previewChange.length <= 3)?{'showRemoveIcon':false}:{'showRemoveIcon':true}}
         >
-          {fileCollection.length>= 8 ? null : uploadButton}
+          {modelHooks.state.previewChange.length>= 8 ? null : uploadButton}
         </Upload>
         <Modal visible={modelHooks.state.previewVisible} title={modelHooks.state.previewTitle} footer={null} onCancel={modelHooks.handleCancel}>
           <img alt="example" style={{ width: '100%' }} src={modelHooks.state.previewImage} />

@@ -15,6 +15,7 @@ function ModelSection() {
     const modelData = globalContext.globalState.imageApi.ModelData
     const modelSlide = modelSectionState.modelSlide
     let onSwipeLocation = {start: 0, end: 0};
+    
 
     const imageActive = {
         transform: "scale(1.3)",

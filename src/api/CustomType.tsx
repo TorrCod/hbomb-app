@@ -1,9 +1,19 @@
+//----OfferSection----//
+export type _OfferContent_Data = {
+    'icons':any,'content':string
+}
+export type _OfferContentTypes = {
+    'firstBox':_OfferContent_Data
+    'secondBox':_OfferContent_Data
+    'thirdBox':_OfferContent_Data
+}
 
+//----OfferSection----//
 //---------NewApi------//
 export interface _UploadData extends Record<string,{
     'id':string
-    'url':string,
-    'content':string,
+    'url':string
+    'content':string
     'name':string
 }> {}
 export type _ImageDataDb = {
@@ -14,6 +24,7 @@ export type _ImageDataDb = {
 export type _Path = 
 |'ImageDataApi/'
 |'User/'
+|'OfferData/'
 
 //---------NewApi------//
 //---------Collection------//

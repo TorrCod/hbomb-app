@@ -1,9 +1,89 @@
 import { UploadFile } from "antd";
-import { RcFile} from "antd/lib/upload";
-import React, { createContext, useContext, useEffect, useReducer } from "react"
-import { ButtonHandle, getBase64, HomeFunction, updateDb } from "../api/utils";
+import { RcFile, UploadChangeParam} from "antd/lib/upload";
+import React, { ChangeEvent, createContext, useContext, useEffect, useReducer } from "react"
+import { _OfferContentTypes, _OfferContent_Data } from "../api/CustomType";
+import { ButtonHandle, getBase64, HomeFunction, updateDb, UpdateOfferDb } from "../api/utils";
 import { GlobalContext } from "./GlobalContext";
 
+
+export type _offerStateType = {
+    contentState :  _OfferContentTypes
+}
+
+type _offerStateAction = 
+|{type:'onType',payload:_OfferContentTypes}
+
+const  _offer_state_init = {
+    contentState : { 
+        'firstBox':{'icons':'','content':''},
+        'secondBox':{'icons':'','content':''},
+        'thirdBox':{'icons':'','content':''}
+    }
+}
+
+export function offerReducer(state:_offerStateType,action: _offerStateAction):_offerStateType {
+
+    switch(action.type){
+        case 'onType':
+            return {...state,
+                contentState:action.payload
+            };
+    }
+}
+
+type _offer_content = {
+    handleDropDown : {
+        onVisibleChange: () => void
+    }
+    handleChange: (event:ChangeEvent<HTMLTextAreaElement>,key:string) => void
+    state:_offerStateType
+    dispatch:React.Dispatch<_offerStateAction>
+}
+
+const _offer_content_init = {
+    handleDropDown : {
+        onVisibleChange: () => {}
+    },
+    handleChange:() => {},
+    state:_offer_state_init,
+    dispatch:() => {}
+}
+
+export const useofferContext = createContext<_offer_content>(_offer_content_init)
+
+export const OfferProvider = ({children}:any) => {
+    const [state, dispatch] = useReducer(offerReducer,_offer_state_init)
+    const globalContext = GlobalContext()
+
+    const handleChange = (event:ChangeEvent<HTMLTextAreaElement>,key:string) => {
+        const defaultContent = globalContext.globalState.offerSectionApi
+        const liveText = event.currentTarget.value
+        defaultContent[key as keyof _OfferContentTypes].content = liveText
+        globalContext.dispatch({type:'setOfferApi',payload:defaultContent})
+        // dispatch({type:'onType',payload:defaultContent})
+    }
+
+    const handleDropDown = {
+        onVisibleChange: () => {
+            UpdateOfferDb(globalContext.globalState.offerSectionApi)
+        }
+    }
+
+
+    const value = {
+        handleDropDown:{...handleDropDown},
+        handleChange,
+        state,
+        dispatch
+    }
+    return <useofferContext.Provider value={value}>{children}</useofferContext.Provider>
+}
+
+export const OfferContext = () => useContext(useofferContext)
+
+
+//----------OfferSection--------//
+//-------CollectoinSection------//
 export type _collectionStateType = {
     dropdownState : {
         isVisible: boolean
@@ -53,6 +133,7 @@ type _collection_content = {
         onConfirmSetting: () => void
         toggleDropdown: () => void
     }
+    onUploadImage: ({ fileList: newFileList }: UploadChangeParam<UploadFile<any>>, index: number) => Promise<void>
     state:_collectionStateType
     dispatch:React.Dispatch<_collectionStateAction>
 }
@@ -63,6 +144,7 @@ const _collection_content_init = {
         onConfirmSetting: () => {},
         toggleDropdown: () => {}
     },
+    onUploadImage: async() => {},
     state:_collection_state_init,
     dispatch:() => {},
 }
@@ -101,8 +183,40 @@ export const CollectionProvider = ({children}:any) => {
         }
     }
 
+    const onUploadImage = async ({ fileList: newFileList }:UploadChangeParam<UploadFile<any>>,index:number) => {
+        let previewChange:UploadFile[] = []
+        let defaultImageApi = globalContext.globalState.imageApi
+        const collectionData = defaultImageApi.CollectionData;
+        const colKeyarr = Object.keys(collectionData)
+
+        for (const iterator of newFileList) {
+        if(!iterator.url) iterator.url = await getBase64(iterator.originFileObj as RcFile)
+        previewChange.push({
+            uid:iterator.uid,
+            name:iterator.name,
+            url:iterator.url,
+        })
+        }
+
+        for (const iterator of colKeyarr) {
+            const indexOfCollKeyarr = colKeyarr.indexOf(iterator)
+            if(indexOfCollKeyarr === index){
+                const result = HomeFunction.toImageApi(previewChange,defaultImageApi,'CollectionData')
+                const key = Object.keys(result.CollectionData)
+                collectionData[iterator] = result.CollectionData[key[0]]
+                defaultImageApi = {
+                    ...defaultImageApi,
+                    CollectionData:collectionData
+                }
+                globalContext.dispatch({type:'setImageApi',payload:defaultImageApi})
+                updateDb('ImageDataApi/','CollectionData',collectionData)
+            }
+        }
+    }
+
     const value = {
         handleDropDown,
+        onUploadImage,
         state,
         dispatch
     }
@@ -198,7 +312,7 @@ export const initClassicStateContent = {
 
 
 export const useClassicContext = createContext<ClassicStateContent>(initClassicStateContent)
-
+let isReady = true
 export const ClassicProvider =({children}:any) => {
     const [state, dispatch] = useReducer(reducerClassicState,InitClassicState);
     const globalContext = GlobalContext()
@@ -230,19 +344,32 @@ export const ClassicProvider =({children}:any) => {
     const handleChange = () => {
 
     }
+    
     const nextClassSlide = () => {
-        const nextButton =  ButtonHandle.carousel.next
-        const dataState = state.classicSlide
-        const imageArr = Object.keys(globalContext.globalState.imageApi.ClassicData)
-        const value = nextButton(dataState,imageArr)
-        dispatch({type:'setModelSlide',payload:value})
+        if(isReady){
+            isReady = false
+            const nextButton =  ButtonHandle.carousel.next
+            const dataState = state.classicSlide
+            const imageArr = Object.keys(globalContext.globalState.imageApi.ClassicData)
+            const value = nextButton(dataState,imageArr)
+            dispatch({type:'setModelSlide',payload:value})
+            setTimeout(() => {
+                isReady = true
+            }, 1000);
+        }
     }
     const previousClassSlide = () => {
-        const nextButton =  ButtonHandle.carousel.previous
-        const dataState = state.classicSlide
-        const imageArr = Object.keys(globalContext.globalState.imageApi.ClassicData)
-        const value = nextButton(dataState,imageArr)
-        dispatch({type:'setModelSlide',payload:value})
+        if(isReady){
+                isReady = false
+            const nextButton =  ButtonHandle.carousel.previous
+            const dataState = state.classicSlide
+            const imageArr = Object.keys(globalContext.globalState.imageApi.ClassicData)
+            const value = nextButton(dataState,imageArr)
+            dispatch({type:'setModelSlide',payload:value})
+            setTimeout(() => {
+                isReady = true
+            }, 1000);
+        }
     }
     const value = {
         handlePreview,

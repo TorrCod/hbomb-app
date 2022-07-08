@@ -20,12 +20,18 @@ const auth = getAuth(app);
 export const cloudStorage = getStorage(app);
 const firebaseDB = _TorDb.getDatabase(app)
 
+export const UpdateOfferDb = (data:_CustomType._OfferContentTypes) => {
+  const dbRef = _TorDb.ref(firebaseDB,'OfferData/')
+  _TorDb.set(dbRef,data)
+}
+
+
 export const updateDb = (dbPath:_CustomType._Path,key:keyof _CustomType._ImageDataDb,file: _CustomType._UploadData) => {
   const dbRef = _TorDb.ref(firebaseDB,dbPath+key)
   _TorDb.set(dbRef,file)
 }
 
-export const readDb = (dbPath:_CustomType._Path,callBack:(arg:_CustomType._ImageDataDb) => void) => {
+export const readDb = (dbPath:_CustomType._Path,callBack:(arg:_CustomType._ImageDataDb|any) => void) => {
   const dbRef = _TorDb.ref(firebaseDB,dbPath.slice(0,-1))
   return _TorDb.onValue(dbRef,(snapshot) => {
     callBack(snapshot.val())

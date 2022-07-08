@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 import {  readDb } from "../api/utils";
-import { _imageData, _ImageDataDb } from "../api/CustomType";
+import { _imageData, _ImageDataDb, _OfferContentTypes } from "../api/CustomType";
 
 const newImageSet:_imageData = {collectionImgData:[],classicImgData:[],modelImgData:[]}
 
@@ -13,6 +13,7 @@ export type GlobalStateContent = {
     dispatch:React.Dispatch<GlobalAction>
 }
 export type GlobalState = {
+    offerSectionApi:_OfferContentTypes
     imageApi:_ImageDataDb
     imageApiDefault:_imageData
     loadingSlideDown: boolean
@@ -21,6 +22,7 @@ export type GlobalState = {
     ImageDataApi:_imageData
 }
 export type GlobalAction = 
+| {type:'setOfferApi',payload:_OfferContentTypes}
 | {type:'setImageApi',payload:_ImageDataDb}
 | {type:'setdefault',payload:_imageData}
 | {type:'loadingDone',payload?:boolean}
@@ -35,6 +37,7 @@ export type ImageType = {
     'originFileObj'?:object|any
 }[]
 export const globalReducerInit:GlobalState = {
+    offerSectionApi:{'firstBox':{'icons':'','content':''},'secondBox':{'icons':'','content':''},'thirdBox':{'icons':'','content':''}},
     imageApi:{ModelData:{},ClassicData:{},CollectionData:{}},
     imageApiDefault: {modelImgData:[],classicImgData:[],collectionImgData:[]},
     loadingSlideDown: false,
@@ -44,6 +47,8 @@ export const globalReducerInit:GlobalState = {
 }
 const GlobalReducer = (state:GlobalState,action:GlobalAction): GlobalState => {
     switch (action.type){
+        case 'setOfferApi':
+            return {...state,offerSectionApi:action.payload}
         case 'setImageApi':
             return {...state,imageApi:action.payload}
 
@@ -104,15 +109,19 @@ export function GlobalProvider ({children}:any) {
     }
 
     const startFetchingData = async () => {
+        updateOfferData()
         updateImageApi()
     }
-
+    const updateOfferData = () => {
+        readDb('OfferData/',(arg) => {
+            dispatch({type:'setOfferApi',payload:arg})
+        })
+    }
     const updateImageApi = () => {
         readDb('ImageDataApi/',(arg) => {
             dispatch({type:'setImageApi',payload:arg})
             dispatch({type:'loadingDone'})
         })
-        
     }
 
     const updateImageData = (images:_imageData) => {
