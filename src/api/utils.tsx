@@ -63,10 +63,7 @@ export const SignIn = async (email:string,password:string) => {
     firebaseLog.errorCode = errorCode;
     firebaseLog.user = errorMessage
     isLogin = false
-    
-  console.log("error occured , isLogin? " + isLogin);
   });
-  console.log(firebaseLog);
   return isLogin
 }
 export const ButtonHandle = {

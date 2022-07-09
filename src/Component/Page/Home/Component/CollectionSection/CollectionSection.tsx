@@ -3,12 +3,14 @@ import { Button, Upload } from "antd";
 import { GlobalContext } from "../../../../../hooks/GlobalContext";
 import { CollectionContext } from "../../../../../hooks/HomeContext";
 import {AiTwotoneEdit} from 'react-icons/ai';
+import { UserContext } from '../../../../../hooks/UserContext';
 
 function CollectionSection() {
     const globalContext = GlobalContext();
     const collectionContext = CollectionContext();
     const collectoinData = globalContext.globalState.imageApi.CollectionData;
     const onUpload = collectionContext.onUploadImage
+    const isLogin = UserContext().state.UserState.checkCredential
     
     return ( 
         <div className='positionRelative'>
@@ -21,7 +23,7 @@ function CollectionSection() {
                             <div  
                             className={'collectionSection-box ' + ((index === 0)? 'highlight':'')} 
                             key={'collectionSection-box-' + collectoinData[child].id}>
-                                <div className="button collection-buttonsetting">
+                                {(isLogin)?<div className="button collection-buttonsetting">
                                     <Upload 
                                         customRequest={({file,onSuccess}) => {
                                             setTimeout(() => {
@@ -38,7 +40,7 @@ function CollectionSection() {
                                         icon={<AiTwotoneEdit/>} 
                                         size={'large'}/>
                                     </Upload>
-                                </div>
+                                </div>:null}
                                 <img src={collectoinData[child].url} id={collectoinData[child].id} className="image collection-image" alt=''/>
                             </div>
                         )

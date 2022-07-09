@@ -1,0 +1,54 @@
+import { createContext, useContext, useReducer } from "react";
+import { GlobalContext } from "./GlobalContext";
+
+export type _UserStateType = {
+    UserState:{checkCredential:boolean}
+}
+
+type _UserStateAction = 
+|{type:'signin',payload:boolean}
+
+const  _UserState_init = {
+    UserState:{checkCredential:false}
+}
+
+export function userReducer(state:_UserStateType,action: _UserStateAction):_UserStateType {
+
+    switch(action.type){
+        case 'signin':
+            return {
+                ...state,
+                UserState:{
+                    ...state.UserState,
+                    checkCredential:action.payload
+                }
+            };
+    }
+}
+
+type _UserState_Content = {
+    state:_UserStateType,
+    dispatch:React.Dispatch<_UserStateAction>
+}
+
+const _UserState_Content_init = {
+    state:_UserState_init,
+    dispatch:() => {}
+}
+
+export const useUserContext = createContext<_UserState_Content>(_UserState_Content_init)
+
+export const UserProvider = ({children}:any) => {
+    const [state, dispatch] = useReducer(userReducer,_UserState_init)
+    const globalContext = GlobalContext()
+
+
+
+    const value = {
+        state,
+        dispatch
+    }
+    return <useUserContext.Provider value={value}>{children}</useUserContext.Provider>
+}
+
+export const UserContext = () => useContext(useUserContext)

@@ -7,10 +7,13 @@ import EditModelSlide from './EditModelSlide';
 import { GlobalContext } from '../../../../../hooks/GlobalContext';
 import { ModelContext } from '../../../../../hooks/HomeContext';
 import { UploadFile } from 'antd/es/upload';
+import { UserContext } from '../../../../../hooks/UserContext';
 
 function ModelSection() {
+    const userContext = UserContext()
     const modelContext= ModelContext()
     const globalContext = GlobalContext()
+    const isLogin = userContext.state.UserState.checkCredential
     const modelSectionState = modelContext.state.ModelSectionState
     const modelData = globalContext.globalState.imageApi.ModelData
     const modelSlide = modelSectionState.modelSlide
@@ -70,14 +73,14 @@ function ModelSection() {
                 </div>
                 <button onClick={modelContext.modelSlideHandle.handlePrevious} className='button aiIcons aiIcons-right'><AiIcons.AiFillCaretRight/></button>
                 <div className='model-navigator'></div>
-                <div className='button model-editbutton' >
+                {(isLogin)?<div className='button model-editbutton' >
                     <Button 
                     onClick={showModal}
                     type="primary" 
                     shape="round"
                     icon={<AiIcons.AiTwotoneEdit/>} 
                     size={'large'}/>
-                </div>
+                </div>:null}
             </div>
             <div className='model-logo'><HbombLogo/></div>
             <div className='model-button'>

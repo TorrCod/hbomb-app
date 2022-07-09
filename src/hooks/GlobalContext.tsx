@@ -104,8 +104,6 @@ export function GlobalProvider ({children}:any) {
                 }
             }
         }
-        console.log('newImageSet: ');
-        console.log(newImageSet);
     }
 
     const startFetchingData = async () => {

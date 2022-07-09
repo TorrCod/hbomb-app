@@ -6,12 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import  {GlobalProvider} from './hooks/GlobalContext';
 import { ClassicProvider, CollectionProvider, ModelProvider, OfferProvider } from './hooks/HomeContext';
+import { UserContext, UserProvider } from './hooks/UserContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
+    <UserProvider>
     <GlobalProvider>
       <OfferProvider>
       <CollectionProvider>
@@ -25,6 +27,7 @@ root.render(
       </CollectionProvider>
       </OfferProvider>
     </GlobalProvider>
+    </UserProvider>
   </React.StrictMode>
 );
 

@@ -1,36 +1,44 @@
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Checkbox, Dropdown, Form, Input, message, Modal } from 'antd';
 import { useState } from 'react';
 import { SignIn } from '../../api/utils';
+import { UserContext } from '../../hooks/UserContext';
 import './LoginForm.css'
+import HbombLogo from '../Logo/HbombLogo';
 
 interface Props {
   HandleButton: ()=>void
 }
 const App = (props: Props) => {
   const [checkCredential, setCheckCredential] = useState(false)
+  const userContext = UserContext()
+  const dispatch = userContext.dispatch
+  const isLogin = UserContext().state.UserState.checkCredential
 
   const onFinish = async (values: any) => {
-    console.log(values);
     const email = values.username;
     const password = values.password;
     const isLogin = await SignIn(email,password);
-    console.log(isLogin);
-    
-    if (!isLogin)wrongCredentials(true)
+
+    if (!isLogin){
+      wrongCredentials(true)
+      message.error('Mali Pooo password at username');
+    }
     else {
       wrongCredentials(false)
+      Modal.success({
+        content: 'Welcome Admin!',
+      });
       props.HandleButton()
     }
   };
   const onFinishFailed = (errorInfo: any) => {
     console.log(errorInfo);
   };
-  const wrongCredentials = (isCheck:boolean) => setCheckCredential(isCheck)
+  const wrongCredentials = (isCheck:boolean) => dispatch({type:'signin',payload:!isCheck})
   
   return (
     <>
-      <div className='loginform flex-center flex-column' 
-      >
+      {(!isLogin)?<div className='loginform flex-center flex-column'>
         {(checkCredential)?
           <Button className='error' style={{background:"red"}}>Email or Password Incorrect</Button>:null
         }
@@ -97,9 +105,33 @@ const App = (props: Props) => {
           </Button>
         </Form.Item>
       </Form>
-      </div>
+      </div>:<UserProfile/>}
     </>
   );
 };
+
+const UserProfile = () => {
+  const userContext = UserContext()
+
+  const handleLogout = () => {
+    Modal.success({
+      content: 'Thank You Goodbye!',
+    });
+    userContext.dispatch({type:'signin',payload:false})
+  }
+  return(
+    <Dropdown 
+    overlay={(
+        <Button type='default' onClick={handleLogout}>LOGOUT</Button>
+    )} placement='bottom'>
+      <div className='user user-container flex-center'>
+        <div className='user-profile'>
+          <HbombLogo/>
+        </div>
+        <div className='user-button-logout'></div>
+      </div>
+    </Dropdown>
+  )
+}
 
 export default App;

@@ -7,12 +7,14 @@ import { Button, Modal, Space, Upload, UploadFile, UploadProps } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import { PlusOutlined } from '@ant-design/icons';
 import { RcFile } from 'antd/lib/upload';
+import { UserContext } from '../../../../../hooks/UserContext';
 
 function ClassicteeSection() {
     const globalContext = GlobalContext();
     const classicContext = ClassicContext();
     const classicData = globalContext.globalState.imageApi.ClassicData;
     const currentSlide = classicContext.state.classicSlide
+
     let backgStyle:object = {}
 
     for (const iterator of Object.keys(classicData)) {
@@ -148,6 +150,7 @@ function ClassicteeSlider() {
     const classicSlide = classicContext.state.classicSlide
     const clasicData = globalState.globalState.imageApi.ClassicData
     const classicLength = Object.keys(clasicData).length
+    const isLogin = UserContext().state.UserState.checkCredential
     const value = 'translateX(-' + (100/classicLength)*classicSlide + '%)';
     let onSwipeLocation = {start: 0, end: 0}
     const slideStyle = {
@@ -183,7 +186,7 @@ function ClassicteeSlider() {
             <button onClick={classicContext.nextClassSlide} className='button aiIcons aiIcons-right'>
                 <AiIcons.AiFillCaretRight/>
             </button>
-            <SliderSetting/>
+            {(isLogin)?<SliderSetting/>:null}
         </div>
     );
 }

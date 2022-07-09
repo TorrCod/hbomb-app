@@ -9,6 +9,7 @@ import Footer from './Component/Footer/Footer';
 import { useEffect} from 'react';
 import { GlobalContext } from './hooks/GlobalContext';
 import HbombLogo from './Component/Logo/HbombLogo';
+import { UserContext } from './hooks/UserContext';
 
 const App = () => {
   // Get The Images from firebase storage:
@@ -17,6 +18,7 @@ const App = () => {
     globalContext.startFetchingData()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
+
   // Render Components
   return (
       <div className="App">
