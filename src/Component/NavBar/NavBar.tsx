@@ -87,6 +87,7 @@ function NavBar() {
                         {
                             NavBar.map((child, index) => {return(
                                 <Link 
+                                    key={'nav-item-'+index}
                                     style={(navActiveState === index)?{borderBottom: '1px solid white',color:'white'}:{}}
                                     onClick={()=>handleActive(index)} 
                                     to={child.link}>
