@@ -1,8 +1,11 @@
 import {initializeApp} from "firebase/app"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { getStorage, ref, uploadBytes, listAll, deleteObject} from "firebase/storage";
+import * as _TorDb from "firebase/database";
 import { RcFile } from "antd/lib/upload";
-import { _imageData} from "./CustomType";
+import * as _CustomType from "./CustomType";
+import { UploadFile } from "antd/es/upload";
+import { useState, useEffect } from 'react';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyB902lKg4FLhCtOPcHrghCozN0Eb-trpWk",
@@ -16,8 +19,28 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 export const cloudStorage = getStorage(app);
+const firebaseDB = _TorDb.getDatabase(app)
 
-export const uploadToCloud = async (uploadFile:_imageData,path:string) => {
+export const UpdateOfferDb = (data:_CustomType._OfferContentTypes) => {
+  data.firstBox.icons = '';
+  const dbRef = _TorDb.ref(firebaseDB,'OfferData/')
+  _TorDb.set(dbRef,data)
+}
+
+
+export const updateDb = (dbPath:_CustomType._Path,key:keyof _CustomType._ImageDataDb,file: _CustomType._UploadData) => {
+  const dbRef = _TorDb.ref(firebaseDB,dbPath+key)
+  _TorDb.set(dbRef,file)
+}
+
+export const readDb = (dbPath:_CustomType._Path,callBack:(arg:_CustomType._ImageDataDb|any) => void) => {
+  const dbRef = _TorDb.ref(firebaseDB,dbPath.slice(0,-1))
+  return _TorDb.onValue(dbRef,(snapshot) => {
+    callBack(snapshot.val())
+  },{'onlyOnce':true})
+}
+
+export const uploadToCloud = async (uploadFile:_CustomType._imageData,path:string) => {
   // check bucket images if exist on new imageData file:
   await deleteImages(path,uploadFile)
   // upload image now
@@ -42,10 +65,7 @@ export const SignIn = async (email:string,password:string) => {
     firebaseLog.errorCode = errorCode;
     firebaseLog.user = errorMessage
     isLogin = false
-    
-  console.log("error occured , isLogin? " + isLogin);
   });
-  console.log(firebaseLog);
   return isLogin
 }
 export const ButtonHandle = {
@@ -86,14 +106,14 @@ export const getBase64 = (file: RcFile): Promise<any> =>
   }
 );
 
-const deleteImages = async (path:string,file:_imageData) => {
+const deleteImages = async (path:string,file:_CustomType._imageData) => {
   for (const key in file) {
-    if(file[key as keyof _imageData]!.length){
+    if(file[key as keyof _CustomType._imageData]!.length){
       const storageRef = ref(cloudStorage,path+"/");
       const imageRef = (await listAll(storageRef)).items
       const itemNameList:string[] = []
 
-      for (const iterator of file[key as keyof _imageData]!) {
+      for (const iterator of file[key as keyof _CustomType._imageData]!) {
         itemNameList.push(iterator.name)
       }
 
@@ -111,11 +131,11 @@ const deleteImages = async (path:string,file:_imageData) => {
   }
 }
 
-const uploadImages = async(path:string, file:_imageData) => {
+const uploadImages = async(path:string, file:_CustomType._imageData) => {
   
   for (const key in file) {
     
-    if(file[key as keyof _imageData]!.length){
+    if(file[key as keyof _CustomType._imageData]!.length){
       
       const storageRef = ref(cloudStorage,path+"/");
       const imageRef = (await listAll(storageRef)).items
@@ -125,7 +145,7 @@ const uploadImages = async(path:string, file:_imageData) => {
         itemNameList.push(iterator.name)
       }
       
-      for (const iterator of file[key as keyof _imageData]!) {
+      for (const iterator of file[key as keyof _CustomType._imageData]!) {
         const isExistOnBucket = itemNameList.includes(iterator.name)
         
         if(!isExistOnBucket){
@@ -137,3 +157,42 @@ const uploadImages = async(path:string, file:_imageData) => {
   }
 }
 
+export const HomeFunction = {
+  'toImageApi': (file:UploadFile[], state:_CustomType._ImageDataDb,key:keyof _CustomType._ImageDataDb) => {
+    let defaultFile:_CustomType._ImageDataDb = {...state}
+    const toImageApi:_CustomType._UploadData = {}
+    for (const iterator of file) {
+      toImageApi[iterator.uid] = {
+        name:iterator.name,
+        id:iterator.uid,
+        url:iterator.url!,
+        content:'',
+      }
+    }
+    defaultFile = {...state,[key]:toImageApi}
+    return defaultFile
+  }
+}
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
+export function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
+}

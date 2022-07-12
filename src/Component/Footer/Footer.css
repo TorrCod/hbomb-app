@@ -26,6 +26,18 @@ footer .flex-center {
     padding: 1em;
     color: rgb(204, 204, 204);
 }
+.footer-content  {
+    display: flex;
+    gap: 10vw;
+}
+
+@media screen and (max-width: 480px) {
+    .footer-content  {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
 .footer-logo {
     width: 14em;
     margin-top: 1em;

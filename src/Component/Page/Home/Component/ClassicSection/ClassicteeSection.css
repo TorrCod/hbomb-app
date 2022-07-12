@@ -1,9 +1,45 @@
 .classicteeSection{
     position: relative;
+    padding-block: 3em 0.5em;
+    background-size: cover;
+    background-attachment: fixed;
+    transition: 1s;
+    background-repeat: no-repeat;
+    transition-timing-function: ease-in;
+    flex-direction: row-reverse;
+    gap: 2em;
+    background-position: center;
 }
 
-.classicteeSection > h1 {
-    color: black;
+.classicteeSection .classicteeSection-description {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 30em;
+    align-self:flex-end;
+    padding: 2em;
+    color: rgb(221, 216, 216)
+}
+.classicteeSection-description-title{
+    color: white;
+}
+
+@media screen and (max-width: 645px) {
+    .classicteeSection{
+        flex-direction: column;
+    }
+    .classicteeSection .classicteeSection-description {
+        text-align: center;
+        justify-content:center ;
+        align-self:center;
+    }
+}
+.classicteeSection::before {
+    content: "";
+    background-color: rgba(55, 55, 55, 0.5);
+    position: absolute;
+    left: 0; right: 0;
+    width: 100%; height: 100%;
 }
 
 .classic-buttonsetting{
@@ -20,7 +56,6 @@
     width: 100%;
     max-width: 24em;
     position: relative;
-    margin-top: 4em;
     overflow: hidden;
 }
 
@@ -38,6 +73,11 @@
     overflow: hidden;
     position: relative;
     width: 24em;
+}
+
+.classicImage img {
+    width: auto;
+    height: 100%;
 }
 
 .classic-image {

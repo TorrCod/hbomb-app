@@ -7,12 +7,46 @@
 .offerSection-box {
     height: 21em;
     width: 13em;
-    margin-bottom: 2em;
     border-radius: 1em;
     background-color: rgb(43, 43, 43);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+    word-wrap: break-word;
+    padding: 0.5em;
+    position: relative;
+    box-shadow: rgba(100, 100, 111, 0.3) 0px 7px 29px 0px;
 }
 
+.offerSection-box-content {
+    text-align: center;
+}
+.offerSection-box-icon {
+    text-align: center;
+    width: fit-content;
+    font-size: 5em;
+    width: 100%;
+    height: 1.5em;
+    padding: 0.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.offerSection-box-content-buttons {
+    position: absolute;
+    right: 0.5em;
+    bottom: 3em;
+}
+.offerSection-box-icons-buttons{
+    position: absolute;
+    width: 0.5em;
+}
+.offerbox-container{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 5em 10vw;
+}
+
+@media screen and (max-width: 600px) {
+    .offerbox-container{
+        grid-template-columns: auto;
+    }
+}

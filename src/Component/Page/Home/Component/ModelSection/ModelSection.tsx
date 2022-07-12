@@ -1,36 +1,47 @@
 import './ModelSection.css'
 import * as AiIcons from 'react-icons/ai'
-import {useEffect} from 'react';
 import { onSwipe } from '../../../../../api/utils';
 import { Button , Modal} from 'antd';
 import HbombLogo from '../../../../Logo/HbombLogo';
 import EditModelSlide from './EditModelSlide';
 import { GlobalContext } from '../../../../../hooks/GlobalContext';
 import { ModelContext } from '../../../../../hooks/HomeContext';
+import { UploadFile } from 'antd/es/upload';
+import { UserContext } from '../../../../../hooks/UserContext';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 function ModelSection() {
+    const userContext = UserContext()
     const modelContext= ModelContext()
+    const globalContext = GlobalContext()
+    const globalDispatch = globalContext.dispatch
+    const isLogin = userContext.state.UserState.checkCredential
     const modelSectionState = modelContext.state.ModelSectionState
-    const imageDataApi = GlobalContext().globalState.ImageDataApi
-    useEffect(() => {
-        modelContext.modelSlideHandle.handleSliding()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[imageDataApi.modelImgData.length])
-
+    const modelData = globalContext.globalState.imageApi.ModelData
     const modelSlide = modelSectionState.modelSlide
-    useEffect(() => {
-        modelContext.modelSlideHandle.handleSliding()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[modelSlide])
-
     let onSwipeLocation = {start: 0, end: 0};
+    
+
     const imageActive = {
         transform: "scale(1.3)",
         zIndex:'5'
     }
+
     const showModal = () => {
+        const modelData = globalContext.globalState.imageApi.ModelData
+        let addImage:UploadFile[] = []
+        for (const iterator of Object.keys(modelData)) {
+            addImage.push({
+                uid : modelData[iterator].id,
+                name : modelData[iterator].name,
+                url : modelData[iterator].url,
+            })
+        }
+        modelContext.dispatch({type:'onupload',payload:addImage})
         modelContext.dispatch({type:'showmodal'})
     };
+    
     return ( 
         <div className='section flex-column flex-center'>
             <div 
@@ -50,14 +61,14 @@ function ModelSection() {
                 style={{transform: 'translateX('+modelSectionState.effectValue+'%)'}}
                 >
                     {
-                        imageDataApi.modelImgData.map((child,index) => {
+                        Object.keys(modelData).map((child,index) => {
                             return(
                                 <div 
                                 className="model-img-item flex-center" 
-                                key={""+child.id+index}
+                                key={""+modelData[child].id+index}
                                 style = {(modelSlide===index)?imageActive:{}}
                                 >
-                                    <img src={child.url} id={child.id} className="image model-image" alt=''/>
+                                    <img src={modelData[child].url} id={modelData[child].id} className="image model-image" alt=''/>
                                 </div>
                             )
                         })
@@ -65,29 +76,34 @@ function ModelSection() {
                 </div>
                 <button onClick={modelContext.modelSlideHandle.handlePrevious} className='button aiIcons aiIcons-right'><AiIcons.AiFillCaretRight/></button>
                 <div className='model-navigator'></div>
-                <div className='button model-editbutton' >
+                {(isLogin)?<div className='button model-editbutton' >
                     <Button 
                     onClick={showModal}
                     type="primary" 
                     shape="round"
                     icon={<AiIcons.AiTwotoneEdit/>} 
                     size={'large'}/>
-                </div>
+                </div>:null}
             </div>
             <div className='model-logo'><HbombLogo/></div>
             <div className='model-button'>
-                <Button type='primary' >ONLINE SHOP</Button>
-                <Button>ABOUT US</Button>
+                <Link to='/product' onClick={()=>globalDispatch({type:'onChangeTab',payload:1})}>
+                    <Button type='primary'size='large' >ONLINE SHOP</Button>
+                </Link>
+                <Link to='/aboutus' onClick={()=>globalDispatch({type:'onChangeTab',payload:2})}>
+                    <Button size='large'>ABOUT US</Button>
+                </Link>
             </div>
-            <Modal title="Add | Remove Models" visible={modelSectionState.isModalVisible} 
+            <Modal 
+            forceRender
+            title="Add | Remove Models" 
+            visible={modelSectionState.isModalVisible} 
             onOk={modelContext.modelSlideHandle.handleOk} 
             onCancel={modelContext.modelSlideHandle.handleCancelSetting}>
-                {(modelSectionState.isModalVisible)?
-                <EditModelSlide/>:null
-                }
+                <EditModelSlide/>
             </Modal>
         </div>
      );
 }
 
-export default ModelSection;
+export default React.memo(ModelSection);

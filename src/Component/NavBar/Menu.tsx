@@ -1,6 +1,7 @@
 import HbombLogo from '../Logo/HbombLogo';
 import MenuAntd from './MenuAntd';
 import LoginForm from "../Login Form/LoginForm"
+import { UserContext } from '../../hooks/UserContext';
 
 interface Props {
     state: any; 
@@ -29,7 +30,7 @@ function Menu(props: Props) {
                 <div onClick={props.HandleButton}><HbombLogo/></div>
                 <MenuAntd HandleButton = {props.HandleButton}/>
                 <div className="menu-loginform">
-                    <LoginForm HandleButton={props.HandleButton}/>
+                <LoginForm HandleButton={props.HandleButton}/>
                 </div>
             </div>
         </>

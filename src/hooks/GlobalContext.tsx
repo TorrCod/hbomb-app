@@ -1,11 +1,11 @@
 import { createContext, useContext, useReducer } from "react";
-import { cloudStorage } from "../api/utils";
-import {getMetadata, listAll, getDownloadURL, ref} from "firebase/storage";
-import { _imageData, _uploadFile, _uploadFile_init_ } from "../api/CustomType";
+import {  readDb } from "../api/utils";
+import { _imageData, _ImageDataDb, _OfferContentTypes } from "../api/CustomType";
 
 const newImageSet:_imageData = {collectionImgData:[],classicImgData:[],modelImgData:[]}
 
 export type GlobalStateContent = {
+    updateImageApi: () => void
     UpdateNewData: (file:_imageData,itemKey:keyof _imageData) => void,
     startFetchingData: () => void,
     globalState:GlobalState,
@@ -13,6 +13,9 @@ export type GlobalStateContent = {
     dispatch:React.Dispatch<GlobalAction>
 }
 export type GlobalState = {
+    navActive:number
+    offerSectionApi:_OfferContentTypes
+    imageApi:_ImageDataDb
     imageApiDefault:_imageData
     loadingSlideDown: boolean
     onLoading:boolean
@@ -20,6 +23,9 @@ export type GlobalState = {
     ImageDataApi:_imageData
 }
 export type GlobalAction = 
+| {type:'onChangeTab',payload:number}
+| {type:'setOfferApi',payload:_OfferContentTypes}
+| {type:'setImageApi',payload:_ImageDataDb}
 | {type:'setdefault',payload:_imageData}
 | {type:'loadingDone',payload?:boolean}
 | {type: 'loadingPage'}
@@ -33,6 +39,9 @@ export type ImageType = {
     'originFileObj'?:object|any
 }[]
 export const globalReducerInit:GlobalState = {
+    navActive:0,
+    offerSectionApi:{'firstBox':{'icons':'','content':''},'secondBox':{'icons':'','content':''},'thirdBox':{'icons':'','content':''}},
+    imageApi:{ModelData:{},ClassicData:{},CollectionData:{}},
     imageApiDefault: {modelImgData:[],classicImgData:[],collectionImgData:[]},
     loadingSlideDown: false,
     viewLoadingPage: true,
@@ -41,6 +50,13 @@ export const globalReducerInit:GlobalState = {
 }
 const GlobalReducer = (state:GlobalState,action:GlobalAction): GlobalState => {
     switch (action.type){
+        case 'onChangeTab':
+            return {...state,navActive:action.payload}
+        case 'setOfferApi':
+            return {...state,offerSectionApi:action.payload}
+        case 'setImageApi':
+            return {...state,imageApi:action.payload}
+
         case 'setdefault':
             const imageApiDefault:_imageData = {...state.imageApiDefault}
             for (const [key, value] of Object.entries(action.payload)) {
@@ -73,6 +89,7 @@ const GlobalReducer = (state:GlobalState,action:GlobalAction): GlobalState => {
 }
 
 export const globalStateContentinit:GlobalStateContent = {
+    updateImageApi: () => {},
     UpdateNewData:()=>{},
     updateImageData: () => {},
     startFetchingData: () => {},
@@ -82,7 +99,7 @@ export const globalStateContentinit:GlobalStateContent = {
 const useGlobalContext = createContext<GlobalStateContent>({...globalStateContentinit})
 export function GlobalProvider ({children}:any) {
     const [state, dispatch] = useReducer(GlobalReducer,{...globalReducerInit})
-    
+
     const UpdateNewData = (file:_imageData,itemKey:keyof _imageData)=>{
         for (const key in file) {
             const objChild = file[key as keyof _imageData]
@@ -92,84 +109,29 @@ export function GlobalProvider ({children}:any) {
                 }
             }
         }
-        console.log('newImageSet: ');
-        console.log(newImageSet);
     }
 
     const startFetchingData = async () => {
-        const modelRef = ref(cloudStorage,"gs://hbomb-d8887.appspot.com/ModelData")
-        const classicRef = ref(cloudStorage,"gs://hbomb-d8887.appspot.com/ClassicData")
-        const collectionRef = ref(cloudStorage,"gs://hbomb-d8887.appspot.com/CollectionData")
-        let classicFetching = true
-        let modelFetching = true
-        let imageData:_imageData = {modelImgData:[],classicImgData:[],collectionImgData:[]}
-
-        listAll(collectionRef).then((res) => {
-            res.items.forEach(async (items) => {
-                let collectionData:_uploadFile = {..._uploadFile_init_}
-                await getDownloadURL(items).then((url) => {
-                    collectionData = {...collectionData, url: url}
-                })
-                await getMetadata(items).then((metItems) => {
-                    collectionData = {
-                        ...collectionData,
-                        name: metItems.name,
-                        id: metItems.name.slice(5),
-                        originFileObj: metItems.customMetadata
-                    }
-                })
-                imageData.collectionImgData!.push(collectionData)
-                dispatch({type:'setdefault',payload:imageData})
-                updateImageData(imageData)
-        })}).catch((e) => console.log(e)).finally(() => classicFetching = false)
-
-        listAll(classicRef).then((res) => {
-            res.items.forEach(async (items) => {
-                let classicData:_uploadFile = {..._uploadFile_init_}
-                await getDownloadURL(items).then((url) => {
-                    classicData = {...classicData, url: url}
-                })
-                await getMetadata(items).then((metItems) => {
-                    classicData = {
-                        ...classicData,
-                        name: metItems.name,
-                        id: metItems.name.slice(5),
-                        originFileObj: metItems.customMetadata
-                    }
-                })
-                imageData.classicImgData.push(classicData)
-                dispatch({type:'setdefault',payload:imageData})
-                updateImageData(imageData)
-        })}).catch((e) => console.log(e)).finally(() => classicFetching = false)
-        
-        listAll(modelRef).then((res) => {
-            let imageData:_imageData = {modelImgData:[],classicImgData:[]}
-            res.items.forEach(async (items) => {
-                let modelData = {..._uploadFile_init_}
-                await getDownloadURL(items).then((url) => {
-                    modelData = {...modelData, url: url}
-                })
-                await getMetadata(items).then((metItems) => {
-                    modelData = {
-                        ...modelData,
-                        name: metItems.name,
-                        id: metItems.name.slice(5),
-                        originFileObj: metItems.customMetadata
-                    }
-                })
-                imageData.modelImgData.push(modelData)
-                dispatch({type:'setdefault',payload:imageData})
-                updateImageData(imageData)
-                
-        })}).catch((e) => console.log(e)).finally(() => modelFetching = false)
-
-        while (modelFetching || classicFetching) await new Promise(r => setTimeout(r, 2000));
-        dispatch({type:'loadingDone'})
+        updateOfferData()
+        updateImageApi()
     }
+    const updateOfferData = () => {
+        readDb('OfferData/',(arg) => {
+            dispatch({type:'setOfferApi',payload:arg})
+        })
+    }
+    const updateImageApi = () => {
+        readDb('ImageDataApi/',(arg) => {
+            dispatch({type:'setImageApi',payload:arg})
+            dispatch({type:'loadingDone'})
+        })
+    }
+
     const updateImageData = (images:_imageData) => {
         dispatch({type:"onLoading",payload:images})
     }
     const value:GlobalStateContent = {
+        updateImageApi,
         UpdateNewData,
         startFetchingData,
         globalState:state,
