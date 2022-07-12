@@ -8,11 +8,14 @@ import { GlobalContext } from '../../../../../hooks/GlobalContext';
 import { ModelContext } from '../../../../../hooks/HomeContext';
 import { UploadFile } from 'antd/es/upload';
 import { UserContext } from '../../../../../hooks/UserContext';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 function ModelSection() {
     const userContext = UserContext()
     const modelContext= ModelContext()
     const globalContext = GlobalContext()
+    const globalDispatch = globalContext.dispatch
     const isLogin = userContext.state.UserState.checkCredential
     const modelSectionState = modelContext.state.ModelSectionState
     const modelData = globalContext.globalState.imageApi.ModelData
@@ -84,18 +87,23 @@ function ModelSection() {
             </div>
             <div className='model-logo'><HbombLogo/></div>
             <div className='model-button'>
-                <Button type='primary' >ONLINE SHOP</Button>
-                <Button>ABOUT US</Button>
+                <Link to='/product' onClick={()=>globalDispatch({type:'onChangeTab',payload:1})}>
+                    <Button type='primary'size='large' >ONLINE SHOP</Button>
+                </Link>
+                <Link to='/aboutus' onClick={()=>globalDispatch({type:'onChangeTab',payload:2})}>
+                    <Button size='large'>ABOUT US</Button>
+                </Link>
             </div>
-            <Modal title="Add | Remove Models" visible={modelSectionState.isModalVisible} 
+            <Modal 
+            forceRender
+            title="Add | Remove Models" 
+            visible={modelSectionState.isModalVisible} 
             onOk={modelContext.modelSlideHandle.handleOk} 
             onCancel={modelContext.modelSlideHandle.handleCancelSetting}>
-                {(modelSectionState.isModalVisible)?
-                <EditModelSlide/>:null
-                }
+                <EditModelSlide/>
             </Modal>
         </div>
      );
 }
 
-export default ModelSection;
+export default React.memo(ModelSection);

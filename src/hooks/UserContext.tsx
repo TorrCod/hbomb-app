@@ -1,15 +1,22 @@
 import { createContext, useContext, useReducer } from "react";
-import { GlobalContext } from "./GlobalContext";
+// import { GlobalContext } from "./GlobalContext";
 
 export type _UserStateType = {
-    UserState:{checkCredential:boolean}
+    UserState:{
+        checkCredential:boolean
+        isLoading:boolean
+    }
 }
 
 type _UserStateAction = 
 |{type:'signin',payload:boolean}
+|{type:'loadingdone',payload:boolean}
 
 const  _UserState_init = {
-    UserState:{checkCredential:false}
+    UserState:{
+        checkCredential:false,
+        isLoading:false
+    }
 }
 
 export function userReducer(state:_UserStateType,action: _UserStateAction):_UserStateType {
@@ -23,6 +30,15 @@ export function userReducer(state:_UserStateType,action: _UserStateAction):_User
                     checkCredential:action.payload
                 }
             };
+        case 'loadingdone':
+            return {
+                ...state,
+                UserState:{
+                    ...state.UserState,
+                    isLoading:action.payload
+                }
+            };
+        
     }
 }
 
@@ -40,9 +56,6 @@ export const useUserContext = createContext<_UserState_Content>(_UserState_Conte
 
 export const UserProvider = ({children}:any) => {
     const [state, dispatch] = useReducer(userReducer,_UserState_init)
-    const globalContext = GlobalContext()
-
-
 
     const value = {
         state,

@@ -50,3 +50,21 @@
 .user-profile .logo {
   fill: rgb(129, 129, 129);
 }
+
+.loginform-loadingpage{
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 7;
+}
+.loginform-loadingpage:before{
+  background-color: rgba(16, 16, 16, 0.228);
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  content: '';
+}

@@ -16,7 +16,8 @@ function CollectionSection() {
         <div className='positionRelative'>
             <div className='allbg bgViolet bgright'></div>
             <div className="section collectionSection flex-column defaultPadding">
-                <h1>Collections</h1>
+                <h1>COLLECTIONS</h1>
+                <div className='collection-box-container'>
                 {
                     Object.keys(collectoinData).map((child,index) => {
                         return(
@@ -46,6 +47,7 @@ function CollectionSection() {
                         )
                     })
                 }
+                </div>
             </div>
         </div>
      );

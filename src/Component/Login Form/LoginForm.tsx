@@ -1,33 +1,33 @@
-import { Button, Checkbox, Dropdown, Form, Input, message, Modal } from 'antd';
-import { useState } from 'react';
+import { Avatar, Button, Checkbox, Form, Input, message, Modal, Space } from 'antd';
 import { SignIn } from '../../api/utils';
 import { UserContext } from '../../hooks/UserContext';
 import './LoginForm.css'
-import HbombLogo from '../Logo/HbombLogo';
+import {UserOutlined} from '@ant-design/icons'
+import React from 'react';
 
 interface Props {
   HandleButton: ()=>void
 }
-const App = (props: Props) => {
-  const [checkCredential, setCheckCredential] = useState(false)
+const LoginForm = (props: Props) => {
   const userContext = UserContext()
   const dispatch = userContext.dispatch
+  const loadingDone = (payload:boolean) => dispatch({type:'loadingdone',payload:!payload})
   const isLogin = UserContext().state.UserState.checkCredential
 
   const onFinish = async (values: any) => {
     const email = values.username;
     const password = values.password;
+
+    loadingDone(false)
     const isLogin = await SignIn(email,password);
+    loadingDone(true)
 
     if (!isLogin){
       wrongCredentials(true)
-      message.error('Mali Pooo password at username');
+      message.error('Only Admin can access to this site');
     }
     else {
       wrongCredentials(false)
-      Modal.success({
-        content: 'Welcome Admin!',
-      });
       props.HandleButton()
     }
   };
@@ -39,9 +39,6 @@ const App = (props: Props) => {
   return (
     <>
       {(!isLogin)?<div className='loginform flex-center flex-column'>
-        {(checkCredential)?
-          <Button className='error' style={{background:"red"}}>Email or Password Incorrect</Button>:null
-        }
         <Form
           name="basic"
           labelCol={{
@@ -58,7 +55,7 @@ const App = (props: Props) => {
           autoComplete="off"
         >
         <Form.Item
-          label="Username"
+          label="Username: "
           name="username"
           rules={[
             {
@@ -120,18 +117,20 @@ const UserProfile = () => {
     userContext.dispatch({type:'signin',payload:false})
   }
   return(
-    <Dropdown 
-    overlay={(
-        <Button type='default' onClick={handleLogout}>LOGOUT</Button>
-    )} placement='bottom'>
-      <div className='user user-container flex-center'>
-        <div className='user-profile'>
-          <HbombLogo/>
-        </div>
-        <div className='user-button-logout'></div>
+    
+      <div>
+        <Space direction='vertical' align='center'>
+        <Avatar size={64} icon={<UserOutlined />} />
+        <Button type='default' shape='round' onClick={handleLogout}>LOGOUT</Button>
+        </Space>
       </div>
-    </Dropdown>
+      // {/* <div className='user user-container flex-center'>
+      //   <div className='user-profile'>
+      //     <HbombLogo/>
+      //   </div>
+      //   <div className='user-button-logout'></div>
+      // </div> */}
   )
 }
 
-export default App;
+export default React.memo(LoginForm);

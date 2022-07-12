@@ -1,3 +1,4 @@
+
 .defaultNav {
     display: flex;
     min-height: 2em;
@@ -74,4 +75,48 @@
 
 .menu-loginform .loginform {
     width: 18em;
+}
+.web-navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+.web-navbar a{
+    color: rgb(240, 240, 240);
+    border-bottom: 0px solid rgb(255, 255, 255);
+    gap: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.web-navbar a:hover{
+    color: white;
+}
+.defaultNav-signin .ant-modal-body{
+    display: grid;
+    place-items: center;
+    padding-top: 3em;
+    gap: 1em;
+}
+.defaultNav-signin .ant-modal-content{
+    border-radius: 1em;
+}
+.defaultNav-signin .ant-modal-footer{
+    background-color: aqua;
+    visibility: hidden;
+    position: absolute;
+}
+.defaultNav-button-signin{
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+    display:grid;
+    grid-template-columns: auto auto;
+    place-items: center;
+    gap: 0.5em;
 }

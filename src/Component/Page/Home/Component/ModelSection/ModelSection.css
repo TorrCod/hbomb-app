@@ -16,6 +16,7 @@
     position: absolute;
     z-index: 4;
     color: white;
+    cursor: pointer;
 }
 .aiIcons-left {
     left:0;
@@ -66,7 +67,7 @@
     height: 2em;
 }
 .model-logo .hbomblogo {
-    min-width: 13em;
+    min-width: 25em;
 }
 .model-editbutton {
     position: absolute;

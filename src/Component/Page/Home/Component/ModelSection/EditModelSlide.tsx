@@ -8,6 +8,7 @@ import { getBase64} from '../../../../../api/utils';
 
 function EditModelSlide() {
   const modelHooks = ModelContext();
+  
   const handleChange:UploadProps['onChange'] = async ({fileList:newFileList}) =>{
     let previewChange:UploadFile[] = []
     for (const iterator of newFileList) {

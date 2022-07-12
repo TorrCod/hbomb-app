@@ -28,10 +28,10 @@ function ClassicteeSection() {
     }
 
     return ( 
-        <div className="section classicteeSection flex-column defaultPadding bgImage" style={backgStyle}>
+        <div className="section classicteeSection " style={backgStyle}>
             <ClassicteeSlider/>
-            <div className='dotNavigator'></div>
-            <h1>ClassicTee</h1>
+            {/* <div className='dotNavigator'></div> */}
+            
         </div>
      );
 }
@@ -158,6 +158,7 @@ function ClassicteeSlider() {
     }
 
     return ( 
+        <>
         <div 
             className="classictee-slider"
             onTouchStart= {(e) => {
@@ -188,6 +189,14 @@ function ClassicteeSlider() {
             </button>
             {(isLogin)?<SliderSetting/>:null}
         </div>
+        <div className='classicteeSection-description'>
+        <div className='title classicteeSection-description-title'>CLASSIC TEE</div>
+            <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor nemo nesciunt neque ex fugit. Ipsum qui, 
+                libero neque labore aliquid fuga nam accusamus dicta quod aspernatur, earum sit iusto culpa.
+            </p>
+        </div>
+        </>
     );
 }
 

@@ -5,6 +5,7 @@ import * as _TorDb from "firebase/database";
 import { RcFile } from "antd/lib/upload";
 import * as _CustomType from "./CustomType";
 import { UploadFile } from "antd/es/upload";
+import { useState, useEffect } from 'react';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyB902lKg4FLhCtOPcHrghCozN0Eb-trpWk",
@@ -21,6 +22,7 @@ export const cloudStorage = getStorage(app);
 const firebaseDB = _TorDb.getDatabase(app)
 
 export const UpdateOfferDb = (data:_CustomType._OfferContentTypes) => {
+  data.firstBox.icons = '';
   const dbRef = _TorDb.ref(firebaseDB,'OfferData/')
   _TorDb.set(dbRef,data)
 }
@@ -170,4 +172,27 @@ export const HomeFunction = {
     defaultFile = {...state,[key]:toImageApi}
     return defaultFile
   }
+}
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
+export function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
 }

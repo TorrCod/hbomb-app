@@ -13,6 +13,7 @@ export type GlobalStateContent = {
     dispatch:React.Dispatch<GlobalAction>
 }
 export type GlobalState = {
+    navActive:number
     offerSectionApi:_OfferContentTypes
     imageApi:_ImageDataDb
     imageApiDefault:_imageData
@@ -22,6 +23,7 @@ export type GlobalState = {
     ImageDataApi:_imageData
 }
 export type GlobalAction = 
+| {type:'onChangeTab',payload:number}
 | {type:'setOfferApi',payload:_OfferContentTypes}
 | {type:'setImageApi',payload:_ImageDataDb}
 | {type:'setdefault',payload:_imageData}
@@ -37,6 +39,7 @@ export type ImageType = {
     'originFileObj'?:object|any
 }[]
 export const globalReducerInit:GlobalState = {
+    navActive:0,
     offerSectionApi:{'firstBox':{'icons':'','content':''},'secondBox':{'icons':'','content':''},'thirdBox':{'icons':'','content':''}},
     imageApi:{ModelData:{},ClassicData:{},CollectionData:{}},
     imageApiDefault: {modelImgData:[],classicImgData:[],collectionImgData:[]},
@@ -47,6 +50,8 @@ export const globalReducerInit:GlobalState = {
 }
 const GlobalReducer = (state:GlobalState,action:GlobalAction): GlobalState => {
     switch (action.type){
+        case 'onChangeTab':
+            return {...state,navActive:action.payload}
         case 'setOfferApi':
             return {...state,offerSectionApi:action.payload}
         case 'setImageApi':
