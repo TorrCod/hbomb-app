@@ -1,0 +1,23 @@
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/C:/Users/torre/.cache/firebase/emulators/firebase-database-emulator-v4.8.0.jar) to field sun.nio.ch.SelectorImpl.selectedKeys
+WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+18:50:56.380 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+18:50:56.543 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+18:51:06.601 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 120ms, init: 0ms
+18:51:06.650 [NamespaceSystem-blocking-namespace-operation-dispatcher-6:hbomb-d8887-default-rtdb$-184228110:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+18:58:48.171 [NamespaceSystem-akka.actor.default-dispatcher-11] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887 successfully activated FBKV (SurveyIdle(0)) wait: 2ms, init: 0ms
+20:57:33.127 [NamespaceSystem-blocking-namespace-operation-dispatcher-184:hbomb-d8887-default-rtdb$-174148186:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+21:00:10.744 [NamespaceSystem-blocking-namespace-operation-dispatcher-202:hbomb-d8887-default-rtdb$1736576547:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+21:00:10.770 [NamespaceSystem-blocking-namespace-operation-dispatcher-202:hbomb-d8887-default-rtdb$-2105707219:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+21:13:16.160 [NamespaceSystem-blocking-namespace-operation-dispatcher-287:hbomb-d8887-default-rtdb$-102291355:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+21:14:12.538 [NamespaceSystem-blocking-namespace-operation-dispatcher-297:hbomb-d8887-default-rtdb$175396330:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+21:18:09.435 [NamespaceSystem-blocking-namespace-operation-dispatcher-359:hbomb-d8887-default-rtdb$-1662146594:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+21:18:19.462 [NamespaceSystem-blocking-namespace-operation-dispatcher-369:hbomb-d8887-default-rtdb$-1057275233:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+21:19:36.891 [NamespaceSystem-blocking-namespace-operation-dispatcher-377:hbomb-d8887-default-rtdb$-152560702:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+21:21:08.921 [NamespaceSystem-blocking-namespace-operation-dispatcher-395:hbomb-d8887-default-rtdb$947132184:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+21:35:10.686 [NamespaceSystem-blocking-namespace-operation-dispatcher-425:hbomb-d8887-default-rtdb$-189090960:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+21:36:15.457 [NamespaceSystem-blocking-namespace-operation-dispatcher-440:hbomb-d8887-default-rtdb$318581781:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+21:38:36.724 [NamespaceSystem-blocking-namespace-operation-dispatcher-468:hbomb-d8887-default-rtdb$1927465605:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+22:04:04.400 [NamespaceSystem-blocking-namespace-operation-dispatcher-567:hbomb-d8887-default-rtdb$-1226165791:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active

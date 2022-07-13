@@ -1,4 +1,5 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
+import { auth } from "../api/utils";
 // import { GlobalContext } from "./GlobalContext";
 
 export type _UserStateType = {
@@ -12,9 +13,10 @@ type _UserStateAction =
 |{type:'signin',payload:boolean}
 |{type:'loadingdone',payload:boolean}
 
+
 const  _UserState_init = {
     UserState:{
-        checkCredential:false,
+        checkCredential: (auth.currentUser)?true:false,
         isLoading:false
     }
 }
@@ -56,6 +58,10 @@ export const useUserContext = createContext<_UserState_Content>(_UserState_Conte
 
 export const UserProvider = ({children}:any) => {
     const [state, dispatch] = useReducer(userReducer,_UserState_init)
+
+    useEffect(() => {
+        console.log(auth.currentUser);
+    },[auth.currentUser])
 
     const value = {
         state,

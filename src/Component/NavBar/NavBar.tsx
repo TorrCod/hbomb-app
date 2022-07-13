@@ -16,12 +16,13 @@ import { FaSignInAlt } from 'react-icons/fa';
 
 function NavBar() {
     const globalContext = GlobalContext();
+    const userContext = UserContext();
     const globalDispatch = globalContext.dispatch;
     const [visible, setVisible] = useState(false)
     const [Show, setShow] = useState(false);
     const {width} = useWindowDimensions()
     const navActiveState = globalContext.globalState.navActive
-    const isAdmin = UserContext().state.UserState.checkCredential
+    const isAdmin = userContext.state.UserState.checkCredential
     
 
     const showModal = () => {

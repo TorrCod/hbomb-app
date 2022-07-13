@@ -1,19 +1,20 @@
 import { Avatar, Button, Checkbox, Form, Input, message, Modal, Space } from 'antd';
-import { SignIn } from '../../api/utils';
+import { auth, SignIn } from '../../api/utils';
 import { UserContext } from '../../hooks/UserContext';
 import './LoginForm.css'
 import {UserOutlined} from '@ant-design/icons'
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface Props {
   HandleButton: ()=>void
 }
+
 const LoginForm = (props: Props) => {
   const userContext = UserContext()
   const dispatch = userContext.dispatch
   const loadingDone = (payload:boolean) => dispatch({type:'loadingdone',payload:!payload})
   const isLogin = UserContext().state.UserState.checkCredential
-
+  
   const onFinish = async (values: any) => {
     const email = values.username;
     const password = values.password;
@@ -108,19 +109,18 @@ const LoginForm = (props: Props) => {
 };
 
 const UserProfile = () => {
-  const userContext = UserContext()
-
   const handleLogout = () => {
+    auth.signOut()
     Modal.success({
       content: 'Thank You Goodbye!',
     });
-    userContext.dispatch({type:'signin',payload:false})
   }
   return(
     
       <div>
         <Space direction='vertical' align='center'>
-        <Avatar size={64} icon={<UserOutlined />} />
+        <Avatar size={64} icon={<UserOutlined />}/>
+        <h4>Admin</h4>
         <Button type='default' shape='round' onClick={handleLogout}>LOGOUT</Button>
         </Space>
       </div>

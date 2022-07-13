@@ -10,16 +10,21 @@ import { useEffect} from 'react';
 import { GlobalContext } from './hooks/GlobalContext';
 import HbombLogo from './Component/Logo/HbombLogo';
 import { UserContext } from './hooks/UserContext';
+import { auth } from './api/utils';
+
+
 
 const App = () => {
   // Get The Images from firebase storage:
   const globalContext = GlobalContext()
   const userLoading = UserContext().state.UserState.isLoading
+
   useEffect(() => {
     globalContext.startFetchingData()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   
+
   // Render Components
   return (
       <div className="App">
@@ -70,3 +75,4 @@ const LoadingPage = () => {
 }
 
 export default App;
+
