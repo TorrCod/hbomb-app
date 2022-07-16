@@ -1,6 +1,6 @@
 import {initializeApp} from "firebase/app"
 import { connectAuthEmulator, getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getStorage, ref, uploadBytes, listAll, deleteObject} from "firebase/storage";
+import { getStorage, ref, uploadBytes, listAll, deleteObject,connectStorageEmulator} from "firebase/storage";
 import { getDatabase , ref as rdbRef,set, onValue, connectDatabaseEmulator } from "firebase/database";
 import { RcFile } from "antd/lib/upload";
 import * as _CustomType from "./CustomType";
@@ -26,6 +26,7 @@ const firebaseDB = getDatabase(app);
 if (window.location.hostname === "localhost") {
   connectDatabaseEmulator(firebaseDB, "localhost", 9000);
   connectAuthEmulator(auth, "http://localhost:9099");
+  connectStorageEmulator(cloudStorage, "localhost", 9199);
 } 
 
 export const UpdateOfferDb = (data:_CustomType._OfferContentTypes) => {
@@ -48,8 +49,8 @@ export const readDb = (dbPath:_CustomType._Path,callBack:(arg:_CustomType._Image
 }
 
 export const uploadToCloud = async (uploadFile:_CustomType._imageData,path:string) => {
-  // check bucket images if exist on new imageData file:
-  await deleteImages(path,uploadFile)
+  // // check bucket images if exist on new imageData file:
+  // await deleteImages(path,uploadFile)
   // upload image now
   await uploadImages(path,uploadFile)
 }

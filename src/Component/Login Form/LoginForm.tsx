@@ -12,7 +12,7 @@ interface Props {
 const LoginForm = (props: Props) => {
   const userContext = UserContext()
   const dispatch = userContext.dispatch
-  const loadingDone = (payload:boolean) => dispatch({type:'loadingdone',payload:!payload})
+  const loadingDone = userContext.loadingDone
   const isLogin = UserContext().state.UserState.checkCredential
   
   const onFinish = async (values: any) => {
@@ -109,11 +109,15 @@ const LoginForm = (props: Props) => {
 };
 
 const UserProfile = () => {
-  const handleLogout = () => {
-    auth.signOut()
-    Modal.success({
-      content: 'Thank You Goodbye!',
-    });
+  const userContext = UserContext()
+  const dispatch = userContext.dispatch
+  const loadingDone = userContext.loadingDone
+
+  const handleLogout = async () => {
+    loadingDone(false)
+    await auth.signOut()
+    dispatch({type:'signin',payload:false})
+    loadingDone(true)
   }
   return(
     

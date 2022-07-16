@@ -4,7 +4,7 @@ import Home from './Component/Page/Home/Home';
 import BackgroundImage from './Component/BackgroundImage/BackgroundImage';
 import NavBar from './Component/NavBar/NavBar';
 import AboutUs from './Component/Page/AboutUs/AboutUs';
-import Product from './Component/Page/Product/Product';
+import ProductPage from './Component/Page/Product/ProductPage';
 import Footer from './Component/Footer/Footer';
 import { useEffect} from 'react';
 import { GlobalContext } from './hooks/GlobalContext';
@@ -18,12 +18,15 @@ const App = () => {
   // Get The Images from firebase storage:
   const globalContext = GlobalContext()
   const userLoading = UserContext().state.UserState.isLoading
+  const userCtxDispatch = UserContext().dispatch
 
   useEffect(() => {
     globalContext.startFetchingData()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
-  
+  useEffect(() => {
+    userCtxDispatch({type:'signin',payload:(auth.currentUser)?true:false})
+  },[auth.currentUser])
 
   // Render Components
   return (
@@ -37,7 +40,7 @@ const App = () => {
           <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/aboutus' element={<AboutUs/>}/>
-            <Route path='/product' element={<Product/>}/>
+            <Route path='/product' element={<ProductPage/>}/>
           </Routes>
           <Footer/>
         </>:null}

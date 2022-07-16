@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useContext, useReducer } from "react";
 import { auth } from "../api/utils";
 // import { GlobalContext } from "./GlobalContext";
 
@@ -45,11 +45,13 @@ export function userReducer(state:_UserStateType,action: _UserStateAction):_User
 }
 
 type _UserState_Content = {
-    state:_UserStateType,
+    loadingDone :(payload:boolean) => void
+    state:_UserStateType
     dispatch:React.Dispatch<_UserStateAction>
 }
 
 const _UserState_Content_init = {
+    loadingDone :() =>{},
     state:_UserState_init,
     dispatch:() => {}
 }
@@ -59,11 +61,10 @@ export const useUserContext = createContext<_UserState_Content>(_UserState_Conte
 export const UserProvider = ({children}:any) => {
     const [state, dispatch] = useReducer(userReducer,_UserState_init)
 
-    useEffect(() => {
-        console.log(auth.currentUser);
-    },[auth.currentUser])
+    const loadingDone = (payload:boolean) => dispatch({type:'loadingdone',payload:!payload})
 
     const value = {
+        loadingDone,
         state,
         dispatch
     }

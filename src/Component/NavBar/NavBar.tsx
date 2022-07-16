@@ -64,46 +64,54 @@ function NavBar() {
         },
     ]
 
+    const mobileStyleNav:React.CSSProperties = {
+        position: 'fixed',
+        zIndex: '3',
+        backgroundColor: 'var(--primary)',
+        boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
+        paddingBlock: '0.5em'
+    }
+
     return ( 
         <> 
             {(width <= 600)?<Menu state = {Show} HandleButton = {HandleMenu}/>:null}
-            <div className='defaultNav'>
-            <Modal 
-                zIndex={4}
-                onCancel={hideModal}
-                className='defaultNav-signin' 
-                visible={visible}
-            >
-                <HbombLogo/>
-                <LoginForm HandleButton={()=>{}}/>
-            </Modal>
-                {(width <= 600)?<>
-                    <button className='button' onClick={HandleMenu}>
-                        <AiIcons.AiOutlineMenu className='nav-menuIcon'/>
-                    </button>
+            <div className='defaultNav' style={(width <= 600)? mobileStyleNav:{}}>
+                <Modal 
+                    zIndex={4}
+                    onCancel={hideModal}
+                    className='defaultNav-signin' 
+                    visible={visible}
+                >
                     <HbombLogo/>
-                </>:<>
-                    <div className='web-navbar'>
-                        <div onClick={()=>handleActive(0)}><HbombLogo/></div>
-                        {
-                            NavBar.map((child, index) => {return(
-                                <Link 
-                                    key={'nav-item-'+index}
-                                    style={(navActiveState === index)?{borderBottom: '1px solid white',color:'white'}:{}}
-                                    onClick={()=>handleActive(index)} 
-                                    to={child.link}>
-                                        {child.icons}{child.title}
-                                </Link>
-                            )})
-                        }
-                        <button className='defaultNav-button-signin'
-                            style={{color:'white'}}
-                            onClick={showModal}
-                        >
-                            {(!isAdmin)?<><FaSignInAlt/>Admin?</>:<Avatar icon={<UserOutlined/>}/>}
+                    <LoginForm HandleButton={()=>{}}/>
+                </Modal>
+                    {(width <= 600)?<>
+                        <button className='button' onClick={HandleMenu}>
+                            <AiIcons.AiOutlineMenu className='nav-menuIcon'/>
                         </button>
-                    </div>
-                </>}
+                        <HbombLogo/>
+                    </>:<>
+                        <div className='web-navbar'>
+                            <div onClick={()=>handleActive(0)}><HbombLogo/></div>
+                            {
+                                NavBar.map((child, index) => {return(
+                                    <Link 
+                                        key={'nav-item-'+index}
+                                        style={(navActiveState === index)?{borderBottom: '1px solid white',color:'white'}:{}}
+                                        onClick={()=>handleActive(index)} 
+                                        to={child.link}>
+                                            {child.icons}{child.title}
+                                    </Link>
+                                )})
+                            }
+                            <button className='defaultNav-button-signin'
+                                style={{color:'white'}}
+                                onClick={showModal}
+                            >
+                                {(!isAdmin)?<><FaSignInAlt/>Admin?</>:<Avatar icon={<UserOutlined/>}/>}
+                            </button>
+                        </div>
+                    </>}
             </div>
         </>
         
