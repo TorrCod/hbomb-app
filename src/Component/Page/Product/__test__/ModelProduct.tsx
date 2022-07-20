@@ -1,13 +1,14 @@
 import { AiFillCaretLeft, AiFillCaretRight} from 'react-icons/ai';
-import useSlider from '../../../customhooks/useSlider';
+import { _uploadFile } from '../../../../api/CustomType';
+import useSlider from '../../../../customhooks/useSlider';
 import './css/ModelProduct.css';
 
 interface Props {
-  children:React.ReactNode
+  imageData:_uploadFile[]
 }
 
 const ModelProduct = (props:Props) => {
-  const imageDataLength = (props.children as {}[]).length;
+  const imageDataLength = props.imageData.length;
   const {translate,buttonNext,buttonPrev} = useSlider(imageDataLength);
   
   const slideStyle: React.CSSProperties = {
@@ -22,7 +23,12 @@ const ModelProduct = (props:Props) => {
           onClick={buttonPrev}
         />
         <div style={slideStyle} className='modelproduct-container'>
-          {props.children}
+          <div className="modelproduct-items flex-center">mp1</div>
+          <div className="modelproduct-items flex-center">mp2</div>
+          <div className="modelproduct-items flex-center">mp3</div>
+          <div className="modelproduct-items flex-center">mp4</div>
+          <div className="modelproduct-items flex-center">mp5</div>
+          <div className="modelproduct-items flex-center">mp6</div>
         </div>
         <AiFillCaretRight 
           onClick={buttonNext}
@@ -33,12 +39,5 @@ const ModelProduct = (props:Props) => {
   )
 }
 
-export const ModelProductItems = ({children}:React.HTMLAttributes<HTMLDivElement>) => {
-  return (
-    <div className="modelproduct-items flex-center">
-      {children}
-    </div>
-  )
-}
 
 export default ModelProduct

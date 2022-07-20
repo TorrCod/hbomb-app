@@ -1,69 +1,69 @@
-[debug] [2022-07-15T09:51:33.371Z] ----------------------------------------------------------------------
-[debug] [2022-07-15T09:51:33.373Z] Command:       D:\Program Files\Nodejs\node.exe C:\Users\torre\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
-[debug] [2022-07-15T09:51:33.373Z] CLI Version:   11.2.1
-[debug] [2022-07-15T09:51:33.373Z] Platform:      win32
-[debug] [2022-07-15T09:51:33.373Z] Node Version:  v16.13.0
-[debug] [2022-07-15T09:51:33.374Z] Time:          Fri Jul 15 2022 17:51:33 GMT+0800 (China Standard Time)
-[debug] [2022-07-15T09:51:33.375Z] ----------------------------------------------------------------------
+[debug] [2022-07-19T07:29:10.932Z] ----------------------------------------------------------------------
+[debug] [2022-07-19T07:29:10.934Z] Command:       D:\Program Files\Nodejs\node.exe C:\Users\torre\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2022-07-19T07:29:10.934Z] CLI Version:   11.2.1
+[debug] [2022-07-19T07:29:10.934Z] Platform:      win32
+[debug] [2022-07-19T07:29:10.934Z] Node Version:  v16.13.0
+[debug] [2022-07-19T07:29:11.210Z] Time:          Tue Jul 19 2022 15:29:10 GMT+0800 (China Standard Time)
+[debug] [2022-07-19T07:29:11.211Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2022-07-15T09:51:33.465Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-07-15T09:51:33.466Z] > authorizing via signed-in user (torreschristian811@gmail.com)
-[debug] [2022-07-15T09:51:33.612Z] openjdk version "11.0.12" 2021-07-20
+[debug] [2022-07-19T07:29:11.294Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-07-19T07:29:11.295Z] > authorizing via signed-in user (torreschristian811@gmail.com)
+[debug] [2022-07-19T07:29:11.577Z] openjdk version "11.0.12" 2021-07-20
 
-[debug] [2022-07-15T09:51:33.613Z] OpenJDK Runtime Environment Microsoft-25199 (build 11.0.12+7)
+[debug] [2022-07-19T07:29:11.578Z] OpenJDK Runtime Environment Microsoft-25199 (build 11.0.12+7)
 OpenJDK 64-Bit Server VM Microsoft-25199 (build 11.0.12+7, mixed mode)
 
-[debug] [2022-07-15T09:51:33.627Z] Parsed Java major version: 11
+[debug] [2022-07-19T07:29:11.616Z] Parsed Java major version: 11
 [info] i  emulators: Starting emulators: auth, database, hosting, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, database, hosting, storage"}}
-[debug] [2022-07-15T09:51:33.655Z] [hub] writing locator at C:\Users\torre\AppData\Local\Temp\hub-hbomb-d8887.json
-[debug] [2022-07-15T09:51:33.664Z] > refreshing access token with scopes: []
-[debug] [2022-07-15T09:51:33.665Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2022-07-15T09:51:33.666Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2022-07-15T09:51:33.789Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
-[debug] [2022-07-15T09:51:33.790Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2022-07-15T09:51:33.810Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887 [none]
-[debug] [2022-07-15T09:51:34.125Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887 200
-[debug] [2022-07-15T09:51:34.126Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887 {"projectId":"hbomb-d8887","projectNumber":"631381399409","displayName":"HBOMB","name":"projects/hbomb-d8887","resources":{"hostingSite":"hbomb-d8887","realtimeDatabaseInstance":"hbomb-d8887-default-rtdb","storageBucket":"hbomb-d8887.appspot.com","locationId":"asia-southeast1"},"state":"ACTIVE"}
-[debug] [2022-07-15T09:51:34.126Z] database rules config:  [{"instance":"hbomb-d8887-default-rtdb","rules":"D:\\My work\\My Project\\hbomb-app\\database.rules.json"}]
-[debug] [2022-07-15T09:51:34.130Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: projectId"}}
-[debug] [2022-07-15T09:51:34.130Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2022-07-15T09:51:34.130Z] Ignoring unsupported arg: rules {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: rules"}}
-[debug] [2022-07-15T09:51:34.130Z] Starting Database Emulator with command {"binary":"java","args":["-Duser.language=en","-jar","C:\\Users\\torre\\.cache\\firebase\\emulators\\firebase-database-emulator-v4.8.0.jar","--host","localhost","--port",9000],"optionalArgs":["port","host","functions_emulator_port","functions_emulator_host"],"joinArgs":false} {"metadata":{"emulator":{"name":"database"},"message":"Starting Database Emulator with command {\"binary\":\"java\",\"args\":[\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\torre\\\\.cache\\\\firebase\\\\emulators\\\\firebase-database-emulator-v4.8.0.jar\",\"--host\",\"localhost\",\"--port\",9000],\"optionalArgs\":[\"port\",\"host\",\"functions_emulator_port\",\"functions_emulator_host\"],\"joinArgs\":false}"}}
+[debug] [2022-07-19T07:29:11.987Z] [hub] writing locator at C:\Users\torre\AppData\Local\Temp\hub-hbomb-d8887.json
+[debug] [2022-07-19T07:29:12.098Z] > refreshing access token with scopes: []
+[debug] [2022-07-19T07:29:12.099Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2022-07-19T07:29:12.100Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-07-19T07:29:12.213Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2022-07-19T07:29:12.213Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2022-07-19T07:29:12.231Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887 [none]
+[debug] [2022-07-19T07:29:12.525Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887 200
+[debug] [2022-07-19T07:29:12.525Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887 {"projectId":"hbomb-d8887","projectNumber":"631381399409","displayName":"HBOMB","name":"projects/hbomb-d8887","resources":{"hostingSite":"hbomb-d8887","realtimeDatabaseInstance":"hbomb-d8887-default-rtdb","storageBucket":"hbomb-d8887.appspot.com","locationId":"asia-southeast1"},"state":"ACTIVE"}
+[debug] [2022-07-19T07:29:12.526Z] database rules config:  [{"instance":"hbomb-d8887-default-rtdb","rules":"D:\\My work\\My Project\\hbomb-app\\database.rules.json"}]
+[debug] [2022-07-19T07:29:12.530Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2022-07-19T07:29:12.531Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-07-19T07:29:12.531Z] Ignoring unsupported arg: rules {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: rules"}}
+[debug] [2022-07-19T07:29:12.531Z] Starting Database Emulator with command {"binary":"java","args":["-Duser.language=en","-jar","C:\\Users\\torre\\.cache\\firebase\\emulators\\firebase-database-emulator-v4.8.0.jar","--host","localhost","--port",9000],"optionalArgs":["port","host","functions_emulator_port","functions_emulator_host"],"joinArgs":false} {"metadata":{"emulator":{"name":"database"},"message":"Starting Database Emulator with command {\"binary\":\"java\",\"args\":[\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\torre\\\\.cache\\\\firebase\\\\emulators\\\\firebase-database-emulator-v4.8.0.jar\",\"--host\",\"localhost\",\"--port\",9000],\"optionalArgs\":[\"port\",\"host\",\"functions_emulator_port\",\"functions_emulator_host\"],\"joinArgs\":false}"}}
 [info] i  database: Database Emulator logging to database-debug.log {"metadata":{"emulator":{"name":"database"},"message":"Database Emulator logging to \u001b[1mdatabase-debug.log\u001b[22m"}}
-[debug] [2022-07-15T09:51:34.965Z] WARNING: An illegal reflective access operation has occurred
+[debug] [2022-07-19T07:29:13.376Z] WARNING: An illegal reflective access operation has occurred
 WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/C:/Users/torre/.cache/firebase/emulators/firebase-database-emulator-v4.8.0.jar) to field sun.nio.ch.SelectorImpl.selectedKeys
 WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
 WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
 WARNING: All illegal access operations will be denied in a future release
  {"metadata":{"emulator":{"name":"database"},"message":"WARNING: An illegal reflective access operation has occurred\r\nWARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/C:/Users/torre/.cache/firebase/emulators/firebase-database-emulator-v4.8.0.jar) to field sun.nio.ch.SelectorImpl.selectedKeys\r\nWARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil\r\nWARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations\r\nWARNING: All illegal access operations will be denied in a future release\r\n"}}
-[debug] [2022-07-15T09:51:35.842Z] 17:51:35.842 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
- {"metadata":{"emulator":{"name":"database"},"message":"17:51:35.842 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started\r\n"}}
-[debug] [2022-07-15T09:51:36.050Z] 17:51:36.050 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
- {"metadata":{"emulator":{"name":"database"},"message":"17:51:36.050 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000\r\n"}}
-[debug] [2022-07-15T09:51:42.178Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2022-07-15T09:51:42.988Z] Temp file directory for storage emulator: C:\Users\torre\AppData\Local\Temp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: C:\\Users\\torre\\AppData\\Local\\Temp/firebase/storage/blobs"}}
-[debug] [2022-07-15T09:51:42.994Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/hbomb-d8887/sites 
-[debug] [2022-07-15T09:51:44.309Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/hbomb-d8887/sites 200
-[debug] [2022-07-15T09:51:44.309Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/hbomb-d8887/sites {"sites":[{"name":"projects/hbomb-d8887/sites/hbomb-d8887","defaultUrl":"https://hbomb-d8887.web.app","appId":"1:631381399409:web:37d18b5b316472a32b08d0","type":"DEFAULT_SITE"}]}
-[debug] [2022-07-15T09:51:44.309Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887/webApps/1:631381399409:web:37d18b5b316472a32b08d0/config [none]
-[debug] [2022-07-15T09:51:45.458Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887/webApps/1:631381399409:web:37d18b5b316472a32b08d0/config 200
-[debug] [2022-07-15T09:51:45.458Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887/webApps/1:631381399409:web:37d18b5b316472a32b08d0/config {"projectId":"hbomb-d8887","appId":"1:631381399409:web:37d18b5b316472a32b08d0","databaseURL":"https://hbomb-d8887-default-rtdb.firebaseio.com","storageBucket":"hbomb-d8887.appspot.com","locationId":"asia-southeast1","apiKey":"AIzaSyB902lKg4FLhCtOPcHrghCozN0Eb-trpWk","authDomain":"hbomb-d8887.firebaseapp.com","messagingSenderId":"631381399409","measurementId":"G-81P1KGZMC9"}
+[debug] [2022-07-19T07:29:14.117Z] 15:29:14.114 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+ {"metadata":{"emulator":{"name":"database"},"message":"15:29:14.114 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started\r\n"}}
+[debug] [2022-07-19T07:29:14.310Z] 15:29:14.309 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+ {"metadata":{"emulator":{"name":"database"},"message":"15:29:14.309 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000\r\n"}}
+[debug] [2022-07-19T07:29:20.677Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-07-19T07:29:21.533Z] Temp file directory for storage emulator: C:\Users\torre\AppData\Local\Temp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: C:\\Users\\torre\\AppData\\Local\\Temp/firebase/storage/blobs"}}
+[debug] [2022-07-19T07:29:21.539Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/hbomb-d8887/sites 
+[debug] [2022-07-19T07:29:31.587Z] Failed to list hosting sites
+[debug] Failed to make request to https://firebasehosting.googleapis.com/v1beta1/projects/hbomb-d8887/sites
+[debug] [2022-07-19T07:29:31.588Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887/webApps/-/config [none]
+[debug] [2022-07-19T07:29:32.658Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887/webApps/-/config 200
+[debug] [2022-07-19T07:29:32.658Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887/webApps/-/config {"projectId":"hbomb-d8887","appId":"1:631381399409:web:37d18b5b316472a32b08d0","databaseURL":"https://hbomb-d8887-default-rtdb.firebaseio.com","storageBucket":"hbomb-d8887.appspot.com","locationId":"asia-southeast1","apiKey":"AIzaSyB902lKg4FLhCtOPcHrghCozN0Eb-trpWk","authDomain":"hbomb-d8887.firebaseapp.com","messagingSenderId":"631381399409","measurementId":"G-81P1KGZMC9"}
 [info] i  hosting: Serving hosting files from: build {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mbuild\u001b[22m"}}
 [info] +  hosting: Local server: http://localhost:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5000\u001b[22m\u001b[24m"}}
-[debug] [2022-07-15T09:51:45.535Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2022-07-15T09:51:45.536Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2022-07-15T09:51:45.536Z] Starting Emulator UI with command {"binary":"node","args":["--dns-result-order=ipv4first","C:\\Users\\torre\\.cache\\firebase\\emulators\\ui-v1.7.0\\server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"--dns-result-order=ipv4first\",\"C:\\\\Users\\\\torre\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.7.0\\\\server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[debug] [2022-07-19T07:29:32.742Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-07-19T07:29:32.742Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2022-07-19T07:29:32.742Z] Starting Emulator UI with command {"binary":"node","args":["--dns-result-order=ipv4first","C:\\Users\\torre\\.cache\\firebase\\emulators\\ui-v1.7.0\\server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"--dns-result-order=ipv4first\",\"C:\\\\Users\\\\torre\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.7.0\\\\server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
 [info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
-[debug] [2022-07-15T09:51:45.741Z] Web / API server started at localhost:4000
+[debug] [2022-07-19T07:29:32.965Z] Web / API server started at localhost:4000
  {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at localhost:4000\n"}}
-[debug] [2022-07-15T09:51:45.815Z] >>> [apiv2][query] PUT http://localhost:9000/.settings/rules.json ns=hbomb-d8887-default-rtdb
-[debug] [2022-07-15T09:51:45.815Z] >>> [apiv2][body] PUT http://localhost:9000/.settings/rules.json "{\n  \"rules\": {\n    \".read\":\"true\",\n    \".write\":\"auth != null\"\n  }\n}"
-[debug] [2022-07-15T09:51:46.100Z] 17:51:46.100 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 142ms, init: 0ms
- {"metadata":{"emulator":{"name":"database"},"message":"17:51:46.100 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 142ms, init: 0ms\r\n"}}
-[debug] [2022-07-15T09:51:46.158Z] 17:51:46.158 [NamespaceSystem-blocking-namespace-operation-dispatcher-6:hbomb-d8887-default-rtdb$-1350430750:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
- {"metadata":{"emulator":{"name":"database"},"message":"17:51:46.158 [NamespaceSystem-blocking-namespace-operation-dispatcher-6:hbomb-d8887-default-rtdb$-1350430750:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active\r\n"}}
-[debug] [2022-07-15T09:51:46.201Z] <<< [apiv2][status] PUT http://localhost:9000/.settings/rules.json 200
-[debug] [2022-07-15T09:51:46.202Z] <<< [apiv2][body] PUT http://localhost:9000/.settings/rules.json {"status":"ok"}
+[debug] [2022-07-19T07:29:33.010Z] >>> [apiv2][query] PUT http://localhost:9000/.settings/rules.json ns=hbomb-d8887-default-rtdb
+[debug] [2022-07-19T07:29:33.010Z] >>> [apiv2][body] PUT http://localhost:9000/.settings/rules.json "{\n  \"rules\": {\n    \".read\":\"true\",\n    \".write\":\"auth != null\"\n  }\n}"
+[debug] [2022-07-19T07:29:33.420Z] 15:29:33.419 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 194ms, init: 0ms
+ {"metadata":{"emulator":{"name":"database"},"message":"15:29:33.419 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 194ms, init: 0ms\r\n"}}
+[debug] [2022-07-19T07:29:33.512Z] 15:29:33.512 [NamespaceSystem-blocking-namespace-operation-dispatcher-7:hbomb-d8887-default-rtdb$-2103708310:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
+ {"metadata":{"emulator":{"name":"database"},"message":"15:29:33.512 [NamespaceSystem-blocking-namespace-operation-dispatcher-7:hbomb-d8887-default-rtdb$-2103708310:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active\r\n"}}
+[debug] [2022-07-19T07:29:33.545Z] <<< [apiv2][status] PUT http://localhost:9000/.settings/rules.json 200
+[debug] [2022-07-19T07:29:33.545Z] <<< [apiv2][body] PUT http://localhost:9000/.settings/rules.json {"status":"ok"}
 [info] 
 ┌─────────────────────────────────────────────────────────────┐
 │ ✔  All emulators ready! It is now safe to connect your app. │
@@ -86,99 +86,5 @@ WARNING: All illegal access operations will be denied in a future release
 
 Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
  
-[debug] [2022-07-15T09:52:04.375Z] 17:52:04.375 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887 successfully activated FBKV (SurveyIdle(0)) wait: 2ms, init: 0ms
- {"metadata":{"emulator":{"name":"database"},"message":"17:52:04.375 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887 successfully activated FBKV (SurveyIdle(0)) wait: 2ms, init: 0ms\r\n"}}
-[debug] [2022-07-16T03:50:37.922Z] ----------------------------------------------------------------------
-[debug] [2022-07-16T03:50:37.924Z] Command:       D:\Program Files\Nodejs\node.exe C:\Users\torre\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
-[debug] [2022-07-16T03:50:37.924Z] CLI Version:   11.2.1
-[debug] [2022-07-16T03:50:37.924Z] Platform:      win32
-[debug] [2022-07-16T03:50:37.925Z] Node Version:  v16.13.0
-[debug] [2022-07-16T03:50:38.005Z] Time:          Sat Jul 16 2022 11:50:37 GMT+0800 (China Standard Time)
-[debug] [2022-07-16T03:50:38.005Z] ----------------------------------------------------------------------
-[debug] 
-[debug] [2022-07-16T03:50:38.014Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
-[debug] [2022-07-16T03:50:38.103Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2022-07-16T03:50:38.103Z] > authorizing via signed-in user (torreschristian811@gmail.com)
-[debug] [2022-07-16T03:50:38.292Z] openjdk version "11.0.12" 2021-07-20
-
-[debug] [2022-07-16T03:50:38.293Z] OpenJDK Runtime Environment Microsoft-25199 (build 11.0.12+7)
-OpenJDK 64-Bit Server VM Microsoft-25199 (build 11.0.12+7, mixed mode)
-
-[debug] [2022-07-16T03:50:38.306Z] Parsed Java major version: 11
-[info] i  emulators: Starting emulators: auth, database, hosting, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, database, hosting, storage"}}
-[warn] !  emulators: It seems that you are running multiple instances of the emulator suite for project hbomb-d8887. This may result in unexpected behavior. 
-[debug] [2022-07-16T03:50:38.324Z] [hub] writing locator at C:\Users\torre\AppData\Local\Temp\hub-hbomb-d8887.json
-[debug] [2022-07-16T03:50:38.347Z] > refreshing access token with scopes: []
-[debug] [2022-07-16T03:50:38.348Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
-[debug] [2022-07-16T03:50:38.348Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2022-07-16T03:50:38.472Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
-[debug] [2022-07-16T03:50:38.472Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
-[debug] [2022-07-16T03:50:38.491Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887 [none]
-[debug] [2022-07-16T03:50:38.532Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
-[debug] [2022-07-16T03:50:38.533Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
-[debug] [2022-07-16T03:50:38.838Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887 200
-[debug] [2022-07-16T03:50:38.839Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887 {"projectId":"hbomb-d8887","projectNumber":"631381399409","displayName":"HBOMB","name":"projects/hbomb-d8887","resources":{"hostingSite":"hbomb-d8887","realtimeDatabaseInstance":"hbomb-d8887-default-rtdb","storageBucket":"hbomb-d8887.appspot.com","locationId":"asia-southeast1"},"state":"ACTIVE"}
-[debug] [2022-07-16T03:50:38.839Z] database rules config:  [{"instance":"hbomb-d8887-default-rtdb","rules":"D:\\My work\\My Project\\hbomb-app\\database.rules.json"}]
-[debug] [2022-07-16T03:50:38.844Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: projectId"}}
-[debug] [2022-07-16T03:50:38.844Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2022-07-16T03:50:38.844Z] Ignoring unsupported arg: rules {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: rules"}}
-[debug] [2022-07-16T03:50:38.844Z] Starting Database Emulator with command {"binary":"java","args":["-Duser.language=en","-jar","C:\\Users\\torre\\.cache\\firebase\\emulators\\firebase-database-emulator-v4.8.0.jar","--host","localhost","--port",9000],"optionalArgs":["port","host","functions_emulator_port","functions_emulator_host"],"joinArgs":false} {"metadata":{"emulator":{"name":"database"},"message":"Starting Database Emulator with command {\"binary\":\"java\",\"args\":[\"-Duser.language=en\",\"-jar\",\"C:\\\\Users\\\\torre\\\\.cache\\\\firebase\\\\emulators\\\\firebase-database-emulator-v4.8.0.jar\",\"--host\",\"localhost\",\"--port\",9000],\"optionalArgs\":[\"port\",\"host\",\"functions_emulator_port\",\"functions_emulator_host\"],\"joinArgs\":false}"}}
-[info] i  database: Database Emulator logging to database-debug.log {"metadata":{"emulator":{"name":"database"},"message":"Database Emulator logging to \u001b[1mdatabase-debug.log\u001b[22m"}}
-[debug] [2022-07-16T03:50:39.592Z] WARNING: An illegal reflective access operation has occurred
-WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/C:/Users/torre/.cache/firebase/emulators/firebase-database-emulator-v4.8.0.jar) to field sun.nio.ch.SelectorImpl.selectedKeys
-WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
-WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
-WARNING: All illegal access operations will be denied in a future release
- {"metadata":{"emulator":{"name":"database"},"message":"WARNING: An illegal reflective access operation has occurred\r\nWARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/C:/Users/torre/.cache/firebase/emulators/firebase-database-emulator-v4.8.0.jar) to field sun.nio.ch.SelectorImpl.selectedKeys\r\nWARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil\r\nWARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations\r\nWARNING: All illegal access operations will be denied in a future release\r\n"}}
-[debug] [2022-07-16T03:50:40.263Z] 11:50:40.262 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
- {"metadata":{"emulator":{"name":"database"},"message":"11:50:40.262 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started\r\n"}}
-[debug] [2022-07-16T03:50:40.449Z] 11:50:40.449 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
- {"metadata":{"emulator":{"name":"database"},"message":"11:50:40.449 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000\r\n"}}
-[debug] [2022-07-16T03:50:46.382Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2022-07-16T03:50:47.179Z] Temp file directory for storage emulator: C:\Users\torre\AppData\Local\Temp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: C:\\Users\\torre\\AppData\\Local\\Temp/firebase/storage/blobs"}}
-[debug] [2022-07-16T03:50:47.184Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/hbomb-d8887/sites 
-[debug] [2022-07-16T03:50:48.471Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/hbomb-d8887/sites 200
-[debug] [2022-07-16T03:50:48.471Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/hbomb-d8887/sites {"sites":[{"name":"projects/hbomb-d8887/sites/hbomb-d8887","defaultUrl":"https://hbomb-d8887.web.app","appId":"1:631381399409:web:37d18b5b316472a32b08d0","type":"DEFAULT_SITE"}]}
-[debug] [2022-07-16T03:50:48.472Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887/webApps/1:631381399409:web:37d18b5b316472a32b08d0/config [none]
-[debug] [2022-07-16T03:50:49.707Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887/webApps/1:631381399409:web:37d18b5b316472a32b08d0/config 200
-[debug] [2022-07-16T03:50:49.707Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/hbomb-d8887/webApps/1:631381399409:web:37d18b5b316472a32b08d0/config {"projectId":"hbomb-d8887","appId":"1:631381399409:web:37d18b5b316472a32b08d0","databaseURL":"https://hbomb-d8887-default-rtdb.firebaseio.com","storageBucket":"hbomb-d8887.appspot.com","locationId":"asia-southeast1","apiKey":"AIzaSyB902lKg4FLhCtOPcHrghCozN0Eb-trpWk","authDomain":"hbomb-d8887.firebaseapp.com","messagingSenderId":"631381399409","measurementId":"G-81P1KGZMC9"}
-[info] i  hosting: Serving hosting files from: build {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mbuild\u001b[22m"}}
-[info] +  hosting: Local server: http://localhost:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5000\u001b[22m\u001b[24m"}}
-[debug] [2022-07-16T03:50:49.780Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2022-07-16T03:50:49.781Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2022-07-16T03:50:49.781Z] Starting Emulator UI with command {"binary":"node","args":["--dns-result-order=ipv4first","C:\\Users\\torre\\.cache\\firebase\\emulators\\ui-v1.7.0\\server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"--dns-result-order=ipv4first\",\"C:\\\\Users\\\\torre\\\\.cache\\\\firebase\\\\emulators\\\\ui-v1.7.0\\\\server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
-[info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
-[debug] [2022-07-16T03:50:49.994Z] Web / API server started at localhost:4000
- {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at localhost:4000\n"}}
-[debug] [2022-07-16T03:50:50.051Z] >>> [apiv2][query] PUT http://localhost:9000/.settings/rules.json ns=hbomb-d8887-default-rtdb
-[debug] [2022-07-16T03:50:50.051Z] >>> [apiv2][body] PUT http://localhost:9000/.settings/rules.json "{\n  \"rules\": {\n    \".read\":\"true\",\n    \".write\":\"auth != null\"\n  }\n}"
-[debug] [2022-07-16T03:50:50.346Z] 11:50:50.346 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 142ms, init: 0ms
- {"metadata":{"emulator":{"name":"database"},"message":"11:50:50.346 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 142ms, init: 0ms\r\n"}}
-[debug] [2022-07-16T03:50:50.399Z] 11:50:50.399 [NamespaceSystem-blocking-namespace-operation-dispatcher-6:hbomb-d8887-default-rtdb$-1396636886:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active
- {"metadata":{"emulator":{"name":"database"},"message":"11:50:50.399 [NamespaceSystem-blocking-namespace-operation-dispatcher-6:hbomb-d8887-default-rtdb$-1396636886:] INFO com.firebase.core.namespace.StateManager - Namespace hbomb-d8887-default-rtdb status Active to Active\r\n"}}
-[debug] [2022-07-16T03:50:50.437Z] <<< [apiv2][status] PUT http://localhost:9000/.settings/rules.json 200
-[debug] [2022-07-16T03:50:50.437Z] <<< [apiv2][body] PUT http://localhost:9000/.settings/rules.json {"status":"ok"}
-[info] 
-┌─────────────────────────────────────────────────────────────┐
-│ ✔  All emulators ready! It is now safe to connect your app. │
-│ i  View Emulator UI at http://localhost:4000                │
-└─────────────────────────────────────────────────────────────┘
-
-┌────────────────┬────────────────┬────────────────────────────────┐
-│ Emulator       │ Host:Port      │ View in Emulator UI            │
-├────────────────┼────────────────┼────────────────────────────────┤
-│ Authentication │ localhost:9099 │ http://localhost:4000/auth     │
-├────────────────┼────────────────┼────────────────────────────────┤
-│ Database       │ localhost:9000 │ http://localhost:4000/database │
-├────────────────┼────────────────┼────────────────────────────────┤
-│ Hosting        │ localhost:5000 │ n/a                            │
-├────────────────┼────────────────┼────────────────────────────────┤
-│ Storage        │ localhost:9199 │ http://localhost:4000/storage  │
-└────────────────┴────────────────┴────────────────────────────────┘
-  Emulator Hub running at localhost:4400
-  Other reserved ports: 4500
-
-Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
- 
-[debug] [2022-07-16T04:02:01.841Z] 12:02:01.842 [NamespaceSystem-akka.actor.default-dispatcher-11] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887 successfully activated FBKV (SurveyIdle(0)) wait: 1ms, init: 0ms
- {"metadata":{"emulator":{"name":"database"},"message":"12:02:01.842 [NamespaceSystem-akka.actor.default-dispatcher-11] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887 successfully activated FBKV (SurveyIdle(0)) wait: 1ms, init: 0ms\r\n"}}
+[debug] [2022-07-19T07:29:37.478Z] 15:29:37.477 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887 successfully activated FBKV (SurveyIdle(0)) wait: 1ms, init: 0ms
+ {"metadata":{"emulator":{"name":"database"},"message":"15:29:37.477 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - hbomb-d8887 successfully activated FBKV (SurveyIdle(0)) wait: 1ms, init: 0ms\r\n"}}

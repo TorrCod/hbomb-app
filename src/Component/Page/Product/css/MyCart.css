@@ -1,0 +1,11 @@
+.mycart{
+    z-index: 3;
+    position: absolute;
+    bottom: 1em;
+    margin: auto;
+    left: 0;
+    right: 0;
+    max-width: 15em;
+    font-size: large;
+    height: 2.3em;
+}

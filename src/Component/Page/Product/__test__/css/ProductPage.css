@@ -1,4 +1,5 @@
 .product-section {
+    height: 100vh;
     max-height: 60em;
     flex-direction: column;
     position: relative;
@@ -8,10 +9,7 @@
     max-width: 80em !important;
     position: relative;
 }
-.product-section-shop{
-    position: relative;
-    width: 100vw;
-}
+
 .product-section-landingpage>div:nth-child(1){
     height: 80%;
     width: 100vw;
@@ -21,9 +19,11 @@
     gap: 1em;
     display: flex;
     flex-direction: column;
-    padding: 1em;
 }
 
+.product-section-landingpage>div:nth-child(2) button{
+    padding: 0 2em;
+}
 
 /* .product-section > div {
     display: grid;

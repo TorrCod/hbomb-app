@@ -1,8 +1,36 @@
-import React from 'react'
+import { Button } from 'antd'
+import { useRef } from 'react'
+import ModalAntD, { MADhandle } from '../../../Feature/ModalAntD'
+import './css/MyCart.css'
+import { OnlineShopCart, OnlineShopCartItem } from './OnlineShop'
 
 const MyCart = () => {
+  let modalRef = useRef<MADhandle>(null)
+  const showModal = () => {
+    modalRef.current?.showModal()
+  }
+  const onCancelModal = () => {
+    modalRef.current?.handleCancel()
+  }
   return (
-    <div>MyCart</div>
+    <>
+      <ModalAntD ref={modalRef} title='My Cart' handleCancel={()=>{modalRef.current?.handleCancel()}}>
+        <OnlineShopCart buttonCallback={onCancelModal}>
+          <OnlineShopCartItem />
+          <OnlineShopCartItem />
+          <OnlineShopCartItem />
+          <OnlineShopCartItem />
+        </OnlineShopCart>
+      </ModalAntD>
+      <Button 
+      onClick={showModal} 
+      shape='round' 
+      className='mycart' 
+      type='primary'
+      >
+        MY CART
+      </Button>
+    </>
   )
 }
 

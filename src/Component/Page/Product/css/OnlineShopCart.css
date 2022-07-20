@@ -1,0 +1,38 @@
+.onlineshopCart-container{
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.onlineshopCart-item {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-areas: 'a b';
+    border-bottom: 0.002em solid rgb(92, 92, 92);
+    padding: 0.5em;
+    color: rgb(92, 92, 92);
+}
+
+.onlineshopCart-image{
+    grid-area: a;
+    width: 4em;
+    height: 3em;
+    background: black;
+    border-radius: 0.5em;
+    overflow: hidden;
+}
+
+.onlineshopCart-price {
+    grid-area: b;
+    justify-self: end;
+    align-self: end;
+    padding: 0;
+    margin: 0;
+    color: rgb(92, 92, 92);
+}
+
+.onlineshopCart-total{
+    color: rgb(92, 92, 92);
+    padding: 1em 0 0 0;
+    margin: 0;
+}

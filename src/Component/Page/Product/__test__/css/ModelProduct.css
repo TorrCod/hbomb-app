@@ -1,0 +1,27 @@
+
+.modelproduct {
+    border: 1px solid yellow;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    align-items: flex-end !important;
+}
+
+.modelproduct-container{
+    border: 1px solid red;
+    display: flex;
+    position: relative;
+    transition: 0.3s;
+    transition-timing-function: ease-in-out;
+    transform: translateX(0);
+}
+.modelproduct-items{
+    background-color: aqua;
+    border: 1px solid green;
+    height: 100vh;
+    max-height: 35em;
+    width: 100vw;
+    max-width: 26.5em;
+    padding: 2em;
+}
