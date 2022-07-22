@@ -17,7 +17,6 @@ const EditImageButton = (props:type_EditImageButton) => {
     const onChange = ({ fileList: newFileList}: UploadChangeParam<UploadFile<any>>) => {
             setImageList(newFileList);
             props.onchange();
-      
     }
 
     const showModal = () => {

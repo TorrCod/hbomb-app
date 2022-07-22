@@ -5,8 +5,11 @@ import './css/AddModelProductItems.css';
 import { useEffect, useState } from 'react';
 import EditImageAdmin from '../../../Feature/EditImageAdmin';
 import { UploadFile } from 'antd';
-import { deleteCloudStoragePath, getListImageFromCloud, uploadToCloudStorage } from '../../../FirebaseService/CloudStorage';
-import { pushItemKey, writeDatabase } from '../../../FirebaseService/RealtimeDatabase';
+import { deleteImageFromCloudStorage, getListImageFromCloud, isImageAlreadyExist, itemRefNotExistList, uploadToCloudStorage } from '../../../FirebaseService/CloudStorage';
+import { clearPath, writeDatabase } from '../../../FirebaseService/RealtimeDatabase';
+import ProductPageContext from '../../../hooks/ProductPageContext';
+import { getBase64 } from '../../../api/utils';
+import { RcFile } from 'antd/lib/upload';
 
 interface Props {
   children:React.ReactNode
@@ -15,6 +18,9 @@ interface Props {
 const ModelProduct = (props:Props) => {
   const imageDataLength = (props.children as {}[]).length;
   const [length, setLength] = useState(imageDataLength);
+  const productPageContext = ProductPageContext()
+  const imageState = productPageContext.state.landingPageImages;
+  const updateImageState = productPageContext.updateProductLandingPage;
   
   useEffect(() => {
     setLength(imageDataLength);
@@ -33,62 +39,45 @@ const ModelProduct = (props:Props) => {
   const editOnSave = async (imageList: UploadFile<any>[]) => {
     console.log(imageList);
 
-    //Updating ProductLandingPage
-    await deleteCloudStoragePath('productlandingpage').catch((error) => {console.log(error);})
+    //add base64 url to image url
+    for (const image of imageList) {
+      if(!image.url) image.url = await getBase64(image.originFileObj as RcFile)
+    }
+    
+    //update state
+    updateImageState(imageList)
+
+    //Upload Images from imageList to Cloud if image not exit:
     for (const file of imageList) {
-      const status = await uploadToCloudStorage(file,'productlandingpage');
-      console.log(status);
+      const isImageExist = await isImageAlreadyExist('productlandingpage',file);
+      if(!isImageExist) {
+        await uploadToCloudStorage(file,'productlandingpage');
+      }
     }
 
+    // Delete Images from Cloud if not exist in imagelist:
+    const itemRefList = await itemRefNotExistList('productlandingpage',imageList)
+    for (const itemRef of itemRefList) {
+      await deleteImageFromCloudStorage(undefined,itemRef)
+    }
+
+    // clear productlandingpage data in db:
+    await clearPath('productlandingpage')
+
+    //Get the links of images from cloud
     await getListImageFromCloud('productlandingpage').then((response) => {
       const urlList = response.urlList;
       for (const url of urlList) {
-          console.log('process started');
           const index = response.urlList.indexOf(url);
-          console.log(index);
-          
           const name = response.MetaDatalist[index].name;
           const itemToWrite: UploadFile = {
             uid: name,
             url: url,
             name:name
           }
-          console.log(itemToWrite);
           writeDatabase('productlandingpage/'+name,itemToWrite)
         }
     })
-    // try {
-    //   await deleteCloudStoragePath('productlandingpage').catch((error) => {console.log(error);})
-    
-    // } finally {
-    //   for (const file of imageList) {
-    //     const status = await uploadToCloudStorage(file,'productlandingpage')
-    //     console.log(status);
-    //   }
-
-    //   console.log('getting now the url and meta data');
-      
-    //   await getListImageFromCloud('productlandingpage').then((response) => {
-    //     console.log(response.urlList);
-    //     const urlList = response.urlList;
-
-    //     // for (const url of urlList) {
-    //     //   console.log('process started');
-    //     //   const index = response.urlList.indexOf(url);
-    //     //   console.log(index);
-          
-    //     //   const name = response.metadaList[index].name;
-    //     //   const key = pushItemKey('productlandingpage/');
-    //     //   const itemToWrite: UploadFile = {
-    //     //     uid: key!,
-    //     //     url: url,
-    //     //     name:name
-    //     //   }
-    //     //   console.log(itemToWrite);
-    //     //   writeDatabase('productlandingpage/'+key,itemToWrite)
-    //     // }
-    //   })
-    // }
   }
 
   const editOnChange = () => {
@@ -117,7 +106,7 @@ const ModelProduct = (props:Props) => {
             onsave={editOnSave}
             onchange={editOnChange}
             icon={<AiTwotoneEdit/>} 
-            imageList={[]}
+            imageList={imageState}
             />
 
       </div>
@@ -128,7 +117,7 @@ const ModelProduct = (props:Props) => {
 export const ModelProductItems = ({children}:React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className="modelproduct-items flex-center">
-      {children}
+      <div>{children}</div>
     </div>
   )
 }

@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import  {GlobalProvider} from './hooks/GlobalContext';
 import { ClassicProvider, CollectionProvider, ModelProvider, OfferProvider } from './hooks/HomeContext';
 import { UserProvider } from './hooks/UserContext';
+import { ProductPageProvider } from './hooks/ProductPageContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,6 +16,7 @@ root.render(
   <React.StrictMode>
     <UserProvider>
     <GlobalProvider>
+      <ProductPageProvider>
       <OfferProvider>
       <CollectionProvider>
       <ModelProvider>
@@ -26,6 +28,7 @@ root.render(
       </ModelProvider>
       </CollectionProvider>
       </OfferProvider>
+      </ProductPageProvider>
     </GlobalProvider>
     </UserProvider>
   </React.StrictMode>

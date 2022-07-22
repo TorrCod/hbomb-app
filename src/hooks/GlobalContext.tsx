@@ -114,6 +114,7 @@ export function GlobalProvider ({children}:any) {
     const startFetchingData = async () => {
         updateOfferData()
         updateImageApi()
+
     }
     const updateOfferData = () => {
         readDb('OfferData/',(arg) => {

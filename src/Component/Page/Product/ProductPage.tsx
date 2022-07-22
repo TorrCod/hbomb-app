@@ -2,23 +2,16 @@ import { Button } from "antd";
 import ModelProduct, { ModelProductItems} from "./ModelProduct";
 import OnlineShop, { OnlineShopCategory, OnlineShopItem, Type_OnlineShopItem } from "./OnlineShop";
 import './css/ProductPage.css';
-import { _uploadFile } from "../../../api/CustomType";
 import { Link } from "react-router-dom";
 import FullScrollSlide, {FullScrollSection,FsHandle} from "../../../Feature/FullScrollSlide";
 import { useRef} from "react";
 import MyCart from "./MyCart";
+import ProductPageContext from "../../../hooks/ProductPageContext";
+import { UploadFile } from "antd/es/upload";
 
 function ProductPage() {
     const FsRef = useRef<FsHandle>(null)
-
-    const ImageData:_uploadFile[] = [
-        {id:'mp1',name:'mp1',url:'sdaasda'},
-        {id:'mp2',name:'mp2',url:'sdaasda'},
-        {id:'mp3',name:'mp3',url:'sdaasda'},
-        {id:'mp4',name:'mp4',url:'sdaasda'},
-        {id:'mp5',name:'mp5',url:'sdaasda'},
-        {id:'mp6',name:'mp6',url:'sdaasda'},
-    ]
+    const ImageData:UploadFile[] = ProductPageContext().state.landingPageImages
 
     const ItemShopData:Type_OnlineShopItem[] = [
         {
@@ -105,20 +98,21 @@ function ProductPage() {
         <div>
             <MyCart/>
             <FullScrollSlide ref={FsRef} slideSpeed={500}>
-                <FullScrollSection key="section1" classname="flex-center">
+                <FullScrollSection key="section1" classname=".fullscroll-section fullscroll-section-1 flex-center">
                     <section 
                         className="product-section product-section-landingpage flex-center">
                         <div className="product-section-container flex-center">
                             <ModelProduct>
                                 {ImageData.map((child,index) => {return(
-                                    <ModelProductItems key={child.id} className='flex-center' >
-                                        {child.name}
+                                    <ModelProductItems key={child.uid+index} className='flex-center' >
+                                        <img className="image" src={child.url} alt='product items'/>
                                     </ModelProductItems>
                                 )})}
                             </ModelProduct>
                         </div>
-                        <div className="flex-center">
-                            <Button 
+                        <div className="productsection-buttons flex-center web-left">
+                            <Button
+                             className="productsection-buttons-primary" 
                                 onClick={()=>{
                                     const baseGoTo = FsRef.current!.GoTo;
                                     baseGoTo!('section2');
@@ -128,11 +122,13 @@ function ProductPage() {
                                     GETTING STARTED
                                 </Button>
                                     
-                            <Link to='/aboutus'><Button size='large'>ABOUT US</Button></Link>
+                            <Link to='/aboutus'><Button
+                            className="productsection-buttons-secondary" 
+                             size='large'>ABOUT US</Button></Link>
                         </div>
                     </section>
                </FullScrollSection>
-               <FullScrollSection key="section2" classname="flex-center">
+               <FullScrollSection key="section2" classname=".fullscroll-section fullscroll-section-2 flex-center">
                     <section id="product-shop" className="product-section product-section-shop">
                         <OnlineShop>
                             <OnlineShopCategory 

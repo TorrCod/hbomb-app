@@ -11,7 +11,7 @@ import { GlobalContext } from './hooks/GlobalContext';
 import HbombLogo from './Component/Logo/HbombLogo';
 import { UserContext } from './hooks/UserContext';
 import { auth } from './api/utils';
-import { getListImageFromCloud } from './FirebaseService/CloudStorage';
+import ProductPageContext from './hooks/ProductPageContext';
 
 //-- Test Mode -- //
 // import ProductPage from './Component/Page/Product/__test__/ProductPage';
@@ -22,9 +22,11 @@ const App = () => {
   const globalContext = GlobalContext()
   const userLoading = UserContext().state.UserState.isLoading
   const userCtxDispatch = UserContext().dispatch
+  const productPageContext = ProductPageContext()
 
   useEffect(() => {
     globalContext.startFetchingData();
+    productPageContext.fetchProductLandingPage()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   useEffect(() => {
@@ -46,7 +48,7 @@ const App = () => {
             <Route path='/aboutus' element={<AboutUs/>}/>
             <Route path='/product' element={<ProductPage/>}/>
           </Routes>
-          {/* <Footer/> */}
+          <Footer/>
         </>:null}
       </div>
   );
