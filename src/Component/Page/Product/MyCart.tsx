@@ -9,17 +9,18 @@ const MyCart = () => {
   const showModal = () => {
     modalRef.current?.showModal()
   }
+  
   const onCancelModal = () => {
     modalRef.current?.handleCancel()
   }
+
   return (
     <>
       <ModalAntD ref={modalRef} title='My Cart' handleCancel={()=>{modalRef.current?.handleCancel()}}>
         <OnlineShopCart buttonCallback={onCancelModal}>
-          <OnlineShopCartItem />
-          <OnlineShopCartItem />
-          <OnlineShopCartItem />
-          <OnlineShopCartItem />
+          <OnlineShopCartItem cartItemCount={2} cartItemPrice={100} cartItemImgSrc='sdadasd' />
+          <OnlineShopCartItem cartItemCount={2} cartItemPrice={100} cartItemImgSrc='sdadasd' />
+          <OnlineShopCartItem cartItemCount={2} cartItemPrice={100} cartItemImgSrc='sdadasd' />
         </OnlineShopCart>
       </ModalAntD>
       <Button 

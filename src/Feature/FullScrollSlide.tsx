@@ -1,6 +1,6 @@
 import React, {useRef,forwardRef,useImperativeHandle,useReducer} from "react"
 import useSwipe from "../customhooks/useSwipe";
-import './FullScrollSlide.css'
+import './css/FullScrollSlide.css'
 
 type FsChild = {
     children?: React.ReactNode;

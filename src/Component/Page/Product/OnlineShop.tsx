@@ -1,7 +1,6 @@
 import { Button } from 'antd';
 import React from 'react';
 import useHoverStyle from '../../../customhooks/useHoverStyle';
-import useSlider from '../../../customhooks/useSlider';
 import './css/OnlineShopCart.css';
 import './css/OnlineShop.css'
 
@@ -112,7 +111,7 @@ export const OnlineShopCategory = (props:DefaultProps) => {
   )
 }
 
-export const OnlineShopItem = (props:OSItem) => {
+export const OnlineShopItem = (props:Type_OnlineShopItem) => {
   const imageurl = props.imageurl;
   const itemName = props.itemName;
   const itemStock = props.stock;
@@ -136,12 +135,18 @@ export const OnlineShopItem = (props:OSItem) => {
       </div>
   )
 }
+export type Type_OnlineShopItem = {
+  imageurl:string;
+  itemName:string;
+  price:number;
+  stock:number;
+  key:string;
+}
 
 export const OnlineShopCart = ({children,buttonCallback}:OSCprops) =>{
   const handleButtonCheckOut = () => {
     buttonCallback();
   }
-  
   return( 
     <div className="onlineshopCart-container">
       <div className="onlineshopCart-item-container">
@@ -163,23 +168,33 @@ type OSCprops = {
   buttonCallback: () => void;
 }
 
-export const OnlineShopCartItem = ()=>{
+export const OnlineShopCartItem = (props:Type_OnlineShopCartItem)=>{
+  const imgSrc = props.cartItemImgSrc;
+  const itemPrice = props.cartItemPrice;
+  const itemCount = props.cartItemCount;
+
   return(
     <div className="onlineshopCart-item">
-      <img src="" alt="" className="onlineshopCart-image" />
-      <h3 className='onlineshopCart-price'>P100</h3>
-    </div> 
+      <div className='onlineshopCart-item-main'>
+        <img src={imgSrc} alt="" className="onlineshopCart-image" />
+        <span>Shorts</span>
+      </div>
+      <div className='onlineshopCart-item-info'>
+        <h3 className='onlineshopCart-numberofitem'>
+          <span><Button type='primary' size='small'  shape='circle'>-</Button></span>
+          x{itemCount}
+          <span><Button type='primary' size='small'  shape='circle'>+</Button></span>
+        </h3>
+        <h3 className='onlineshopCart-price'>₱{itemPrice}</h3>
+      </div>
+    </div>
   )
+}
+type Type_OnlineShopCartItem = {
+  cartItemImgSrc:string;
+  cartItemPrice:number;
+  cartItemCount:number;
 }
 
 export default OnlineShop;
-
-export type OSItem = {
-  imageurl:string;
-  itemName:string;
-  price:number;
-  stock:number;
-  key:string;
-}
-
 type DefaultProps = React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;

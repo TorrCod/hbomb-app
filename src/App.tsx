@@ -11,6 +11,7 @@ import { GlobalContext } from './hooks/GlobalContext';
 import HbombLogo from './Component/Logo/HbombLogo';
 import { UserContext } from './hooks/UserContext';
 import { auth } from './api/utils';
+import { getListImageFromCloud } from './FirebaseService/CloudStorage';
 
 //-- Test Mode -- //
 // import ProductPage from './Component/Page/Product/__test__/ProductPage';
@@ -23,7 +24,7 @@ const App = () => {
   const userCtxDispatch = UserContext().dispatch
 
   useEffect(() => {
-    globalContext.startFetchingData()
+    globalContext.startFetchingData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { Button } from "antd";
-import ModelProduct, {ModelProductItems} from "./ModelProduct";
-import OnlineShop, { OnlineShopCategory, OnlineShopItem, OSItem } from "./OnlineShop";
+import ModelProduct, { ModelProductItems} from "./ModelProduct";
+import OnlineShop, { OnlineShopCategory, OnlineShopItem, Type_OnlineShopItem } from "./OnlineShop";
 import './css/ProductPage.css';
 import { _uploadFile } from "../../../api/CustomType";
 import { Link } from "react-router-dom";
@@ -20,7 +20,7 @@ function ProductPage() {
         {id:'mp6',name:'mp6',url:'sdaasda'},
     ]
 
-    const ItemShopData:OSItem[] = [
+    const ItemShopData:Type_OnlineShopItem[] = [
         {
             'imageurl':'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png',
             'key':'ISid1',
@@ -53,7 +53,7 @@ function ProductPage() {
         },
     ]
 
-    const ItemShopDataSecond:OSItem[] = [
+    const ItemShopDataSecond:Type_OnlineShopItem[] = [
         {
             'imageurl':'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png',
             'key':'ISid1',
@@ -110,12 +110,11 @@ function ProductPage() {
                         className="product-section product-section-landingpage flex-center">
                         <div className="product-section-container flex-center">
                             <ModelProduct>
-                                {ImageData.map((child,index) => {
-                                    return(
+                                {ImageData.map((child,index) => {return(
                                     <ModelProductItems key={child.id} className='flex-center' >
                                         {child.name}
-                                    </ModelProductItems>)
-                                })}
+                                    </ModelProductItems>
+                                )})}
                             </ModelProduct>
                         </div>
                         <div className="flex-center">

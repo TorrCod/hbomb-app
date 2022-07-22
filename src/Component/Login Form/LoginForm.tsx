@@ -1,19 +1,19 @@
-import { Avatar, Button, Checkbox, Form, Input, message, Modal, Space } from 'antd';
+import { Avatar, Button, Checkbox, Form, Input, message, Space } from 'antd';
 import { auth, SignIn } from '../../api/utils';
 import { UserContext } from '../../hooks/UserContext';
 import './LoginForm.css'
 import {UserOutlined} from '@ant-design/icons'
-import React, { useEffect } from 'react';
+import React from 'react';
 
 interface Props {
   HandleButton: ()=>void
 }
 
 const LoginForm = (props: Props) => {
-  const userContext = UserContext()
-  const dispatch = userContext.dispatch
-  const loadingDone = userContext.loadingDone
-  const isLogin = UserContext().state.UserState.checkCredential
+  const userContext = UserContext();
+  const dispatch = userContext.dispatch;
+  const loadingDone = userContext.loadingDone;
+  const isLogin = UserContext().state.UserState.checkCredential;
   
   const onFinish = async (values: any) => {
     const email = values.username;

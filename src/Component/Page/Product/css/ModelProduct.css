@@ -25,3 +25,8 @@
     max-width: 26.5em;
     padding: 2em;
 }
+.modelproduct-edit-button {
+    z-index: 2;
+    height: 20em;
+    width: 20em;
+}

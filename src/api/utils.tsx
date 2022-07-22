@@ -1,6 +1,6 @@
 import {initializeApp} from "firebase/app"
 import { connectAuthEmulator, getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getStorage, ref, uploadBytes, listAll, deleteObject,connectStorageEmulator} from "firebase/storage";
+import { getStorage, ref, uploadBytes, listAll, deleteObject, connectStorageEmulator} from "firebase/storage";
 import { getDatabase , ref as rdbRef,set, onValue, connectDatabaseEmulator } from "firebase/database";
 import { RcFile } from "antd/lib/upload";
 import * as _CustomType from "./CustomType";
@@ -25,9 +25,9 @@ const firebaseDB = getDatabase(app);
 
 if (window.location.hostname === "localhost") {
   connectDatabaseEmulator(firebaseDB, "localhost", 9000);
-  connectAuthEmulator(auth, "http://localhost:9099");
   connectStorageEmulator(cloudStorage, "localhost", 9199);
-} 
+  connectAuthEmulator(auth, "http://localhost:9099");
+}
 
 export const UpdateOfferDb = (data:_CustomType._OfferContentTypes) => {
   data.firstBox.icons = '';

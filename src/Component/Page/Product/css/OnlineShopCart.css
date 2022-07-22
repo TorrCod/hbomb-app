@@ -3,7 +3,6 @@
     width: 100%;
     position: relative;
 }
-
 .onlineshopCart-item {
     display: grid;
     grid-template-columns: auto auto;
@@ -12,25 +11,31 @@
     padding: 0.5em;
     color: rgb(92, 92, 92);
 }
-
-.onlineshopCart-image{
+.onlineshopCart-item-main{
     grid-area: a;
+    place-self: center start;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+.onlineshopCart-image{
     width: 4em;
     height: 3em;
     background: black;
     border-radius: 0.5em;
     overflow: hidden;
 }
-
-.onlineshopCart-price {
+.onlineshopCart-item-info {
     grid-area: b;
     justify-self: end;
     align-self: end;
-    padding: 0;
-    margin: 0;
     color: rgb(92, 92, 92);
+    text-align: center;
 }
-
+.onlineshopCart-numberofitem{
+    display: flex;
+    gap: 0.5em;
+}
 .onlineshopCart-total{
     color: rgb(92, 92, 92);
     padding: 1em 0 0 0;
