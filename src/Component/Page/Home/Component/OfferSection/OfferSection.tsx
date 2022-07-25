@@ -74,24 +74,6 @@ const EditButtons = (props:{child:string,content:string}) => {
                     size={'large'}/>
             </Dropdown>
         </div>
-        {/* <div className='buttons offerSection-box-icons-buttons'>
-            <Upload 
-                customRequest={({file,onSuccess}) => {
-                    setTimeout(() => {
-                    onSuccess!("ok");
-                    },0);
-                }}
-                fileList={[]}
-                onChange={(info) => {}}
-            >
-                <Button 
-                    onClick={(arg) => {}}
-                    type="primary" 
-                    shape="circle"
-                    icon={<AiFillPlusCircle/>} 
-                    size={'large'}/>
-            </Upload>
-        </div> */}
         </>
     )
 }

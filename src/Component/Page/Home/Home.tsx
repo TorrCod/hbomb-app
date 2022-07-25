@@ -1,3 +1,4 @@
+import Footer from "../../Footer/Footer";
 import ClassicteeSection from "./Component/ClassicSection/ClassicteeSection";
 import CollectionSection from "./Component/CollectionSection/CollectionSection";
 import ModelSection from "./Component/ModelSection/ModelSection";
@@ -14,6 +15,7 @@ function Home() {
             <OfferSection/>
             <CollectionSection/>
             <ClassicteeSection/>
+            <Footer/>
         </> 
     );
 }

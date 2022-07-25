@@ -1,0 +1,5 @@
+--Start firebase Emulator for testing---
+firebase emulators:start --import=./emu --export-on-exit
+
+--Start App--
+npm start

@@ -100,7 +100,6 @@
 }
 
 .button {
-    filter: drop-shadow(0 0 0.20rem rgb(149, 149, 149));
     background: none;
     border: none;
     text-decoration: none;
@@ -112,6 +111,20 @@
     align-items: center;
     min-width: 3em;
 }
+
+.align-btn {
+  display: flex;
+  gap: 0.5em;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+}
+
+.pad-1 {
+  padding: 1em;
+}
+
 .logo {
     filter: drop-shadow(1px 3px 2px rgb(0 0 0 / 0.2));
     fill: var(--primary)
@@ -211,3 +224,21 @@
       align-self: flex-end;
     }
   }
+
+  .box-shadow-default {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+
+  .box-shadow-solid {
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  }
+
+.gradient-store-background {
+  background: rgb(227,189,155);
+  background: linear-gradient(170deg, rgba(227,189,155,1) 16%, rgba(194,129,129,1) 51%, rgba(244,160,160,1) 85%, rgba(255,195,195,1) 100%);
+}
+
+.grid-center {
+  display: grid;
+  place-items: center;
+}

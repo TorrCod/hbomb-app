@@ -3,6 +3,10 @@
     width: 100%;
     position: relative;
 }
+.onlineshopCart-item-container {
+    max-height: 30em;
+    overflow-y: scroll;
+}
 .onlineshopCart-item {
     display: grid;
     grid-template-columns: auto auto;

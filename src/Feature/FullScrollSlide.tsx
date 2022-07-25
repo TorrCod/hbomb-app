@@ -1,4 +1,6 @@
-import React, {useRef,forwardRef,useImperativeHandle,useReducer} from "react"
+import React, {useRef,forwardRef,useImperativeHandle,useReducer, ReactElement, useEffect} from "react"
+import { useScroll, useScrolling, useWindowSize } from "react-use";
+import useAfterScroll from "../customhooks/useEffectScroll";
 import useSwipe from "../customhooks/useSwipe";
 import './css/FullScrollSlide.css'
 
@@ -8,6 +10,8 @@ type FsChild = {
     classname?:string;
     key?:string;
     slideSpeed?:number;
+    stateShouldScroll?:boolean;
+    childRef?:React.RefObject<HTMLDivElement>[]
 };
 
 export type FsHandle = {
@@ -16,8 +20,8 @@ export type FsHandle = {
 }
 
 let onScrollReady = true;
-const FullScrollSlide = forwardRef<FsHandle,FsChild>(({slideSpeed,style,children,classname},ref) => {
-    const childrenLength = (children as string[]).length
+const FullScrollSlide = forwardRef<FsHandle,FsChild>(({childRef, stateShouldScroll,slideSpeed,style,children,classname},ref) => {
+    const childrenLength = (children as string[]).length;
     const fssChildRef = useRef<HTMLDivElement>(null);
     const scrollSlide = useScrollSlide(childrenLength);
     const readSwipe = scrollSlide.readSwipe;
@@ -26,24 +30,24 @@ const FullScrollSlide = forwardRef<FsHandle,FsChild>(({slideSpeed,style,children
     const nextSlide = scrollSlide.nextSlide;
     const prevSlide = scrollSlide.prevSlide;
     const shouldScroll = scrollSlide.shouldScroll;
-    const swiper = useSwipe({
-        onSwiping:(e) => {
-            if(e?.direction === 'Up'){
-                readSwipe(e.moveClientY)
-                
-            }else if(e?.direction === 'Down'){
-                readSwipe(e.moveClientY)
-            }
-        },
-        onSwiped:(e) => {
-            const fullScrollElHeight = (fssChildRef.current?.clientHeight as number);
-            if(e?.direction === 'Up'){
-                nextSlide(fullScrollElHeight)
-            }else if(e?.direction === 'Down'){
-                prevSlide(fullScrollElHeight)
-            }
-        }
-    })
+    const fssRef = useRef<HTMLDivElement>(null);
+    const {width : windowWidth} = useWindowSize();
+
+    // const swiper = useSwipe({
+    //     onSwiping:(e) => {
+    //         if(e?.direction === 'Up' || e?.direction === 'Down'){
+    //             readSwipe(e.moveClientY)
+    //         }
+    //     },
+    //     onSwiped:(e) => {
+    //         const fullScrollElHeight = (fssChildRef.current?.clientHeight as number);
+    //         if(e?.direction === 'Up'){
+    //             nextSlide(fullScrollElHeight)
+    //         }else if(e?.direction === 'Down'){
+    //             prevSlide(fullScrollElHeight)
+    //         }
+    //     }
+    // })
 
     useImperativeHandle(ref,() => ({
         GoTo:(key:string)=>{
@@ -51,7 +55,10 @@ const FullScrollSlide = forwardRef<FsHandle,FsChild>(({slideSpeed,style,children
                 const checkKey = iterator['key'] === key;
                 if(checkKey){
                     const itemIndex = (children as JSX.Element[]).indexOf(iterator)
-                    goToSlide(itemIndex,(fssChildRef.current?.clientHeight!))
+                    if (windowWidth >= 600)
+                    goToSlide(itemIndex,(fssChildRef.current?.clientHeight!));
+                    else
+                    childRef![itemIndex].current?.scrollIntoView({behavior:"smooth"});
                 }
             }
         },
@@ -66,7 +73,7 @@ const FullScrollSlide = forwardRef<FsHandle,FsChild>(({slideSpeed,style,children
         transitionTimingFunction:'ease-out'
     }
 
-    const handleScroll: React.WheelEventHandler<HTMLDivElement> = (e) => {
+    const handleScroll = (e:any)=> {
         if(onScrollReady){
             const fullScrollElHeight = (fssChildRef.current?.clientHeight as number)
             onScrollReady = false;
@@ -81,38 +88,43 @@ const FullScrollSlide = forwardRef<FsHandle,FsChild>(({slideSpeed,style,children
                 clearTimeout(timer)
             },(slideSpeed)?slideSpeed:1000)
         }
+
+        return false
     }
 
-    const elemProps = (state.shouldscroll)?{
+    const elemProps = (stateShouldScroll??true)?{
         onWheel:handleScroll,
-        ...swiper.divProps,
+        // ...swiper.divProps,
     }:{}
 
     return (
         <div 
         {...elemProps}
+        // {...afterScroll}
+        // onWheel={handleScroll}
+        ref={fssRef}
         id='fullscroll-component'
         className={"fullscroll-container " + classname}>
             <div 
             ref={fssChildRef}
-            style={{...fsStyle,...style}}  
+            style={{...fsStyle,...style}}
             className="fullscroll-child">
                 {children}
-
             </div>
         </div>
     )
 })
 
-export const FullScrollSection = ({children,style,classname}:FsChild) => {
+export const FullScrollSection = forwardRef<HTMLDivElement,FsChild>(({children,style,classname},ref) => {
     return (
         <div 
+        ref={ref}
         style={{...style}}
         className={"fullscroll-section " + classname}>
             {children}
         </div>
     )
-}
+})
 
 type ScrollState = {
     transition:string;

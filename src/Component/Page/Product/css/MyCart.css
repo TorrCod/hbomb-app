@@ -1,11 +1,19 @@
 .mycart{
-    z-index: 3;
-    position: absolute;
-    bottom: 1em;
-    margin: auto;
-    left: 0;
-    right: 0;
-    max-width: 15em;
-    font-size: large;
-    height: 2.3em;
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: larger;
 }
+
+.mycart-web{
+    background: white;
+    gap: 1em;
+    padding: 1em;
+    width: 100%;
+    border-radius: 1em;
+    position: relative;
+}
+

@@ -102,19 +102,11 @@ export const isImageAlreadyExist = async (path:path,filetoUplaod:UploadFile) => 
     const itemRefNameList = [''];
     const fileName = filetoUplaod.uid;
     let isAlreadyExist = false;
-
     for (const itemRef of itemRefList) {
         const itemRefName = itemRef.name;
         itemRefNameList.push(itemRefName);
     }
-
     isAlreadyExist = itemRefNameList.includes(fileName);
-
-    console.log(fileName);
-    console.log(itemRefList);
-    console.log(isAlreadyExist);
-    
-
     return isAlreadyExist;
 }
 

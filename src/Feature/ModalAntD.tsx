@@ -5,7 +5,7 @@ import './css/ModalAntD.css'
 const ModalAntD = forwardRef<MADhandle,MADprops>((props, ref) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const {
-    className,children,handleCancel,handleOk,title
+    className,children,handleCancel,handleOk,title,modalVisible
   } = props;
   useImperativeHandle(ref,() => ({
     showModal:() => {
@@ -20,7 +20,16 @@ const ModalAntD = forwardRef<MADhandle,MADprops>((props, ref) => {
   }))
 
   return (
-      <Modal className='removefooter center-title' onOk={handleOk} onCancel={handleCancel} title={title} visible={isModalVisible}>
+      <Modal 
+        zIndex={1032}
+        className='removefooter center-title' 
+        onOk={handleOk} 
+        onCancel={handleCancel?handleCancel:()=>{
+          console.log('clicked');
+          setIsModalVisible(false)
+        }} 
+        title={title} 
+        visible={modalVisible?modalVisible:isModalVisible}>
         <div className={className}>
           {children}
         </div>
@@ -32,9 +41,10 @@ export default ModalAntD;
 type MADprops = {
     children:ReactNode;
     handleOk?:MADmouseevent;
-    handleCancel:MADmouseevent;
+    handleCancel?:MADmouseevent;
     title?:string;
     className?:string;
+    modalVisible?:boolean
 }
 type MADmouseevent = (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
 export type MADhandle = {

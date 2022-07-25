@@ -5,7 +5,7 @@ const AdminPreviledge = ({children}: type_AdminPre) => {
     const isLogin = UserContext().state.UserState.checkCredential;
     return ((isLogin)?
     <>
-        {children};
+        {children}
     </>
     :null)
 }
