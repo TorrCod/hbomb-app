@@ -2,14 +2,16 @@ import { Button } from "antd";
 import ModelProduct, { ModelProductItems} from "./ModelProduct";
 import {OnlineShopSetting} from "./OnlineShop";
 import './css/ProductPage.css';
-import { Link } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import FullScrollSlide, {FullScrollSection,FsHandle} from "../../../Feature/FullScrollSlide";
-import { useRef, useState} from "react";
+import { useEffect, useRef, useState} from "react";
 import MyCart from "./MyCart";
 import ProductPageContext from "../../../hooks/ProductPageContext";
 import { UploadFile } from "antd/es/upload";
-import AdminPreviledge from "../../../Feature/AdminPreviledge";
-import OnlineShopSwipe, { Category, CategoryItems, CatItem, OLSitems } from "./ShopProduct";
+import OnlineShopSwipe, { Category, CategoryItems, CatItem, OLSitems, ViewItems } from "./ShopProduct";
+import VerticalSlideCtrl, { SwiperMethod } from "../../../Feature/VerticalSlideCtrl";
+
+let timeOut:NodeJS.Timeout;
 
 function ProductPage() {
     const FsRef = useRef<FsHandle>(null);
@@ -17,42 +19,48 @@ function ProductPage() {
     const sect1Ref = useRef<HTMLDivElement>(null)
     const sect2Ref = useRef<HTMLDivElement>(null)
     const [shouldScroll, setShouldScroll] = useState(true);
+    const nextSlide = useRef<HTMLDivElement>(null);
+    const prevSlide = useRef<HTMLDivElement>(null);
+    const [onViewItem, setOnViewItem] = useState<OLSitems>();
+    const [itemOnEdit, setItemOnEdit] = useState(false)
+
     const olspItems:OLSitems[] = [
         {
             'url':'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png',
             'name':'Shorts',
-            'price':100,'stock':5,itemId:'as564asd'
+            'price':100,'stock':5,itemId:'as564asd','categoryName':'Hasdadas'
         },
         {
             'url':'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
             'name':'Shorts',
-            'price':100,'stock':5,itemId:'a65s4d'
+            'price':100,'stock':5,itemId:'a65s4d','categoryName':'Hasdasdasdas'
         },
         {
             'url':'https://d346xxcyottdqx.cloudfront.net/wp-content/uploads/2020/07/Utilities-AI-Blg-CGI-800x600-1.jpg',
             'name':'Shorts',
-            'price':100,'stock':5,itemId:'+as5d'
+            'price':100,'stock':5,itemId:'+as5d','categoryName':'Hdas'
         },
         {
             'url':'https://d346xxcyottdqx.cloudfront.net/wp-content/uploads/2020/07/Utilities-AI-Blg-CGI-800x600-1.jpg',
             'name':'Shorts',
-            'price':100,'stock':5,itemId:'60540asd'
+            'price':100,'stock':5,itemId:'60540asd','categoryName':'Has1231adas'
         },
         {
             'url':'https://d346xxcyottdqx.cloudfront.net/wp-content/uploads/2020/07/Utilities-AI-Blg-CGI-800x600-1.jpg',
             'name':'Shorts',
-            'price':100,'stock':5,itemId:'5a04sd6'
+            'price':100,'stock':5,itemId:'5a04sd6','categoryName':'5231adas'
         },{
             'url':'https://d346xxcyottdqx.cloudfront.net/wp-content/uploads/2020/07/Utilities-AI-Blg-CGI-800x600-1.jpg',
             'name':'Shorts',
-            'price':100,'stock':5,itemId:'06a4sd'
+            'price':100,'stock':5,itemId:'06a4ssds','categoryName':'sda'
         },
         {
             'url':'https://d346xxcyottdqx.cloudfront.net/wp-content/uploads/2020/07/Utilities-AI-Blg-CGI-800x600-1.jpg',
             'name':'Shorts',
-            'price':100,'stock':5,itemId:'a65s40d'
+            'price':100,'stock':5,itemId:'a65s40d','categoryName':'sasd123'
         },
     ]
+
     const productItemState:CatItem = [
         {'categoryTitle':'shorts',items:olspItems,categoryId:'+asd0'},
         {'categoryTitle':'tshirst',items:olspItems,categoryId:'0a6sd46'},
@@ -60,9 +68,29 @@ function ProductPage() {
         {'categoryTitle':'panty',items:olspItems,categoryId:'08as6d4'},
         {'categoryTitle':'bra',items:olspItems,categoryId:'a08s4d56'},
     ]
+
     const stopSrollonInteract = {
         onMouseOver:() => {setShouldScroll(false)},
         onMouseLeave:() => {setShouldScroll(true)}
+    }
+
+    const handleItemOnview:((item: OLSitems) => void) = (item) => {
+        setOnViewItem(item)
+        prevSlide.current?.click()
+    }
+
+    const catScrollHandler = () => {
+        setShouldScroll(false)
+        clearTimeout(timeOut)
+        timeOut = setTimeout(() => {
+            setShouldScroll(true)
+        },500)
+    }
+
+    const handleItemOnEdit: (item: OLSitems) => void = (item) => {
+        setOnViewItem(item);
+        setItemOnEdit(true);
+        prevSlide.current?.click()
     }
 
     return ( 
@@ -115,26 +143,32 @@ function ProductPage() {
                 ref={sect2Ref}
                 key="section2" 
                 classname="fullscroll-section fullscroll-section-2 flex-center">
-                    <div className="shopcart" {...stopSrollonInteract}>
+                    <div className="shopcart">
                         <MyCart className="productshop-cart flex-center"/>
+                        <Button style={{'display':'none'}} ref={nextSlide}>test</Button>
+                        <Button style={{'display':'none'}} ref={prevSlide}>test</Button>
                     </div>
                     <div className="shop">
-                        <OnlineShopSwipe>
-                            {productItemState.map(({categoryTitle,items},index) => {
-                                return(
-                                    <div key={'cat-id-'+index} {...stopSrollonInteract}>
-                                        <Category title={categoryTitle}>
-                                            {items.map(({url,name,price,stock},index) => {return(
-                                                <CategoryItems key={'cat-items-'+index} url={url} name={name} price={price} stock={stock} />
-                                            )})}
-                                        </Category>
-                                    </div>
-                                )
-                            })}
-                        </OnlineShopSwipe>
-                        <AdminPreviledge>
-                                    <OnlineShopSetting itemData={productItemState} className="productshop-setting"/>
-                        </AdminPreviledge>
+                        <VerticalSlideCtrl nextBtnRef={nextSlide} prevBtnRef={prevSlide}>
+                            <OnlineShopSwipe>
+                                {productItemState.map(({categoryTitle,items},index) => {
+                                    return(
+                                        <div key={'cat-id-'+index}>
+                                            <Category catScrolling={catScrollHandler} title={categoryTitle}>
+                                                {items.map((child,index) => {return(
+                                                    <CategoryItems onEdit={handleItemOnEdit} onView={handleItemOnview} key={'cat-items-'+index} items={{...child}} />
+                                                )})}
+                                            </Category>
+                                        </div>
+                                    )
+                                })}
+                            </OnlineShopSwipe>
+                            <ViewItems 
+                                onEdit={itemOnEdit}
+                                onBackButton={() => nextSlide.current?.click()}
+                                items={{...onViewItem!}}
+                            />
+                        </VerticalSlideCtrl>
                     </div>
                </FullScrollSection>
             </FullScrollSlide>

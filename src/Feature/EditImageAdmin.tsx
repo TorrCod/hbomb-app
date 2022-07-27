@@ -9,8 +9,9 @@ import AdminPreviledge from "./AdminPreviledge";
 const EditImageButton = (props:type_EditImageButton) => {
     const modalAntDRef = useRef<MADhandle>(null);
     const {
-        icon, children,
+        icon, children,maxList
     } = props
+    const maxCount = maxList? maxList: 8
 
     const [imageList, setImageList] = useState<UploadFile<any>[]>(props.imageList);
 
@@ -57,7 +58,7 @@ const EditImageButton = (props:type_EditImageButton) => {
                 onChange={onChange}
                 showUploadList = {{previewIcon:false,showPreviewIcon:false}}
                 >
-                    {false? null : uploadButton}
+                    {(imageList.length < maxCount)? uploadButton : null}
                 </Upload>
                 <div className="editimage-button-modal">
                     <Button onClick={handleEditImageCancel}>Cancel</Button>
@@ -74,6 +75,7 @@ const EditImageButton = (props:type_EditImageButton) => {
 }
 
 type type_EditImageButton={
+    maxList?:number;
     onCancel:() => void;
     onsave:(imageList:UploadFile<any>[]) => void;
     onchange:() => void;

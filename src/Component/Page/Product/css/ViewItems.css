@@ -1,0 +1,99 @@
+
+.ols-item-view{
+    background: white;
+    border-radius: 1em;
+    height: 80vh;
+    width: 85vw;
+    max-width: 60em;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.ols-item-view-top{
+    display: grid;
+    padding: 0.5em;
+    place-items: center start;
+    grid-template-columns: repeat(2,1fr);
+}
+.ols-item-view main {
+    width: 100%;
+    position: relative;
+    max-height: 70vh;
+    overflow-y: scroll;
+    padding: 1.5em;
+    overflow-y: scroll;
+    
+    display: grid;
+    place-items: center;
+}
+.ols-item-view main h1 {
+    margin: 0;
+}
+.ols-item-view-img-container{
+    height: 20em;
+    width: 70%;
+    max-width: 40em;
+    min-width: 15em;
+    overflow: hidden;
+    border-radius: 1em;
+    position: relative;
+}
+.ols-item-view-info{
+    gap: 0.5em;
+    place-self: center;
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    place-items: center start;
+}
+.ols-item-view-info h1 {
+    grid-column: span 2;
+    place-self: center;
+    text-align: center;
+    font-size: 3em;
+}
+.ols-item-view-info h1 div {
+    font-size: 0.5em;
+    font-weight: normal;
+}
+.ols-item-view-info button:nth-child(4){
+    grid-column: 2;
+    grid-row: 2;
+}
+.ols-item-view-info h3 {
+    margin: 0;
+}
+.ols-item-view-info button{
+    width: 100%;
+}
+.ols-item-view main > .ols-item-view-desc{
+    margin-top: 2em;
+    position: relative;
+}
+@media only screen and (min-width: 900px) {
+    .ols-item-view {
+        height: fit-content;
+    }
+    .ols-item-view main {
+        grid-template-columns: repeat(2,1fr);
+        place-items: start center;
+        height: fit-content;
+        overflow-y: scroll;
+        gap: 1em;
+    }
+    .ols-item-view main > .ols-item-view-img-container{
+        width: 100%;
+    }
+    .ols-item-view main > .ols-item-view-desc {
+        grid-column: span 2;
+        max-width: 30em;
+    }
+    .ols-item-view main > .ols-item-view-info {
+        place-self: end center ;
+    }
+    .ols-item-view-info h1 {
+        place-self: start start;
+        text-align: start;
+    }
+}

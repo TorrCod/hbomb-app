@@ -28,13 +28,14 @@
     gap: 1em;
     display: grid;
     place-items: center;
-    
-    -ms-overflow-style: none; /* for Internet Explorer, Edge */
-    scrollbar-width: none; /* for Firefox */
+
     overflow-y: scroll;
 }
-.olsp-item-container::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
+
+  
+/* Handle on hover */
+.olsp-item-container::-webkit-scrollbar-thumb:hover {
+background: #a98b71;
 }
 
 .olsp-category-item{
@@ -55,4 +56,15 @@
     align-self: end;
     display: grid;
     gap: 0.5em;
+}
+.olsp-cat-input {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 500;
+    font-size: 1.5em;
+}
+.olsp-items-admin-btn {
+    position: absolute;
+    z-index: 4;
 }

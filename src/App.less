@@ -214,16 +214,36 @@
     width: 100%;
   }
 
+  .image-cover {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   .error-message {
     color: rgb(255, 99, 99);
     text-align: center;
   }
 
-  @media only screen and (min-width: 600px) {
-    .web-left {
-      align-self: flex-end;
-    }
+@media only screen and (min-width: 600px) {
+  .web-left {
+    align-self: flex-end;
   }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+    
+    /* Track */
+  ::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+  }
+    
+    /* Handle */
+  ::-webkit-scrollbar-thumb {
+      background: var(--primary); 
+  }
+}
 
   .box-shadow-default {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -241,4 +261,14 @@
 .grid-center {
   display: grid;
   place-items: center;
+}
+
+.flex-left {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flex-right {
+  display: flex;
+  justify-content: flex-end;
 }

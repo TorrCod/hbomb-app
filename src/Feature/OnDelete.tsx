@@ -3,7 +3,16 @@ import TextArea from "antd/lib/input/TextArea";
 import React, { ChangeEventHandler, useRef, useState } from "react"
 import ModalAntD from "./ModalAntD"
 
-const OnDelete = ({children,onDelete,onClick,onCancel}:Ondelete_props) => {
+const OnDelete = ({
+    children,
+    onDelete,
+    onClick,
+    onCancel,
+    icon,
+    type,
+    shape,
+    className
+}:Ondelete_props) => {
     const [visibModal, setVisibModal] = useState(false);
 
     const showModal = () => {
@@ -43,15 +52,28 @@ const OnDelete = ({children,onDelete,onClick,onCancel}:Ondelete_props) => {
                 <Button onClick={() => {setVisibModal(false)}}>Cancel</Button>
             </Space>
         </ModalAntD>
-        <Button onClick={onClick?() => {onClick();showModal()}:showModal} danger>{children}</Button>
+        <Button 
+            className={className}
+            onClick={onClick?() => {onClick();showModal()}:showModal} 
+            danger
+            type = {type}
+            icon = {icon}
+            shape = {shape}
+        >
+            {children}
+        </Button>
     </>
     )
 }
 type Ondelete_props = {
-    children:React.ReactNode;
+    className?: string;
+    children?:React.ReactNode;
     onDelete?:() => void;
     onClick?:() => void;
-    onCancel?:()=>void
+    onCancel?:()=>void;
+    type?:"link" | "text" | "ghost" | "default" | "primary" | "dashed" | undefined;
+    icon?:React.ReactNode;
+    shape?:"circle" | "round" | "default" | undefined
 }
 
 export default OnDelete

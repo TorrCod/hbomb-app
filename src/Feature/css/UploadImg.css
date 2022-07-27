@@ -1,0 +1,15 @@
+
+.upld-img-container{
+    height: 20em;
+    width: 20em;
+    overflow: hidden;
+    border-radius: 1em;
+    position: relative;
+}
+
+.upld-img-container img {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}

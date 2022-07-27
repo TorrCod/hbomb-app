@@ -204,3 +204,7 @@ export function useWindowDimensions() {
 
   return windowDimensions;
 }
+
+export function hasNumber(myString:string) {
+  return /\d/.test(myString);
+}

@@ -45,6 +45,7 @@
     width: 100vw;
     position: relative;
     padding: 1em;
+    height: 85vh;
 }
 .shopcart{
     position: absolute;
@@ -62,6 +63,7 @@
     }
     .shop{
         width: 60vw;
+        height: 60em;
     }
   }
 
