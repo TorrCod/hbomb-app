@@ -15,21 +15,21 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <UserProvider>
-    <GlobalProvider>
-      <ProductPageProvider>
-      <OfferProvider>
-      <CollectionProvider>
-      <ModelProvider>
-      <ClassicProvider>
-        <BrowserRouter>
-        <App />
-        </BrowserRouter>
-      </ClassicProvider>
-      </ModelProvider>
-      </CollectionProvider>
-      </OfferProvider>
-      </ProductPageProvider>
-    </GlobalProvider>
+    <ProductPageProvider>
+      <GlobalProvider>
+        <OfferProvider>
+        <CollectionProvider>
+        <ModelProvider>
+        <ClassicProvider>
+          <BrowserRouter>
+          <App />
+          </BrowserRouter>
+        </ClassicProvider>
+        </ModelProvider>
+        </CollectionProvider>
+        </OfferProvider>
+      </GlobalProvider>
+    </ProductPageProvider>
     </UserProvider>
   </React.StrictMode>
 );

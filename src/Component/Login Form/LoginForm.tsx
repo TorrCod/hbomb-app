@@ -120,7 +120,6 @@ const UserProfile = () => {
     loadingDone(true)
   }
   return(
-    
       <div>
         <Space direction='vertical' align='center'>
         <Avatar size={64} icon={<UserOutlined />}/>
@@ -128,12 +127,6 @@ const UserProfile = () => {
         <Button type='default' shape='round' onClick={handleLogout}>LOGOUT</Button>
         </Space>
       </div>
-      // {/* <div className='user user-container flex-center'>
-      //   <div className='user-profile'>
-      //     <HbombLogo/>
-      //   </div>
-      //   <div className='user-button-logout'></div>
-      // </div> */}
   )
 }
 

@@ -11,7 +11,7 @@
 }
 .ols-item-view-top{
     display: grid;
-    padding: 0.5em;
+    padding: 1em;
     place-items: center start;
     grid-template-columns: repeat(2,1fr);
 }
@@ -38,6 +38,15 @@
     border-radius: 1em;
     position: relative;
 }
+.ols-item-view-img-container img {
+    cursor: pointer;
+}
+.ols-item-view-img-preview img {
+    position: relative;
+    margin-block: 2em;
+    object-fit: contain;
+}
+
 .ols-item-view-info{
     gap: 0.5em;
     place-self: center;
@@ -46,6 +55,9 @@
     display: grid;
     grid-template-columns: repeat(2,1fr);
     place-items: center start;
+    overflow-wrap:anywhere;
+
+    position: relative;
 }
 .ols-item-view-info h1 {
     grid-column: span 2;
@@ -68,9 +80,10 @@
     width: 100%;
 }
 .ols-item-view main > .ols-item-view-desc{
-    margin-top: 2em;
     position: relative;
+    width: 100%;
 }
+
 @media only screen and (min-width: 900px) {
     .ols-item-view {
         height: fit-content;
@@ -87,7 +100,7 @@
     }
     .ols-item-view main > .ols-item-view-desc {
         grid-column: span 2;
-        max-width: 30em;
+        position: relative;
     }
     .ols-item-view main > .ols-item-view-info {
         place-self: end center ;
@@ -95,5 +108,8 @@
     .ols-item-view-info h1 {
         place-self: start start;
         text-align: start;
+    }
+    .ols-item-view main > .ols-item-view-desc textarea {
+        width: 40vw !important;
     }
 }

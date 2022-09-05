@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer } from "react";
 import {  readDb } from "../api/utils";
 import { _imageData, _ImageDataDb, _OfferContentTypes } from "../api/CustomType";
+import ProductPageContext from "./ProductPageContext";
 
 const newImageSet:_imageData = {collectionImgData:[],classicImgData:[],modelImgData:[]}
 
@@ -99,6 +100,7 @@ export const globalStateContentinit:GlobalStateContent = {
 const useGlobalContext = createContext<GlobalStateContent>({...globalStateContentinit})
 export function GlobalProvider ({children}:any) {
     const [state, dispatch] = useReducer(GlobalReducer,{...globalReducerInit})
+    const productPageCtx = ProductPageContext()
 
     const UpdateNewData = (file:_imageData,itemKey:keyof _imageData)=>{
         for (const key in file) {
@@ -114,7 +116,7 @@ export function GlobalProvider ({children}:any) {
     const startFetchingData = async () => {
         updateOfferData()
         updateImageApi()
-
+        productPageCtx.onlineShopHandler.fetchOnlineShopData()
     }
     const updateOfferData = () => {
         readDb('OfferData/',(arg) => {

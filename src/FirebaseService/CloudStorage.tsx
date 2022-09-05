@@ -2,16 +2,15 @@ import { UploadFile } from "antd";
 import { deleteObject, FullMetadata, getDownloadURL, getMetadata, listAll, ref, StorageReference, uploadBytes } from "firebase/storage";
 import { cloudStorage } from "./FirebaseConfig";
 
-export const uploadToCloudStorage = async (filetoUplaod:UploadFile,path:path) => {
+export const uploadToCloudStorage = async (filetoUplaod:UploadFile,path:path,specificId?:string) => {
     let response:string = ''
 
     const {
         originFileObj:file,
         uid
     } = filetoUplaod;
-
-    const storageRef = ref(cloudStorage, path+'/'+uid);
-
+    
+    const storageRef = specificId? ref(cloudStorage, path+'/'+specificId):ref(cloudStorage, path+'/'+uid);
     await uploadBytes(storageRef, file as Blob).then(() => {
         response = 'success';
     }).catch((e) => {
@@ -21,7 +20,9 @@ export const uploadToCloudStorage = async (filetoUplaod:UploadFile,path:path) =>
 
     return response
 }
-
+export const getImageFromCloud = (path:string) => {
+    
+}
 export const getListImageFromCloud: GLI = async (path:path) => {
     const storageRef = ref(cloudStorage, path);
     const urlList:string[] = [];
@@ -133,6 +134,6 @@ export const itemRefNotExistList = async (path:path,fileList:UploadFile[]) => {
 }
 
 
-type path = 'modelimages'|'classicimages'|'collectionimages'|'productlandingpage';
+type path = 'modelimages'|'classicimages'|'collectionimages'|'productlandingpage'|'online-shop';
 
 

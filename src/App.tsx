@@ -4,7 +4,7 @@ import Home from './Component/Page/Home/Home';
 import BackgroundImage from './Component/BackgroundImage/BackgroundImage';
 import NavBar from './Component/NavBar/NavBar';
 import AboutUs from './Component/Page/AboutUs/AboutUs';
-import ProductPage from './Component/Page/Product/ProductPage';
+import ProductPage, { CheckOutPage, StorePage } from './Component/Page/Product/ProductPage';
 import { useEffect} from 'react';
 import { GlobalContext } from './hooks/GlobalContext';
 import HbombLogo from './Component/Logo/HbombLogo';
@@ -45,7 +45,10 @@ const App = () => {
           <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/aboutus' element={<AboutUs/>}/>
-            <Route path='/product' element={<ProductPage/>}/>
+            <Route path='/product' element={<ProductPage/>}>
+              <Route path='' element={<StorePage/>} />
+              <Route path='checkout' element={<CheckOutPage/>} />
+            </Route>
           </Routes>
         </>:null}
       </div>

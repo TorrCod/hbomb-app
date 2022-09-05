@@ -208,3 +208,11 @@ export function useWindowDimensions() {
 export function hasNumber(myString:string) {
   return /\d/.test(myString);
 }
+
+let _scroll_timeout: NodeJS.Timeout
+export const debounce = (callback:() => void,delay:number) => {
+    clearTimeout(_scroll_timeout);
+    _scroll_timeout = setTimeout(function(){
+        callback();
+    }, delay);
+}

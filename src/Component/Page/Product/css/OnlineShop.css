@@ -96,25 +96,9 @@
     /* display: none; */
 }
 
-/* .online-shop-item {
-    background-color: black;
-    height: 20vh;
-    width: 13em;
-
-    transition-duration: 0.5s;
-    transition-timing-function: ease-in-out;
-}
-
-.online-shop-item img {
-    display: none;
-} */
-
 .onlineshop-setting-tree{
     font-size: 1em;
 }
-/* .onlineshop-setting-tree .anticon-file{
-    display: none;
-} */
 .onlineshop-setting-tree-node {
     background-color: var(--primary);
     padding: 0.5em;

@@ -5,18 +5,19 @@
 }
 .onlineshopCart-item-container {
     max-height: 30em;
+    min-height: 20em;
     overflow-y: scroll;
+
 }
 .onlineshopCart-item {
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-areas: 'a b';
+    grid-template-columns: repeat(3,1fr);
     border-bottom: 0.002em solid rgb(92, 92, 92);
     padding: 0.5em;
+    place-items: center;
     color: rgb(92, 92, 92);
 }
 .onlineshopCart-item-main{
-    grid-area: a;
     place-self: center start;
     display: flex;
     align-items: center;
@@ -27,12 +28,9 @@
     height: 3em;
     background: black;
     border-radius: 0.5em;
-    overflow: hidden;
+    object-fit: cover;
 }
 .onlineshopCart-item-info {
-    grid-area: b;
-    justify-self: end;
-    align-self: end;
     color: rgb(92, 92, 92);
     text-align: center;
 }

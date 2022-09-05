@@ -4,6 +4,10 @@
     position: relative;
 }
 
+.olsp-container>.swiper {
+    overflow: visible;
+}
+
 .olsp-category{
     height: 80vh;
     background: white;
@@ -11,6 +15,7 @@
     border-radius: 2em;
     flex-direction: column;
     position: relative;
+    padding: 0.5em;
 }
 .olsp-category img {
     border-radius: 1em;
@@ -23,12 +28,12 @@
 }
 .olsp-item-container{
     position: relative;
-    overflow-y: scroll;
     width: 100%;
     gap: 1em;
     display: grid;
     place-items: center;
 
+    height: 90%;
     overflow-y: scroll;
 }
 
@@ -56,6 +61,7 @@ background: #a98b71;
     align-self: end;
     display: grid;
     gap: 0.5em;
+    word-wrap: anywhere;
 }
 .olsp-cat-input {
     margin-top: 0;
@@ -67,4 +73,14 @@ background: #a98b71;
 .olsp-items-admin-btn {
     position: absolute;
     z-index: 4;
+}
+
+.olsp-category-add {
+    background-color: rgba(255, 255, 255, 0.163);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+}
+.olsp-category-add:hover{
+    background-color: rgba(255, 255, 255, 0.2);
 }

@@ -1,107 +1,36 @@
-import { Button } from "antd";
+import { Button, Popover } from "antd";
 import ModelProduct, { ModelProductItems} from "./ModelProduct";
-import {OnlineShopSetting} from "./OnlineShop";
 import './css/ProductPage.css';
-import { Link, Route, Routes } from "react-router-dom";
+import { Link, Outlet} from "react-router-dom";
 import FullScrollSlide, {FullScrollSection,FsHandle} from "../../../Feature/FullScrollSlide";
-import { useEffect, useRef, useState} from "react";
+import { useReducer, useRef, useState} from "react";
 import MyCart from "./MyCart";
 import ProductPageContext from "../../../hooks/ProductPageContext";
-import { UploadFile } from "antd/es/upload";
 import OnlineShopSwipe, { Category, CategoryItems, CatItem, OLSitems, ViewItems } from "./ShopProduct";
-import VerticalSlideCtrl, { SwiperMethod } from "../../../Feature/VerticalSlideCtrl";
-
-let timeOut:NodeJS.Timeout;
+import VerticalSlideCtrl from "../../../Feature/VerticalSlideCtrl";
+import TextArea from "antd/lib/input/TextArea";
+import './css/CheckOutPage.css'
+import { UserContext } from "../../../hooks/UserContext";
+import { AiOutlineClose } from "react-icons/ai";
+import Cart_TotalPrice, { itemPriceList } from "../../../Feature/Cart_TotalPrice";
+import { writeDatabase } from "../../../FirebaseService/RealtimeDatabase";
 
 function ProductPage() {
+    const productPageCtx = ProductPageContext();
+    const {
+        landingPageImages:ImageData,
+    } = productPageCtx.state;
     const FsRef = useRef<FsHandle>(null);
-    const ImageData:UploadFile[] = ProductPageContext().state.landingPageImages
-    const sect1Ref = useRef<HTMLDivElement>(null)
-    const sect2Ref = useRef<HTMLDivElement>(null)
-    const [shouldScroll, setShouldScroll] = useState(true);
-    const nextSlide = useRef<HTMLDivElement>(null);
-    const prevSlide = useRef<HTMLDivElement>(null);
-    const [onViewItem, setOnViewItem] = useState<OLSitems>();
-    const [itemOnEdit, setItemOnEdit] = useState(false)
-
-    const olspItems:OLSitems[] = [
-        {
-            'url':'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png',
-            'name':'Shorts',
-            'price':100,'stock':5,itemId:'as564asd','categoryName':'Hasdadas'
-        },
-        {
-            'url':'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
-            'name':'Shorts',
-            'price':100,'stock':5,itemId:'a65s4d','categoryName':'Hasdasdasdas'
-        },
-        {
-            'url':'https://d346xxcyottdqx.cloudfront.net/wp-content/uploads/2020/07/Utilities-AI-Blg-CGI-800x600-1.jpg',
-            'name':'Shorts',
-            'price':100,'stock':5,itemId:'+as5d','categoryName':'Hdas'
-        },
-        {
-            'url':'https://d346xxcyottdqx.cloudfront.net/wp-content/uploads/2020/07/Utilities-AI-Blg-CGI-800x600-1.jpg',
-            'name':'Shorts',
-            'price':100,'stock':5,itemId:'60540asd','categoryName':'Has1231adas'
-        },
-        {
-            'url':'https://d346xxcyottdqx.cloudfront.net/wp-content/uploads/2020/07/Utilities-AI-Blg-CGI-800x600-1.jpg',
-            'name':'Shorts',
-            'price':100,'stock':5,itemId:'5a04sd6','categoryName':'5231adas'
-        },{
-            'url':'https://d346xxcyottdqx.cloudfront.net/wp-content/uploads/2020/07/Utilities-AI-Blg-CGI-800x600-1.jpg',
-            'name':'Shorts',
-            'price':100,'stock':5,itemId:'06a4ssds','categoryName':'sda'
-        },
-        {
-            'url':'https://d346xxcyottdqx.cloudfront.net/wp-content/uploads/2020/07/Utilities-AI-Blg-CGI-800x600-1.jpg',
-            'name':'Shorts',
-            'price':100,'stock':5,itemId:'a65s40d','categoryName':'sasd123'
-        },
-    ]
-
-    const productItemState:CatItem = [
-        {'categoryTitle':'shorts',items:olspItems,categoryId:'+asd0'},
-        {'categoryTitle':'tshirst',items:olspItems,categoryId:'0a6sd46'},
-        {'categoryTitle':'hoodie',items:olspItems,categoryId:'0a4s6d4'},
-        {'categoryTitle':'panty',items:olspItems,categoryId:'08as6d4'},
-        {'categoryTitle':'bra',items:olspItems,categoryId:'a08s4d56'},
-    ]
-
-    const stopSrollonInteract = {
-        onMouseOver:() => {setShouldScroll(false)},
-        onMouseLeave:() => {setShouldScroll(true)}
-    }
-
-    const handleItemOnview:((item: OLSitems) => void) = (item) => {
-        setOnViewItem(item)
-        prevSlide.current?.click()
-    }
-
-    const catScrollHandler = () => {
-        setShouldScroll(false)
-        clearTimeout(timeOut)
-        timeOut = setTimeout(() => {
-            setShouldScroll(true)
-        },500)
-    }
-
-    const handleItemOnEdit: (item: OLSitems) => void = (item) => {
-        setOnViewItem(item);
-        setItemOnEdit(true);
-        prevSlide.current?.click()
-    }
+    const myCartRef = useRef<HTMLDivElement>(null);
 
     return ( 
         <div>
             <FullScrollSlide 
-            stateShouldScroll={shouldScroll}
-            childRef={[sect1Ref,sect2Ref]} 
-            ref={FsRef} 
-            slideSpeed={500}>
+                selectedRef={[myCartRef]} 
+                ref={FsRef} 
+                slideSpeed={500}
+            >
                 <FullScrollSection
-                ref={sect1Ref} 
                 key="section1" 
                 classname="fullscroll-section fullscroll-section-1 flex-center">
                     <section 
@@ -140,40 +69,242 @@ function ProductPage() {
                     </section>
                </FullScrollSection>
                 <FullScrollSection 
-                ref={sect2Ref}
                 key="section2" 
                 classname="fullscroll-section fullscroll-section-2 flex-center">
-                    <div className="shopcart">
-                        <MyCart className="productshop-cart flex-center"/>
-                        <Button style={{'display':'none'}} ref={nextSlide}>test</Button>
-                        <Button style={{'display':'none'}} ref={prevSlide}>test</Button>
-                    </div>
-                    <div className="shop">
-                        <VerticalSlideCtrl nextBtnRef={nextSlide} prevBtnRef={prevSlide}>
-                            <OnlineShopSwipe>
-                                {productItemState.map(({categoryTitle,items},index) => {
-                                    return(
-                                        <div key={'cat-id-'+index}>
-                                            <Category catScrolling={catScrollHandler} title={categoryTitle}>
-                                                {items.map((child,index) => {return(
-                                                    <CategoryItems onEdit={handleItemOnEdit} onView={handleItemOnview} key={'cat-items-'+index} items={{...child}} />
-                                                )})}
-                                            </Category>
-                                        </div>
-                                    )
-                                })}
-                            </OnlineShopSwipe>
-                            <ViewItems 
-                                onEdit={itemOnEdit}
-                                onBackButton={() => nextSlide.current?.click()}
-                                items={{...onViewItem!}}
-                            />
-                        </VerticalSlideCtrl>
-                    </div>
+                    <Outlet />
                </FullScrollSection>
             </FullScrollSlide>
         </div>
      );
+}
+
+export const StorePage = () => {
+    const nextSlide = useRef<HTMLDivElement>(null);
+    const prevSlide = useRef<HTMLDivElement>(null);
+    const productPageCtx = ProductPageContext();
+    const [onViewItem, setOnViewItem] = useState<OLSitems>();
+    const [itemOnEdit, setItemOnEdit] = useState(false);
+    const {categoryList:catListObj} = productPageCtx.state;
+    const categoryList  = _toCategoryArray(catListObj);
+    
+    const {
+        updateCategory,updateItems
+    } = productPageCtx.onlineShopHandler;
+
+    const onAddCategoryHandler:((defaultCategory: CatItem) => void) = (defaultCategory) => {
+        updateCategory.add(defaultCategory)
+    }
+
+    const onRenameCategoryHandler = (id: string, value: string) => {
+        updateCategory.edit(id,value)
+    }
+    
+    const onDeleteCategoryHandler = (id:string)=>{
+        updateCategory.delete(id);
+    }
+
+    const addItemCategoryHandler = (id:string,defaultItem: OLSitems) => {
+        updateCategory.itemAdd(id,defaultItem)
+    }
+
+    const itemOnDeleteHandler = (itemId: string, catId: string) => {
+        updateItems.delete(itemId,catId)
+    }
+
+    const onSaveEdit_VI_Handler = (items:OLSitems) => {
+        updateItems.edit(items)
+        setOnViewItem(items);
+    }
+
+    const handleItemOnview:((item: OLSitems) => void) = (item) => {
+        setOnViewItem(item)
+        prevSlide.current?.click()
+    }
+
+
+    const handleItemOnEdit: (item: OLSitems) => void = (item) => {
+        setOnViewItem(item);
+        setItemOnEdit(true);
+        prevSlide.current?.click()
+    }
+
+    return (
+        <>
+        <Button style={{'display':'none'}} ref={nextSlide}>test</Button>
+        <Button style={{'display':'none'}} ref={prevSlide}>test</Button>
+        <div className="shopcart">
+            <MyCart className="productshop-cart flex-center"/>
+        </div>
+        <div className="shop">
+            <VerticalSlideCtrl nextBtnRef={nextSlide} prevBtnRef={prevSlide}>
+                <OnlineShopSwipe
+                    onAddCategory={onAddCategoryHandler}
+                >
+                    {categoryList.map(({categoryTitle,items,categoryId},index) => {
+                        return(
+                            <div key={'cat-id-'+index}>
+                                <Category 
+                                    onAddItem={addItemCategoryHandler}
+                                    onDeleteCategory={onDeleteCategoryHandler}
+                                    onRename={onRenameCategoryHandler} 
+                                    info={{title:categoryTitle,id:categoryId}}
+                                    >
+                                    {items.map((child,index) => {return(
+                                        <CategoryItems 
+                                            itemOndelete={itemOnDeleteHandler}
+                                            onEdit={handleItemOnEdit} 
+                                            onView={handleItemOnview} 
+                                            key={'cat-items-'+index} 
+                                            items={{...child}} 
+                                        />
+                                    )})}
+                                </Category>
+                            </div>
+                        )
+                    })}
+                </OnlineShopSwipe>
+                <ViewItems 
+                    onSaveEdit={onSaveEdit_VI_Handler}
+                    onEdit={{'state':itemOnEdit,'updateOnEdit':(payload) => setItemOnEdit(payload)}}
+                    onBackButton={() => nextSlide.current?.click()}
+                    items={{...onViewItem!}}
+                />
+            </VerticalSlideCtrl>
+        </div> 
+        </>    
+    )
+}
+
+const inputReducer = (state:InptRdcerState,action:InptRdcerAct):InptRdcerState => {
+    switch(action.type) {
+        case 'updatename':
+            return {
+                ...state,
+                name:action.payload
+            }
+        case 'updatecontactinfo':
+            return {
+                ...state,
+                contactInfo:action.payload
+            }
+
+        case 'updateaddress':
+            return {
+                ...state,
+                address:action.payload
+            }
+    }
+}
+type InptRdcerState = {
+    name:string;
+    contactInfo:string;
+    address:string;
+    orderNumber:number
+}
+const InptState_init = {
+    name:"",
+    contactInfo:"",
+    address:"",
+    orderNumber:Math.floor(Date.now() * Math.random())
+}
+type InptRdcerAct = 
+|{type:'updatename',payload:string}
+|{type:'updatecontactinfo',payload:string}
+|{type:'updateaddress',payload:string}
+
+export const CheckOutPage = () => {
+    const cartItemList = UserContext().state.CartItem;
+    const [state, dispatch] = useReducer(inputReducer, InptState_init);
+    const emailCheck = state.contactInfo.includes('.com') || state.contactInfo.includes('+63') || state.contactInfo.includes('09')
+    const isFilled = emailCheck && state.address.length!==0 && state.name.length!==0
+    const dateNow = new Date().toLocaleDateString('en-us',{'day':'numeric','month':'long','year':'numeric'})
+    const priceList = itemPriceList(cartItemList)
+    const totalPrice = priceList.reduce((prev,curr) => prev+curr,0)
+    
+    const onPlaceOrder = () => {
+        const orderDetailes = {
+            'date':dateNow,
+            'orderNumber':state.orderNumber,
+            'name':state.name,
+            'emailcontact':state.contactInfo,
+            'address':state.address,
+            'totalPrice': totalPrice,
+            'itemOrdered':cartItemList,
+        }
+        writeDatabase('order-list/'+orderDetailes.orderNumber,orderDetailes)
+    }
+    return (
+        <div className="checkout-page box-shadow-default">
+            <Link className="chkout-close-btn" to='/product'>
+                <AiOutlineClose />
+            </Link>
+            <div className="checkout-page-form checkout-page-area1">
+                <div>
+                    <p>{dateNow}</p>
+                    Order no.
+                    <div>{state.orderNumber}</div>
+                </div>
+                <TextArea 
+                    onChange={({target})=>{dispatch({type:'updatename',payload:target.value})}}
+                    autoSize = {{maxRows:1}}
+                    placeholder="name"
+                    />
+                <TextArea
+                    onChange={({target})=>{dispatch({type:'updatecontactinfo',payload:target.value})}}
+                    autoSize = {{maxRows:1}}
+                    placeholder="email/contact no."
+                    />
+                <div>
+                    <TextArea 
+                        onChange={({target})=>{dispatch({type:'updateaddress',payload:target.value})}}
+                        autoSize = {{maxRows:4}}
+                        placeholder="meetup location"
+                        />
+                    {/* {content} */}
+                </div>
+            </div>
+
+            <div className="checkout-page-area2">
+                <span style={{'placeSelf':'end center'}}>Cart</span>
+                <div style={{'placeSelf':'start center'}}>
+                    {cartItemList.map((child,index) => {
+                        return(
+                            <div key={child.item.itemId} className="checkout-page-item">
+                                <img src={child.item.url} alt="cart-item" />
+                                <span style={{'placeSelf':'end center'}}>x{child.itemCount}</span>
+                                <span style={{'placeSelf':'end end'}}>P{child.item.price}</span>
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+            
+            <div className="checkout-page-plc-order" style={{gap:'0','placeItems':'center','marginTop':'2em'}}>
+                    Total: {Cart_TotalPrice()}
+                    <Button 
+                        onClick={onPlaceOrder}
+                        style={{
+                            'paddingInline':'2em',
+                            'fontSize':'1em'
+                        }}
+                        className='flex-center'
+                        size="large"
+                        type="primary"
+                        disabled = {!isFilled}
+                    >
+                        Place Order
+                    </Button>
+            </div>
+        </div>
+    )
+}
+
+const _toCategoryArray = (catListObj:any) => {
+    const categoryList:CatItem[] = [];
+    for (const catInfo of Object.keys(catListObj)) {
+        categoryList.push(catListObj[catInfo])
+    }
+    return categoryList
 }
 
 export default ProductPage;

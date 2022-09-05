@@ -23,4 +23,4 @@ export const readData = async (path:ReadPath) => {
 }
 
 type Path = 'productlandingpage/'|'users/'|string;
-type ReadPath = 'productlandingpage'|'users';
+type ReadPath = 'productlandingpage'|'users'|'onlineshop-category'|'onlineshop-items';

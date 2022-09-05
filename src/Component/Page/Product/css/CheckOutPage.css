@@ -1,0 +1,114 @@
+.chkout-close-btn{
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.checkout-page{
+    background-color: white;
+    border-radius: 1em;
+    padding: 2.5em;
+    color: rgba(0, 0, 0, 0.65);
+    width: 100vw;
+    font-size: 1.4em;
+    height: 80vh;
+    max-height: 40em;
+    overflow-y: scroll;
+    position: relative;
+    
+    display: grid;
+    gap: 2em;
+
+}
+
+.checkout-page-form{
+    display: grid;
+    gap: 1.5em;
+}
+
+.checkout-page-form .ant-input {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.65);
+    border-inline: 0;
+    border-top: 0;
+
+    padding: 0;
+    padding-block: 0.4em;
+    position: relative;
+    font-size: 1em;
+}
+
+.checkout-page-form .ant-input::placeholder {
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.checkout-page-form .ant-input:focus {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.65);
+    border-inline: 0;
+    border-top: 0;
+    box-shadow: 0;
+}
+
+.checkout-page > div:nth-child(3){
+    display: grid;
+    place-items: center;
+}
+
+.checkout-page > div:nth-child(3) > div {
+    display: grid;
+    gap: 1.5em;
+    position: relative;
+    width: 100%;
+}
+
+.checkout-page-item {
+    width: 100%;
+    display: grid;
+    grid-auto-flow: column;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.65) ;
+}
+
+.checkout-page-item img {
+    background-color: rgba(0, 0, 0, 0.65);
+    width: 2.5em;
+    height: 2em;
+    object-fit: cover;
+    border-radius: 0.5em;
+    margin-block: 0.3em;
+}
+
+.checkout-page-plc-order{
+    place-self: center;
+    display: grid;
+}
+
+@media only screen and (min-width: 600px) {
+    .checkout-page {
+        grid-template-columns: repeat(2,1fr);
+        max-width: 60em;
+        overflow: auto;
+        gap: 0;
+    }
+
+    .checkout-page-area1{
+        max-width: 20em;
+        gap: 0;
+        place-self: end bottom;
+    } 
+    .checkout-page-area2{
+        grid-column-start: 1;
+        grid-row-start: 1;
+        grid-row-end: 3;
+        width: 50%;
+        place-self:start center;
+    } 
+    .checkout-page-plc-order{
+        place-self: center start;
+        margin-top: 0 !important;
+        grid-column-start: 2;
+    }
+    .checkout-page-plc-order button{
+        font-size: 1.5em !important;
+        padding-block: 1em;
+    }
+}
