@@ -2,6 +2,10 @@
   "name": "hbomb-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "16.13.0",
+    "npm":"8.1.0"
+  },
   "dependencies": {
     "@google-cloud/storage": "^6.2.2",
     "@testing-library/jest-dom": "^5.16.4",
