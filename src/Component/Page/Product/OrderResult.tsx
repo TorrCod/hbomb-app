@@ -1,5 +1,5 @@
-import React from 'react'
 import { Button, Result } from 'antd';
+import { Link } from 'react-router-dom';
 
 const  OrderResult = (props:{orderNumber:number}) => {
     const {orderNumber} = props 
@@ -10,10 +10,14 @@ const  OrderResult = (props:{orderNumber:number}) => {
             title="Thankyou for your purchase we will contact you shortly"
             subTitle={subMessage}
             extra={[
-            <Button type="primary" key="console">
-                Home
-            </Button>,
-            <Button key="buy">Buy Again</Button>,
+                <Link to='/'>
+                    <Button type="primary" key="console">
+                        Home
+                    </Button>
+                </Link>,
+                <Link to='/product'>
+                    <Button key="buy">Buy Again</Button>
+                </Link>,
             ]}
         />
     )

@@ -94,7 +94,7 @@ export const UserProvider = ({children}:any) => {
 
     const cartItemHandler = {
         addToCart: (item:OLSitems) => {
-            const myCart = new HbombCart(item,state.CartItem,dispatch)
+            const myCart = new HbombCart(state.CartItem,dispatch,item)
             myCart.addItem()
         },
         checkOut:() => {
@@ -102,12 +102,17 @@ export const UserProvider = ({children}:any) => {
         },
 
         updateCount:(item:OLSitems,payload:number)=> {
-            const myCart = new HbombCart(item,state.CartItem,dispatch)
+            const myCart = new HbombCart(state.CartItem,dispatch,item)
             myCart.updateCount(payload)
         },
         delete : (item:OLSitems) => {
-            const myCart = new HbombCart(item,state.CartItem,dispatch)
+            const myCart = new HbombCart(state.CartItem,dispatch,item)
             myCart.deleteCartItem()
+        },
+        
+        clear: () => {
+            const myCart = new HbombCart(state.CartItem,dispatch)
+            myCart.clearCartItem()
         }
     }
 
@@ -125,8 +130,8 @@ class HbombCart {
     cartItemList: {itemCount: number;item: OLSitems;}[];
     dispatch:(value: _UserStateAction) => void
 
-    constructor (item:OLSitems,cartItemList: {itemCount: number;item: OLSitems;}[],dispatch:(value: _UserStateAction) => void){
-        this.item = item;
+    constructor (cartItemList: {itemCount: number;item: OLSitems;}[],dispatch:(value: _UserStateAction) => void, item?:OLSitems,){
+        this.item = item!;
         this.cartItemList = cartItemList;
         this.dispatch = dispatch;
     }
@@ -157,6 +162,10 @@ class HbombCart {
     deleteCartItem():void {
         const newCartItemList = this.cartItemList.filter(e=>e.item.itemId !== this.item.itemId)
         this.dispatch({type:'updatecartitem',payload:newCartItemList})
+    }
+
+    clearCartItem():void {
+        this.dispatch({type:'updatecartitem',payload:[]})
     }
 }
 
