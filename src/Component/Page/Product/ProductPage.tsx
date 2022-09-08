@@ -14,6 +14,7 @@ import { UserContext } from "../../../hooks/UserContext";
 import { AiOutlineClose } from "react-icons/ai";
 import Cart_TotalPrice, { itemPriceList } from "../../../Feature/Cart_TotalPrice";
 import { writeDatabase } from "../../../FirebaseService/RealtimeDatabase";
+import OrderResult from "./OrderResult";
 
 function ProductPage() {
     const productPageCtx = ProductPageContext();
@@ -214,6 +215,7 @@ type InptRdcerAct =
 
 export const CheckOutPage = () => {
     const cartItemList = UserContext().state.CartItem;
+    const [onSubmit, setOnSubmit] = useState(false)
     const [state, dispatch] = useReducer(inputReducer, InptState_init);
     const emailCheck = state.contactInfo.includes('.com') || state.contactInfo.includes('+63') || state.contactInfo.includes('09')
     const isFilled = emailCheck && state.address.length!==0 && state.name.length!==0
@@ -233,7 +235,14 @@ export const CheckOutPage = () => {
         }
         writeDatabase('order-list/'+orderDetailes.orderNumber,orderDetailes)
     }
+
     return (
+        (onSubmit)? <>
+        <div className="box-shadow-default padding-1em bg-white">
+            <OrderResult orderNumber={state.orderNumber}/>
+        </div>
+        </>
+        :
         <div className="checkout-page box-shadow-default">
             <Link className="chkout-close-btn" to='/product'>
                 <AiOutlineClose />
@@ -282,7 +291,10 @@ export const CheckOutPage = () => {
             <div className="checkout-page-plc-order" style={{gap:'0','placeItems':'center','marginTop':'2em'}}>
                     Total: {Cart_TotalPrice()}
                     <Button 
-                        onClick={onPlaceOrder}
+                        onClick={() => {
+                            onPlaceOrder()
+                            setOnSubmit(true)
+                        }}
                         style={{
                             'paddingInline':'2em',
                             'fontSize':'1em'
