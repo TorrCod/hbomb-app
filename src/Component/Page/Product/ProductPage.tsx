@@ -237,11 +237,10 @@ export const CheckOutPage = () => {
     }
 
     return (
-        (onSubmit)? <>
-        <div className="box-shadow-default padding-1em bg-white">
-            <OrderResult orderNumber={state.orderNumber}/>
-        </div>
-        </>
+        (onSubmit)? 
+            <div className="box-shadow-default padding-1em bg-white roundcorner-1em">
+                <OrderResult orderNumber={state.orderNumber}/>
+            </div>
         :
         <div className="checkout-page box-shadow-default">
             <Link className="chkout-close-btn" to='/product'>
