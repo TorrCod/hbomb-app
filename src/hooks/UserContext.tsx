@@ -62,7 +62,8 @@ type _UserState_Content = {
         addToCart: (item:OLSitems) => void,
         checkOut:() => void,
         updateCount:(item:OLSitems,payload:number)=>void,
-        delete : (item:OLSitems) => void
+        delete : (item:OLSitems) => void,
+        clear: ()=>void
     }
 }
 
@@ -71,16 +72,11 @@ const _UserState_Content_init = {
     state:_UserState_init,
     dispatch:() => {},
     cartItemHandler:{
-        addToCart: () => {
-            
-        },
-        checkOut:() => {
-
-        },
-        updateCount:()=>{
-            
-        },
-        delete : () =>{}
+        addToCart: () => {},
+        checkOut:() => {},
+        updateCount:()=>{},
+        delete : () =>{},
+        clear : () =>{}
     },
     
 }

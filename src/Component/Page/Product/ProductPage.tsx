@@ -214,7 +214,8 @@ type InptRdcerAct =
 |{type:'updateaddress',payload:string}
 
 export const CheckOutPage = () => {
-    const cartItemList = UserContext().state.CartItem;
+    const userContext = UserContext()
+    const cartItemList = userContext.state.CartItem;
     const [onSubmit, setOnSubmit] = useState(false)
     const [state, dispatch] = useReducer(inputReducer, InptState_init);
     const emailCheck = state.contactInfo.includes('.com') || state.contactInfo.includes('+63') || state.contactInfo.includes('09')
@@ -233,7 +234,10 @@ export const CheckOutPage = () => {
             'totalPrice': totalPrice,
             'itemOrdered':cartItemList,
         }
+        const clearCartItem = userContext.cartItemHandler.clear
+
         writeDatabase('order-list/'+orderDetailes.orderNumber,orderDetailes)
+        clearCartItem()
     }
 
     return (
