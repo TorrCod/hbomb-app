@@ -5,7 +5,7 @@ import { UserContext } from "../hooks/UserContext"
 
 const CheckOutBtn = (props:ChkOut) => {
     const userContext = UserContext()
-
+    const isCartItemEmpty = userContext.state.CartItem.length == 0
     const handleButtonCheckOut = () => {
         const addToCart = userContext.cartItemHandler.addToCart
         if(props.item) addToCart(props.item);
@@ -18,6 +18,7 @@ const CheckOutBtn = (props:ChkOut) => {
             onClick={handleButtonCheckOut} 
             type={props.type??'primary'}
             shape = {props.shape??'default'}
+            disabled = {isCartItemEmpty}
         >
             <Link to='/product/checkout'>
                 CHECK OUT
