@@ -12,6 +12,7 @@ import { Avatar, Modal } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { UserContext } from '../../hooks/UserContext';
 import { FaSignInAlt } from 'react-icons/fa';
+import { MyUserModalCtx } from '../../hooks/UserModalContext';
 
 
 function NavBar() {
@@ -27,11 +28,11 @@ function NavBar() {
 
     const showModal = () => {
         setVisible(true);
-      };
+    };
     
-      const hideModal = () => {
+    const hideModal = () => {
         setVisible(false);
-      };
+    };
 
     function HandleMenu(){
         if (!Show){
@@ -83,7 +84,9 @@ function NavBar() {
                     visible={visible}
                 >
                     <HbombLogo/>
-                    <LoginForm HandleButton={()=>{}}/>
+                    <MyUserModalCtx.Provider value={{visible,setVisible}}>
+                        <LoginForm HandleButton={()=>{}}/>
+                    </MyUserModalCtx.Provider>
                 </Modal>
                     {(width <= 600)?<>
                         <button className='button' onClick={HandleMenu}>

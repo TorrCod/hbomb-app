@@ -7,6 +7,7 @@ import React from 'react';
 import { BsCardChecklist } from 'react-icons/bs';
 import {BiStats} from 'react-icons/bi'
 import { Link } from 'react-router-dom';
+import { useUserModalCtx } from '../../hooks/UserModalContext';
 
 interface Props {
   HandleButton: ()=>void
@@ -132,6 +133,7 @@ const UserProfile = () => {
   const userContext = UserContext()
   const dispatch = userContext.dispatch
   const loadingDone = userContext.loadingDone
+  const {setVisible} = useUserModalCtx()
 
   const handleLogout = async () => {
     loadingDone(false)
@@ -157,8 +159,6 @@ const UserProfile = () => {
     getItem(shopStats,"stats",<BiStats/>)
   ]
 
-  
-
   return(
         <Space className='user-profile' direction='vertical' align='center' style={{width:"100%"}}>
           <Avatar size={64} icon={<UserOutlined />}/>
@@ -168,6 +168,7 @@ const UserProfile = () => {
             style={{ width: "100%" }}
             mode="inline"
             items={menuItems}
+            onClick={()=>setVisible(false)}
           />
         </Space>
   )
