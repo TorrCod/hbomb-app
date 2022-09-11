@@ -4,7 +4,7 @@
   "private": true,
   "engines": {
     "node": "16.13.0",
-    "npm":"8.1.0"
+    "npm": "8.1.0"
   },
   "dependencies": {
     "@google-cloud/storage": "^6.2.2",
@@ -18,7 +18,7 @@
     "antd": "^4.21.4",
     "craco": "^0.0.3",
     "craco-less": "^2.0.0",
-    "firebase": "^9.8.4",
+    "firebase": "^9.9.4",
     "firebase-admin": "^11.0.0",
     "react": "^18.2.0",
     "react-async": "^10.0.1",
