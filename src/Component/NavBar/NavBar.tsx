@@ -13,6 +13,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { UserContext } from '../../hooks/UserContext';
 import { FaSignInAlt } from 'react-icons/fa';
 import { MyUserModalCtx } from '../../hooks/UserModalContext';
+import { useLocation } from 'react-use';
 
 
 function NavBar() {
@@ -24,7 +25,7 @@ function NavBar() {
     const {width} = useWindowDimensions()
     const navActiveState = globalContext.globalState.navActive
     const isAdmin = userContext.state.UserState.checkCredential
-    
+    const location = useLocation()
 
     const showModal = () => {
         setVisible(true);
@@ -46,7 +47,7 @@ function NavBar() {
     const handleActive = (index:number) => {
         globalDispatch({type:'onChangeTab',payload:index})
     }
-
+ 
     const NavBar = [
         {
             title: 'Home',
@@ -97,10 +98,12 @@ function NavBar() {
                         <div className='web-navbar'>
                             <div onClick={()=>handleActive(0)}><HbombLogo/></div>
                             {
-                                NavBar.map((child, index) => {return(
+                                NavBar.map((child, index) => {
+                                    
+                                    return(
                                     <Link 
                                         key={'nav-item-'+index}
-                                        style={(navActiveState === index)?{borderBottom: '1px solid white',color:'white'}:{}}
+                                        style={(location.pathname === child.link)?{borderBottom: '1px solid white',color:'white'}:{}}
                                         onClick={()=>handleActive(index)} 
                                         to={child.link}>
                                             {child.icons}{child.title}
