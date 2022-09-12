@@ -1,9 +1,9 @@
 {
   "name": "UploadTest/",
   "bucket": "hbomb-d8887.appspot.com",
-  "contentType": "text/plain",
   "metageneration": 1,
   "generation": 1658785393692,
+  "contentType": "text/plain",
   "storageClass": "STANDARD",
   "contentDisposition": "inline",
   "cacheControl": "public, max-age=3600",
