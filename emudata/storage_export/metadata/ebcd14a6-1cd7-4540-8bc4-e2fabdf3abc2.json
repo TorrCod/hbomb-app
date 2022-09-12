@@ -1,0 +1,18 @@
+{
+  "name": "UploadTest/",
+  "bucket": "hbomb-d8887.appspot.com",
+  "metageneration": 1,
+  "generation": 1658785393692,
+  "contentType": "text/plain",
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "cacheControl": "public, max-age=3600",
+  "contentEncoding": "identity",
+  "downloadTokens": [],
+  "etag": "VoGPe1dPBbXfwD0/IpEK5wVREdE",
+  "timeCreated": "2022-07-25T21:43:13.691Z",
+  "updated": "2022-07-25T21:43:13.691Z",
+  "size": 0,
+  "md5Hash": "1B2M2Y8AsgTpgAmY7PhCfg==",
+  "crc32c": "0"
+}

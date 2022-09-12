@@ -4,8 +4,10 @@
     min-height: 2em;
     width: 100%;
     align-items: center;
-    padding-top: 2em;
+    padding-top: 3em;
+    position: absolute;
     top: 0;
+    z-index: 2;
 }
 
 .defaultNav > * {

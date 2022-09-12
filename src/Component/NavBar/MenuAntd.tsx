@@ -4,6 +4,8 @@ import {Link} from 'react-router-dom';
 import {AiFillHome, AiFillShopping} from 'react-icons/ai'
 import {BsFillPeopleFill} from "react-icons/bs"
 import { useEffect, useState } from 'react';
+import { TbLayoutDashboard } from 'react-icons/tb';
+import { useAdminSignedin } from '../../customhooks/useAdminSignedIn';
 
 type MenuItem = Required<MenuProps>['items'][number];
 let menuItem: { itemkey: React.Key; keypath: string; }[] =  []
@@ -26,51 +28,37 @@ function getItem(
     type,
   } as MenuItem;
 }
-const items: MenuProps['items'] = [
-  getItem(<Link to='/'>Home</Link>, '1','/', <AiFillHome/>),
 
-  getItem(<Link to='/product' >Online Store</Link>, '2','/product',<AiFillShopping/>),
-
-  getItem(<Link to='/aboutus'>About</Link>, '3','/aboutus',<BsFillPeopleFill/>),
-];
 
 const MenuAntd = (props: { HandleButton: () => void}) => {
-  const getKey = () => {
-    const currentPath = window.location.pathname;
-    let menuKey:any;
-    for (let index = 0; index < menuItem.length; index++) {
-      const keypath = menuItem[index].keypath;
-      const itemKey = menuItem[index].itemkey
-      if (keypath === currentPath){
-        menuKey = itemKey
-        break;
-      }
-    }
-    return menuKey
-  }
-  const [defaultkey, setDefaultkey] = useState(getKey)
-  let comPath:string = window.location.pathname
-  // const [compPath, setCompPath] = useState(window.location.pathname)
-  // useEffect(() => {
-  //   setDefaultkey(menuKey)
-  // },[])
+
+  const items: MenuProps['items'] = [
+    getItem(<Link to='/'>Home</Link>, '1','/', <AiFillHome/>),
+
+    getItem(<Link to='/product' >Online Store</Link>, '2','/product',<AiFillShopping/>),
+
+    getItem(<Link to='/aboutus'>About</Link>, '3','/aboutus',<BsFillPeopleFill/>),
+  ];
 
   const onClick: MenuProps['onClick'] = e => {
     props.HandleButton();
-    setDefaultkey(getKey);
   };
-  useEffect(() => {
-    setDefaultkey(getKey);
-  },[comPath])
+
+  const isAdminSignedIn = useAdminSignedin()
+
+  if (isAdminSignedIn){
+    items.push(getItem(<Link to='/dashboard'>Dashboard</Link>, '4','/aboutus',<TbLayoutDashboard/>))
+  }
+
   return (
     <>
       <Menu
-      onClick={onClick}
-      style={{ width: 256, background:"none"}}
-      mode="inline"
-      items={items}
-      selectedKeys = {[defaultkey]}/>
-  </>
+        onClick={onClick}
+        style={{ width: 256, background:"none"}}
+        mode="inline"
+        items={items}
+        />
+    </>
   );
 };
 

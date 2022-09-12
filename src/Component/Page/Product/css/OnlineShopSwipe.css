@@ -1,0 +1,86 @@
+
+.olsp-container {
+    width: 100%;
+    position: relative;
+}
+
+.olsp-container>.swiper {
+    overflow: visible;
+}
+
+.olsp-category{
+    height: 80vh;
+    background: white;
+    width: 100%;
+    border-radius: 2em;
+    flex-direction: column;
+    position: relative;
+    padding: 0.5em;
+}
+.olsp-category img {
+    border-radius: 1em;
+    position: absolute;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    max-height: 10em;
+    z-index: 3;
+}
+.olsp-item-container{
+    position: relative;
+    width: 100%;
+    gap: 1em;
+    display: grid;
+    place-items: center;
+
+    height: 90%;
+    overflow-y: scroll;
+}
+
+  
+/* Handle on hover */
+.olsp-item-container::-webkit-scrollbar-thumb:hover {
+background: #a98b71;
+}
+
+.olsp-category-item{
+    padding: 0.5em;
+    display: grid;
+    width: 80%;
+    max-width: 15em;
+    height: 10em;
+    position: relative;
+    border-radius: 1em;
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.3s;
+    transition-timing-function:cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+
+.olsp-category-desc{
+    align-self: end;
+    display: grid;
+    gap: 0.5em;
+    word-wrap: anywhere;
+}
+.olsp-cat-input {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 500;
+    font-size: 1.5em;
+}
+.olsp-items-admin-btn {
+    position: absolute;
+    z-index: 4;
+}
+
+.olsp-category-add {
+    background-color: rgba(255, 255, 255, 0.163);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+}
+.olsp-category-add:hover{
+    background-color: rgba(255, 255, 255, 0.2);
+}

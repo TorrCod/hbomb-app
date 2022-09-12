@@ -1,0 +1,12 @@
+.vertical-slide-ctrl{
+    width: 100%;
+    height: 100%;
+    width: 100%;
+}
+
+.vertical-slide-ctrl > .swiper-wrapper > .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

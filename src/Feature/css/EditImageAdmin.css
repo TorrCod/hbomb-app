@@ -1,0 +1,11 @@
+.editimage-button-container{
+    position: absolute;
+    z-index: 2;
+    align-self: flex-end;
+}
+
+.editimage-button-modal {
+    display: grid;
+    gap: 2em;
+    grid-auto-flow: column;
+}

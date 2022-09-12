@@ -91,7 +91,7 @@ function ModelSection() {
                     <Button type='primary'size='large' >ONLINE SHOP</Button>
                 </Link>
                 <Link to='/aboutus' onClick={()=>globalDispatch({type:'onChangeTab',payload:2})}>
-                    <Button size='large'>ABOUT US</Button>
+                    <Button type='default' size='large'>ABOUT US</Button>
                 </Link>
             </div>
             <Modal 

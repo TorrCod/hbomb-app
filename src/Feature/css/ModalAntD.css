@@ -1,0 +1,8 @@
+.removefooter .ant-modal-footer{
+    display: none;
+}
+
+.center-title .ant-modal-title{
+    display: flex;
+    justify-content: center;
+}

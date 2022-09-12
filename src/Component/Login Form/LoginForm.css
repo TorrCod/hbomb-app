@@ -68,3 +68,7 @@
   height: 100vh;
   content: '';
 }
+
+.user-profile .ant-space-item:nth-child(4){
+  width: 100%;
+}

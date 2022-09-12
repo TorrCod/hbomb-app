@@ -1,7 +1,7 @@
 import { UploadFile } from "antd";
 import { RcFile, UploadChangeParam} from "antd/lib/upload";
 import React, { ChangeEvent, createContext, useContext, useEffect, useReducer } from "react"
-import { _OfferContentTypes, _OfferContent_Data } from "../api/CustomType";
+import { _OfferContentTypes } from "../api/CustomType";
 import { ButtonHandle, getBase64, HomeFunction, updateDb, UpdateOfferDb } from "../api/utils";
 import { GlobalContext } from "./GlobalContext";
 
@@ -13,7 +13,7 @@ export type _offerStateType = {
 type _offerStateAction = 
 |{type:'onType',payload:_OfferContentTypes}
 
-const  _offer_state_init = {
+const _offer_state_init = {
     contentState : { 
         'firstBox':{'icons':'','content':''},
         'secondBox':{'icons':'','content':''},

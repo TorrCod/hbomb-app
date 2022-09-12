@@ -1,11 +1,11 @@
 import './Footer.css'
-import {ReactComponent as FooterLogo} from './Logo.svg'
 import * as aiIcons from 'react-icons/ai'
 import {FaTiktok} from 'react-icons/fa'
 import {BsFillMapFill} from 'react-icons/bs'
 import HbombLogo from '../Logo/HbombLogo'
 
 function Footer() {
+    
     const footerContent = [
         {
             title: "GET IN TOUCH",

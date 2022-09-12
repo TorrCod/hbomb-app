@@ -6,7 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import  {GlobalProvider} from './hooks/GlobalContext';
 import { ClassicProvider, CollectionProvider, ModelProvider, OfferProvider } from './hooks/HomeContext';
-import { UserContext, UserProvider } from './hooks/UserContext';
+import { UserProvider } from './hooks/UserContext';
+import { ProductPageProvider } from './hooks/ProductPageContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,19 +15,21 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <UserProvider>
-    <GlobalProvider>
-      <OfferProvider>
-      <CollectionProvider>
-      <ModelProvider>
-      <ClassicProvider>
-        <BrowserRouter>
-        <App />
-        </BrowserRouter>
-      </ClassicProvider>
-      </ModelProvider>
-      </CollectionProvider>
-      </OfferProvider>
-    </GlobalProvider>
+    <ProductPageProvider>
+      <GlobalProvider>
+        <OfferProvider>
+        <CollectionProvider>
+        <ModelProvider>
+        <ClassicProvider>
+          <BrowserRouter>
+          <App />
+          </BrowserRouter>
+        </ClassicProvider>
+        </ModelProvider>
+        </CollectionProvider>
+        </OfferProvider>
+      </GlobalProvider>
+    </ProductPageProvider>
     </UserProvider>
   </React.StrictMode>
 );

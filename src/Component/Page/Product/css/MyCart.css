@@ -1,0 +1,19 @@
+.mycart{
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: larger;
+}
+
+.mycart-web{
+    background: white;
+    gap: 1em;
+    padding: 1em;
+    width: 100%;
+    border-radius: 1em;
+    position: relative;
+}
+

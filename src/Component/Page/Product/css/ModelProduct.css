@@ -1,0 +1,43 @@
+
+.modelproduct {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    align-items: flex-end !important;
+}
+
+.modelproduct-container{
+    display: flex;
+    position: relative;
+    transition: 0.3s;
+    transition-timing-function: ease-in-out;
+    transform: translateX(0);
+}
+.modelproduct-items{
+    height: 100vh;
+    max-height: 35em;
+    width: 100vw;
+    max-width: 26.5em;
+    padding: 2em;
+    position: relative;
+}
+.modelproduct-items > div {
+    width: 100%;
+    height: 100%;
+    border-radius: 1em;
+    overflow: hidden;
+    position: relative;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.modelproduct-edit-button {
+    z-index: 2;
+    height: 20em;
+    width: 20em;
+}
+.modelproduct-items img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}

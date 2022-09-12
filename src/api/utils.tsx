@@ -1,7 +1,7 @@
 import {initializeApp} from "firebase/app"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getStorage, ref, uploadBytes, listAll, deleteObject} from "firebase/storage";
-import * as _TorDb from "firebase/database";
+import { connectAuthEmulator, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getStorage, ref, uploadBytes, listAll, deleteObject, connectStorageEmulator} from "firebase/storage";
+import { getDatabase , ref as rdbRef,set, onValue, connectDatabaseEmulator } from "firebase/database";
 import { RcFile } from "antd/lib/upload";
 import * as _CustomType from "./CustomType";
 import { UploadFile } from "antd/es/upload";
@@ -14,35 +14,43 @@ export const firebaseConfig = {
   storageBucket: "hbomb-d8887.appspot.com",
   messagingSenderId: "631381399409",
   appId: "1:631381399409:web:37d18b5b316472a32b08d0",
-  measurementId: "G-81P1KGZMC9"
+  measurementId: "G-81P1KGZMC9",
+  databaseUrl:"https://hbomb-d8887-default-rtdb.firebaseio.com",
 };
+
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-export const cloudStorage = getStorage(app);
-const firebaseDB = _TorDb.getDatabase(app)
+export const auth = getAuth(app);
+const cloudStorage = getStorage(app);
+const firebaseDB = getDatabase(app);
+
+if (window.location.hostname === "localhost") {
+  connectDatabaseEmulator(firebaseDB, "localhost", 9000);
+  connectStorageEmulator(cloudStorage, "localhost", 9199);
+  connectAuthEmulator(auth, "http://localhost:9099");
+}
 
 export const UpdateOfferDb = (data:_CustomType._OfferContentTypes) => {
   data.firstBox.icons = '';
-  const dbRef = _TorDb.ref(firebaseDB,'OfferData/')
-  _TorDb.set(dbRef,data)
+  const dbRef = rdbRef(firebaseDB,'OfferData/')
+  set(dbRef,data)
 }
 
 
 export const updateDb = (dbPath:_CustomType._Path,key:keyof _CustomType._ImageDataDb,file: _CustomType._UploadData) => {
-  const dbRef = _TorDb.ref(firebaseDB,dbPath+key)
-  _TorDb.set(dbRef,file)
+  const dbRef = rdbRef(firebaseDB,dbPath+key)
+  set(dbRef,file)
 }
 
 export const readDb = (dbPath:_CustomType._Path,callBack:(arg:_CustomType._ImageDataDb|any) => void) => {
-  const dbRef = _TorDb.ref(firebaseDB,dbPath.slice(0,-1))
-  return _TorDb.onValue(dbRef,(snapshot) => {
+  const dbRef = rdbRef(firebaseDB,dbPath.slice(0,-1))
+  return onValue(dbRef,(snapshot) => {
     callBack(snapshot.val())
   },{'onlyOnce':true})
 }
 
 export const uploadToCloud = async (uploadFile:_CustomType._imageData,path:string) => {
-  // check bucket images if exist on new imageData file:
-  await deleteImages(path,uploadFile)
+  // // check bucket images if exist on new imageData file:
+  // await deleteImages(path,uploadFile)
   // upload image now
   await uploadImages(path,uploadFile)
 }
@@ -56,8 +64,8 @@ export const SignIn = async (email:string,password:string) => {
 
   await signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
-  const user = userCredential.user;
-  firebaseLog.user = user
+    const user = userCredential.user;
+    firebaseLog.user = user
   })
   .catch((error) => {
     const errorCode = error.code;
@@ -195,4 +203,16 @@ export function useWindowDimensions() {
   }, []);
 
   return windowDimensions;
+}
+
+export function hasNumber(myString:string) {
+  return /\d/.test(myString);
+}
+
+let _scroll_timeout: NodeJS.Timeout
+export const debounce = (callback:() => void,delay:number) => {
+    clearTimeout(_scroll_timeout);
+    _scroll_timeout = setTimeout(function(){
+        callback();
+    }, delay);
 }

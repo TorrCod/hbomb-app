@@ -12,25 +12,28 @@ import { Avatar, Modal } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { UserContext } from '../../hooks/UserContext';
 import { FaSignInAlt } from 'react-icons/fa';
+import { MyUserModalCtx } from '../../hooks/UserModalContext';
+import { useLocation } from 'react-use';
+import {TbLayoutDashboard} from 'react-icons/tb'
 
 
 function NavBar() {
     const globalContext = GlobalContext();
+    const userContext = UserContext();
     const globalDispatch = globalContext.dispatch;
     const [visible, setVisible] = useState(false)
     const [Show, setShow] = useState(false);
     const {width} = useWindowDimensions()
-    const navActiveState = globalContext.globalState.navActive
-    const isAdmin = UserContext().state.UserState.checkCredential
-    
+    const isAdmin = userContext.state.UserState.checkCredential
+    const location = useLocation()
 
     const showModal = () => {
         setVisible(true);
-      };
+    };
     
-      const hideModal = () => {
+    const hideModal = () => {
         setVisible(false);
-      };
+    };
 
     function HandleMenu(){
         if (!Show){
@@ -44,7 +47,7 @@ function NavBar() {
     const handleActive = (index:number) => {
         globalDispatch({type:'onChangeTab',payload:index})
     }
-
+ 
     const NavBar = [
         {
             title: 'Home',
@@ -60,22 +63,41 @@ function NavBar() {
             title: 'About Us',
             link: '/aboutus',
             icons: <BsFillPeopleFill/>
-        },
+        }
     ]
+
+    if (isAdmin){
+        NavBar.push({
+            title: 'Dashboard',
+            link: '/dashboard',
+            icons: <TbLayoutDashboard/>
+        })
+    }
+
+    const mobileStyleNav:React.CSSProperties = {
+        position: 'fixed',
+        zIndex: '3',
+        backgroundColor: 'var(--primary)',
+        boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
+        paddingBlock: '0.5em'
+    }
 
     return ( 
         <> 
             {(width <= 600)?<Menu state = {Show} HandleButton = {HandleMenu}/>:null}
-            <div className='defaultNav'>
-            <Modal 
-                zIndex={4}
-                onCancel={hideModal}
-                className='defaultNav-signin' 
-                visible={visible}
-            >
-                <HbombLogo/>
-                <LoginForm HandleButton={()=>{}}/>
-            </Modal>
+            <div className='defaultNav' style={(width <= 600)? mobileStyleNav:{}}>
+                <Modal 
+                    zIndex={4}
+                    onCancel={hideModal}
+                    className='defaultNav-signin' 
+                    visible={visible}
+                >
+                    <HbombLogo/>
+                    <MyUserModalCtx.Provider value={{visible,setVisible}}>
+                        <LoginForm HandleButton={()=>{}}/>
+                    </MyUserModalCtx.Provider>
+                </Modal>
+                
                 {(width <= 600)?<>
                     <button className='button' onClick={HandleMenu}>
                         <AiIcons.AiOutlineMenu className='nav-menuIcon'/>
@@ -85,10 +107,12 @@ function NavBar() {
                     <div className='web-navbar'>
                         <div onClick={()=>handleActive(0)}><HbombLogo/></div>
                         {
-                            NavBar.map((child, index) => {return(
+                            NavBar.map((child, index) => {
+                                
+                                return(
                                 <Link 
                                     key={'nav-item-'+index}
-                                    style={(navActiveState === index)?{borderBottom: '1px solid white',color:'white'}:{}}
+                                    style={(location.pathname === child.link)?{borderBottom: '1px solid white',color:'white'}:{}}
                                     onClick={()=>handleActive(index)} 
                                     to={child.link}>
                                         {child.icons}{child.title}

@@ -1,19 +1,23 @@
-import { Avatar, Button, Checkbox, Form, Input, message, Modal, Space } from 'antd';
-import { SignIn } from '../../api/utils';
+import { Avatar, Button, Checkbox, Form, Input, Menu, MenuProps, message, Space } from 'antd';
+import { auth, SignIn } from '../../api/utils';
 import { UserContext } from '../../hooks/UserContext';
 import './LoginForm.css'
 import {UserOutlined} from '@ant-design/icons'
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useUserModalCtx } from '../../hooks/UserModalContext';
+import {TbLayoutDashboard} from 'react-icons/tb'
 
 interface Props {
   HandleButton: ()=>void
 }
-const LoginForm = (props: Props) => {
-  const userContext = UserContext()
-  const dispatch = userContext.dispatch
-  const loadingDone = (payload:boolean) => dispatch({type:'loadingdone',payload:!payload})
-  const isLogin = UserContext().state.UserState.checkCredential
 
+const LoginForm = (props: Props) => {
+  const userContext = UserContext();
+  const dispatch = userContext.dispatch;
+  const loadingDone = userContext.loadingDone;
+  const isLogin = UserContext().state.UserState.checkCredential;
+  
   const onFinish = async (values: any) => {
     const email = values.username;
     const password = values.password;
@@ -109,27 +113,22 @@ const LoginForm = (props: Props) => {
 
 const UserProfile = () => {
   const userContext = UserContext()
+  const dispatch = userContext.dispatch
+  const loadingDone = userContext.loadingDone
 
-  const handleLogout = () => {
-    Modal.success({
-      content: 'Thank You Goodbye!',
-    });
-    userContext.dispatch({type:'signin',payload:false})
+  const handleLogout = async () => {
+    loadingDone(false)
+    await auth.signOut()
+    dispatch({type:'signin',payload:false})
+    loadingDone(true)
   }
+
   return(
-    
-      <div>
-        <Space direction='vertical' align='center'>
-        <Avatar size={64} icon={<UserOutlined />} />
-        <Button type='default' shape='round' onClick={handleLogout}>LOGOUT</Button>
+        <Space className='user-profile' direction='vertical' align='center' style={{width:"100%"}}>
+          <Avatar size={64} icon={<UserOutlined />}/>
+          <h4>Admin</h4>
+          <Button type='default' shape='round' onClick={handleLogout}>LOGOUT</Button>
         </Space>
-      </div>
-      // {/* <div className='user user-container flex-center'>
-      //   <div className='user-profile'>
-      //     <HbombLogo/>
-      //   </div>
-      //   <div className='user-button-logout'></div>
-      // </div> */}
   )
 }
 
