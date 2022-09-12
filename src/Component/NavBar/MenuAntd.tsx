@@ -30,17 +30,15 @@ function getItem(
 }
 
 
-const items: MenuProps['items'] = [
-  getItem(<Link to='/'>Home</Link>, '1','/', <AiFillHome/>),
-
-  getItem(<Link to='/product' >Online Store</Link>, '2','/product',<AiFillShopping/>),
-
-  getItem(<Link to='/aboutus'>About</Link>, '3','/aboutus',<BsFillPeopleFill/>),
-
-  getItem(<Link to='/dashboard'>Dashboard</Link>, '4','/aboutus',<TbLayoutDashboard/>),
-];
-
 const MenuAntd = (props: { HandleButton: () => void}) => {
+
+  const items: MenuProps['items'] = [
+    getItem(<Link to='/'>Home</Link>, '1','/', <AiFillHome/>),
+
+    getItem(<Link to='/product' >Online Store</Link>, '2','/product',<AiFillShopping/>),
+
+    getItem(<Link to='/aboutus'>About</Link>, '3','/aboutus',<BsFillPeopleFill/>),
+  ];
 
   const onClick: MenuProps['onClick'] = e => {
     props.HandleButton();
@@ -48,13 +46,9 @@ const MenuAntd = (props: { HandleButton: () => void}) => {
 
   const isAdminSignedIn = useAdminSignedin()
 
-  const noDashboard: MenuProps['items'] = [
-    getItem(<Link to='/'>Home</Link>, '1','/', <AiFillHome/>),
-  
-    getItem(<Link to='/product' >Online Store</Link>, '2','/product',<AiFillShopping/>),
-  
-    getItem(<Link to='/aboutus'>About</Link>, '3','/aboutus',<BsFillPeopleFill/>),
-  ]
+  if (isAdminSignedIn){
+    items.push(getItem(<Link to='/dashboard'>Dashboard</Link>, '4','/aboutus',<TbLayoutDashboard/>))
+  }
 
   return (
     <>
@@ -62,9 +56,9 @@ const MenuAntd = (props: { HandleButton: () => void}) => {
         onClick={onClick}
         style={{ width: 256, background:"none"}}
         mode="inline"
-        items={(isAdminSignedIn)?items:noDashboard}
-      />
-  </>
+        items={items}
+        />
+    </>
   );
 };
 
