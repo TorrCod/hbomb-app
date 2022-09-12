@@ -71,6 +71,24 @@ function NavBar() {
         },
     ]
 
+    const NavBarNoDashboard = [
+        {
+            title: 'Home',
+            link: '/',
+            icons: <AiIcons.AiFillHome/>
+        },
+        {
+            title: 'Online Shops',
+            link: '/product',
+            icons: <AiIcons.AiFillShopping/>
+        },
+        {
+            title: 'About Us',
+            link: '/aboutus',
+            icons: <BsFillPeopleFill/>
+        }
+    ]
+
     const mobileStyleNav:React.CSSProperties = {
         position: 'fixed',
         zIndex: '3',
@@ -104,7 +122,19 @@ function NavBar() {
                     <div className='web-navbar'>
                         <div onClick={()=>handleActive(0)}><HbombLogo/></div>
                         {
+                            (isAdmin)?
                             NavBar.map((child, index) => {
+                                
+                                return(
+                                <Link 
+                                    key={'nav-item-'+index}
+                                    style={(location.pathname === child.link)?{borderBottom: '1px solid white',color:'white'}:{}}
+                                    onClick={()=>handleActive(index)} 
+                                    to={child.link}>
+                                        {child.icons}{child.title}
+                                </Link>
+                            )}):
+                            NavBarNoDashboard.map((child, index) => {
                                 
                                 return(
                                 <Link 
