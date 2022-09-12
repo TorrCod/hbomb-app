@@ -4,10 +4,9 @@ import { UserContext } from '../../hooks/UserContext';
 import './LoginForm.css'
 import {UserOutlined} from '@ant-design/icons'
 import React from 'react';
-import { BsCardChecklist } from 'react-icons/bs';
-import {BiStats} from 'react-icons/bi'
 import { Link } from 'react-router-dom';
 import { useUserModalCtx } from '../../hooks/UserModalContext';
+import {TbLayoutDashboard} from 'react-icons/tb'
 
 interface Props {
   HandleButton: ()=>void
@@ -143,20 +142,13 @@ const UserProfile = () => {
   }
 
   const orderList = (
-    <Link to='/order-list'>
-      ORDER LIST
-    </Link>
-  )
-
-  const shopStats = (
-    <Link to='/stats'>
-      STATS
+    <Link to='/dashboard'>
+      DASHBOARD
     </Link>
   )
 
   const menuItems: MenuProps['items'] = [
-    getItem(orderList,"ordrlst",<BsCardChecklist/>),
-    getItem(shopStats,"stats",<BiStats/>)
+    getItem(orderList,"dshbrd",<TbLayoutDashboard/>)
   ]
 
   return(
