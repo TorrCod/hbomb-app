@@ -11,6 +11,7 @@ import HbombLogo from './Component/Logo/HbombLogo';
 import { UserContext } from './hooks/UserContext';
 import { auth } from './api/utils';
 import ProductPageContext from './hooks/ProductPageContext';
+import { Dashboard } from './Component/Page/Dashboard/Dashboard';
 
 //-- Test Mode -- //
 // import ProductPage from './Component/Page/Product/__test__/ProductPage';
@@ -49,6 +50,7 @@ const App = () => {
               <Route path='' element={<StorePage/>} />
               <Route path='checkout' element={<CheckOutPage/>} />
             </Route>
+            <Route path='/dashboard' element={<Dashboard/>}/>
           </Routes>
         </>:null}
       </div>
