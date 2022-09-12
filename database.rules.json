@@ -1,6 +1,8 @@
 {
   "rules": {
-    "ImageDataApi":{".read":"true",".write":"auth != null"},
+    "model-data":{".read":"true",".write":"auth != null"},
+    "classic-data":{".read":"true",".write":"auth != null"},
+    "offer-data":{".read":"true",".write":"auth != null"},
     "OfferData":{".read":"true",".write":"auth != null"},
     "onlineshop-category":{".read":"true",".write":"auth != null"},
     "onlineshop-items":{".read":"true",".write":"auth != null"},
