@@ -1,7 +1,8 @@
 import {initializeApp} from "firebase/app"
-import { getDatabase } from "firebase/database";
-import { getStorage } from "firebase/storage";
+import { connectDatabaseEmulator, getDatabase } from "firebase/database";
+import { connectStorageEmulator, getStorage } from "firebase/storage";
 import { getAnalytics } from "firebase/analytics";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
 
 // const firebaseConfig = {
 //     apiKey: "AIzaSyB902lKg4FLhCtOPcHrghCozN0Eb-trpWk",
@@ -29,5 +30,12 @@ const firebaseApp = initializeApp(firebaseConfig);
 export const cloudStorage = getStorage(firebaseApp);
 export const database = getDatabase(firebaseApp);
 export const googleAnalytics = getAnalytics(firebaseApp);
+export const auth = getAuth(firebaseApp)
+
+if (window.location.hostname === "localhost") {
+    connectDatabaseEmulator(database, "localhost", 9000);
+    connectStorageEmulator(cloudStorage, "localhost", 9199);
+    connectAuthEmulator(auth, "http://localhost:9099");
+}
 
 export default firebaseApp;

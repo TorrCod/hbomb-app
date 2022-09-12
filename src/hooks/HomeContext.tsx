@@ -2,7 +2,7 @@ import { UploadFile } from "antd";
 import { RcFile, UploadChangeParam} from "antd/lib/upload";
 import React, { ChangeEvent, createContext, useContext, useEffect, useReducer } from "react"
 import { _OfferContentTypes } from "../api/CustomType";
-import { ButtonHandle, getBase64, HomeFunction, updateDb, UpdateOfferDb } from "../api/utils";
+import { ButtonHandle, getBase64, HomeFunction} from "../api/utils";
 import { GlobalContext } from "./GlobalContext";
 
 
@@ -60,12 +60,12 @@ export const OfferProvider = ({children}:any) => {
         const liveText = event.currentTarget.value
         defaultContent[key as keyof _OfferContentTypes].content = liveText
         globalContext.dispatch({type:'setOfferApi',payload:defaultContent})
-        // dispatch({type:'onType',payload:defaultContent})
+        dispatch({type:'onType',payload:defaultContent})
     }
 
     const handleDropDown = {
         onVisibleChange: () => {
-            UpdateOfferDb(globalContext.globalState.offerSectionApi)
+            // UpdateOfferDb(globalContext.globalState.offerSectionApi)
         }
     }
 
@@ -133,7 +133,7 @@ type _collection_content = {
         onConfirmSetting: () => void
         toggleDropdown: () => void
     }
-    onUploadImage: ({ fileList: newFileList }: UploadChangeParam<UploadFile<any>>, index: number) => Promise<void>
+    onUploadImage: ( fileList: UploadChangeParam<UploadFile<any>>, index: number) => Promise<void>
     state:_collectionStateType
     dispatch:React.Dispatch<_collectionStateAction>
 }
@@ -165,7 +165,7 @@ export const CollectionProvider = ({children}:any) => {
             const defaultImageApi = globalContext.globalState.imageApi;
             const result = HomeFunction.toImageApi(state.previewState.imageSetting,defaultImageApi,'CollectionData')
             globalContext.dispatch({type:'setImageApi',payload:result})
-            updateDb('ImageDataApi/','CollectionData',result.CollectionData)
+            // updateDb('ImageDataApi/','CollectionData',result.CollectionData)
         },
 
         toggleDropdown: () => {
@@ -209,7 +209,7 @@ export const CollectionProvider = ({children}:any) => {
                     CollectionData:collectionData
                 }
                 globalContext.dispatch({type:'setImageApi',payload:defaultImageApi})
-                updateDb('ImageDataApi/','CollectionData',collectionData)
+                // updateDb('ImageDataApi/','CollectionData',collectionData)
             }
         }
     }
@@ -333,7 +333,7 @@ export const ClassicProvider =({children}:any) => {
         const defaultImageApi = globalContext.globalState.imageApi;
         const result = HomeFunction.toImageApi(state.previewState.imageSetting,defaultImageApi,'ClassicData')
         globalContext.dispatch({type:'setImageApi',payload:result})
-        updateDb('ImageDataApi/','ClassicData',result.ClassicData)
+        // updateDb('ImageDataApi/','ClassicData',result.ClassicData)
     }
     
     const handleCancel = () => {
@@ -543,7 +543,7 @@ export const ModelProvider = ({children}:any) => {
         const result = HomeFunction.toImageApi(state.previewChange,defaultImageApi,'ModelData')
         dispatch({type:"handleok"})
         globalContext.dispatch({type:'setImageApi',payload:result})
-        updateDb('ImageDataApi/','ModelData',result.ModelData)
+        // updateDb('ImageDataApi/','ModelData',result.ModelData)
     }
 
     const handleSliding = (nextSlide:number) => {

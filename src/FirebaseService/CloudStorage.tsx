@@ -20,9 +20,11 @@ export const uploadToCloudStorage = async (filetoUplaod:UploadFile,path:path,spe
 
     return response
 }
+
 export const getImageFromCloud = (path:string) => {
     
 }
+
 export const getListImageFromCloud: GLI = async (path:path) => {
     const storageRef = ref(cloudStorage, path);
     const urlList:string[] = [];
@@ -134,6 +136,11 @@ export const itemRefNotExistList = async (path:path,fileList:UploadFile[]) => {
 }
 
 
-type path = 'modelimages'|'classicimages'|'collectionimages'|'productlandingpage'|'online-shop';
+type path = 
+'productlandingpage'|
+'online-shop'|
+'model-image'|
+'collection-image'|
+'classic-image';
 
 

@@ -1,6 +1,8 @@
 import { createContext, useContext, useReducer } from "react";
-import {  readDb } from "../api/utils";
-import { _imageData, _ImageDataDb, _OfferContentTypes } from "../api/CustomType";
+// import {  readDb } from "../api/utils";
+import { _imageData, _ImageDataDb, _OfferContentTypes, _UploadData, _uploadFile } from "../api/CustomType";
+import { getListImageFromCloud } from "../FirebaseService/CloudStorage";
+import { readData } from "../FirebaseService/RealtimeDatabase";
 import ProductPageContext from "./ProductPageContext";
 
 const newImageSet:_imageData = {collectionImgData:[],classicImgData:[],modelImgData:[]}
@@ -118,16 +120,60 @@ export function GlobalProvider ({children}:any) {
         updateImageApi()
         productPageCtx.onlineShopHandler.fetchOnlineShopData()
     }
-    const updateOfferData = () => {
-        readDb('OfferData/',(arg) => {
-            dispatch({type:'setOfferApi',payload:arg})
-        })
+
+    const updateOfferData = async () => {
+        // readDb('OfferData/',(arg) => {
+        //     dispatch({type:'setOfferApi',payload:arg})
+        // })
+
+        const data:{'box1':string,'box2':string,'box3':string,} = await readData('offer-data')
+        console.log(data);
+        
+        const offerContent:_OfferContentTypes = {
+            'firstBox':{'icons':'','content':data['box1']},
+            'secondBox':{'icons':'','content':data['box2']},
+            'thirdBox':{'icons':'','content':data['box3']}
+        }
+        dispatch({type:'setOfferApi',payload:offerContent})
     }
-    const updateImageApi = () => {
-        readDb('ImageDataApi/',(arg) => {
-            dispatch({type:'setImageApi',payload:arg})
-            dispatch({type:'loadingDone'})
+
+    const updateImageApi =  async () => {
+        // readDb('ImageDataApi/',(arg) => {
+        //     dispatch({type:'setImageApi',payload:arg})
+        //     dispatch({type:'loadingDone'})
+        // })
+
+        await getListImageFromCloud('model-image')
+        .then((res)=>{
+           res.urlList.forEach((val,index)=>{
+                const file:_UploadData = state.imageApi.ModelData
+                file[index] = {'url':val,'id':res.MetaDatalist[index].name,'name':res.MetaDatalist[index].name,content:''}
+                
+                dispatch({type:'setImageApi',payload:{...state.imageApi,ModelData:file}})
+            })
         })
+
+        await getListImageFromCloud('collection-image')
+        .then((res)=>{
+           res.urlList.forEach((val,index)=>{
+                const file:_UploadData = state.imageApi.CollectionData
+                file[index] = {'url':val,'id':res.MetaDatalist[index].name,'name':res.MetaDatalist[index].name,content:''}
+                
+                dispatch({type:'setImageApi',payload:{...state.imageApi,CollectionData:file}})
+            })
+        })
+
+        await getListImageFromCloud('classic-image')
+        .then((res)=>{
+           res.urlList.forEach((val,index)=>{
+                const file:_UploadData = state.imageApi.ClassicData
+                file[index] = {'url':val,'id':res.MetaDatalist[index].name,'name':res.MetaDatalist[index].name,content:''}
+                
+                dispatch({type:'setImageApi',payload:{...state.imageApi,ClassicData:file}})
+            })
+        })
+        
+        dispatch({type:'loadingDone'})
     }
 
     const updateImageData = (images:_imageData) => {
