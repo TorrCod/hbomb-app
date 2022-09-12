@@ -28,9 +28,9 @@ function Menu(props: Props) {
                 className={"menu flex-column"}
                 style={slideIn}>
                 <div onClick={props.HandleButton}><HbombLogo/></div>
-                <MenuAntd HandleButton = {props.HandleButton}/>
+                    <MenuAntd HandleButton = {props.HandleButton}/>
                 <div className="menu-loginform">
-                <LoginForm HandleButton={props.HandleButton}/>
+                    <LoginForm HandleButton={props.HandleButton}/>
                 </div>
             </div>
         </>

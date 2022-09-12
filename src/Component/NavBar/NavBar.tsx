@@ -14,6 +14,7 @@ import { UserContext } from '../../hooks/UserContext';
 import { FaSignInAlt } from 'react-icons/fa';
 import { MyUserModalCtx } from '../../hooks/UserModalContext';
 import { useLocation } from 'react-use';
+import {TbLayoutDashboard} from 'react-icons/tb'
 
 
 function NavBar() {
@@ -23,7 +24,6 @@ function NavBar() {
     const [visible, setVisible] = useState(false)
     const [Show, setShow] = useState(false);
     const {width} = useWindowDimensions()
-    const navActiveState = globalContext.globalState.navActive
     const isAdmin = userContext.state.UserState.checkCredential
     const location = useLocation()
 
@@ -64,6 +64,11 @@ function NavBar() {
             link: '/aboutus',
             icons: <BsFillPeopleFill/>
         },
+        {
+            title: 'Dashboard',
+            link: '/dashboard',
+            icons: <TbLayoutDashboard/>
+        },
     ]
 
     const mobileStyleNav:React.CSSProperties = {
@@ -89,35 +94,36 @@ function NavBar() {
                         <LoginForm HandleButton={()=>{}}/>
                     </MyUserModalCtx.Provider>
                 </Modal>
-                    {(width <= 600)?<>
-                        <button className='button' onClick={HandleMenu}>
-                            <AiIcons.AiOutlineMenu className='nav-menuIcon'/>
+                
+                {(width <= 600)?<>
+                    <button className='button' onClick={HandleMenu}>
+                        <AiIcons.AiOutlineMenu className='nav-menuIcon'/>
+                    </button>
+                    <HbombLogo/>
+                </>:<>
+                    <div className='web-navbar'>
+                        <div onClick={()=>handleActive(0)}><HbombLogo/></div>
+                        {
+                            NavBar.map((child, index) => {
+                                
+                                return(
+                                <Link 
+                                    key={'nav-item-'+index}
+                                    style={(location.pathname === child.link)?{borderBottom: '1px solid white',color:'white'}:{}}
+                                    onClick={()=>handleActive(index)} 
+                                    to={child.link}>
+                                        {child.icons}{child.title}
+                                </Link>
+                            )})
+                        }
+                        <button className='defaultNav-button-signin'
+                            style={{color:'white'}}
+                            onClick={showModal}
+                        >
+                            {(!isAdmin)?<><FaSignInAlt/>Admin?</>:<Avatar icon={<UserOutlined/>}/>}
                         </button>
-                        <HbombLogo/>
-                    </>:<>
-                        <div className='web-navbar'>
-                            <div onClick={()=>handleActive(0)}><HbombLogo/></div>
-                            {
-                                NavBar.map((child, index) => {
-                                    
-                                    return(
-                                    <Link 
-                                        key={'nav-item-'+index}
-                                        style={(location.pathname === child.link)?{borderBottom: '1px solid white',color:'white'}:{}}
-                                        onClick={()=>handleActive(index)} 
-                                        to={child.link}>
-                                            {child.icons}{child.title}
-                                    </Link>
-                                )})
-                            }
-                            <button className='defaultNav-button-signin'
-                                style={{color:'white'}}
-                                onClick={showModal}
-                            >
-                                {(!isAdmin)?<><FaSignInAlt/>Admin?</>:<Avatar icon={<UserOutlined/>}/>}
-                            </button>
-                        </div>
-                    </>}
+                    </div>
+                </>}
             </div>
         </>
         

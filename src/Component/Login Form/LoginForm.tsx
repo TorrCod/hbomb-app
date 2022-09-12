@@ -110,29 +110,11 @@ const LoginForm = (props: Props) => {
     </>
   );
 };
-type MenuItem = Required<MenuProps>['items'][number];
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: 'group',
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  } as MenuItem;
-}
 
 const UserProfile = () => {
   const userContext = UserContext()
   const dispatch = userContext.dispatch
   const loadingDone = userContext.loadingDone
-  const {setVisible} = useUserModalCtx()
 
   const handleLogout = async () => {
     loadingDone(false)
@@ -141,27 +123,11 @@ const UserProfile = () => {
     loadingDone(true)
   }
 
-  const orderList = (
-    <Link to='/dashboard'>
-      DASHBOARD
-    </Link>
-  )
-
-  const menuItems: MenuProps['items'] = [
-    getItem(orderList,"dshbrd",<TbLayoutDashboard/>)
-  ]
-
   return(
         <Space className='user-profile' direction='vertical' align='center' style={{width:"100%"}}>
           <Avatar size={64} icon={<UserOutlined />}/>
           <h4>Admin</h4>
           <Button type='default' shape='round' onClick={handleLogout}>LOGOUT</Button>
-          <Menu
-            style={{ width: "100%" }}
-            mode="inline"
-            items={menuItems}
-            onClick={()=>setVisible(false)}
-          />
         </Space>
   )
 }
