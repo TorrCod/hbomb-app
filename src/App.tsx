@@ -34,6 +34,7 @@ const App = () => {
     userCtxDispatch({type:'signin',payload:(auth.currentUser)?true:false})
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[auth.currentUser])
+  
 
   // Render Components
   return (
