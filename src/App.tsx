@@ -17,7 +17,6 @@ import { auth } from './FirebaseService/FirebaseConfig';
 //-- Test Mode -- //
 // import ProductPage from './Component/Page/Product/__test__/ProductPage';
 
-
 const App = () => {
   // Get The Images from firebase storage:
   const globalContext = GlobalContext()

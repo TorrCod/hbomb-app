@@ -1,7 +1,9 @@
 import React from 'react'
-import { googleAnalytics } from './FirebaseConfig'
+import { googleAnalytics as analytics } from './FirebaseConfig'
 import { logEvent } from 'firebase/analytics'
 
 export const UserVisitLogEvent = () => {
-    logEvent(googleAnalytics,'page_view',{'page_path':window.location.pathname})
+    // logEvent(analytics,'page_view',{'page_path':window.location.pathname})
+    console.log('logging events');
+    logEvent(analytics, 'screen_view');
 }

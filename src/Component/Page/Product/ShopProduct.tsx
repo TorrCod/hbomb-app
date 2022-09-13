@@ -480,13 +480,14 @@ export const ViewItems = (props:ViewItem_props) => {
                             ADD TO CART
                         </Button> */}
                         <AddtoCart item={state}/>
-                        <Button 
+                        {/* <Button 
                             onClick={() => {if(onCheckOut)onCheckOut()}}
                             shape="round" 
                             size="large"
                         >
                             CHECK OUT
-                        </Button>
+                        </Button> */}
+                        <CheckOutBtn type={'default'} shape={'round'} item={state}/>
                     </div>
 
                     <div className="ols-item-view-desc" style={{
