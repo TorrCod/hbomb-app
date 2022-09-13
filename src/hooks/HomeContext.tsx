@@ -3,6 +3,7 @@ import { RcFile, UploadChangeParam} from "antd/lib/upload";
 import React, { ChangeEvent, createContext, useContext, useEffect, useReducer } from "react"
 import { _OfferContentTypes } from "../api/CustomType";
 import { ButtonHandle, getBase64, HomeFunction} from "../api/utils";
+import { writeDatabase } from "../FirebaseService/RealtimeDatabase";
 import { GlobalContext } from "./GlobalContext";
 
 
@@ -66,6 +67,7 @@ export const OfferProvider = ({children}:any) => {
     const handleDropDown = {
         onVisibleChange: () => {
             // UpdateOfferDb(globalContext.globalState.offerSectionApi)
+            writeDatabase('offer-data',globalContext.globalState.offerSectionApi)
         }
     }
 

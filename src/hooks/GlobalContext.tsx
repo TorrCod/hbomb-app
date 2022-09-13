@@ -1,5 +1,4 @@
 import { createContext, useContext, useReducer } from "react";
-// import {  readDb } from "../api/utils";
 import { _imageData, _ImageDataDb, _OfferContentTypes, _UploadData, _uploadFile } from "../api/CustomType";
 import { getListImageFromCloud } from "../FirebaseService/CloudStorage";
 import { readData } from "../FirebaseService/RealtimeDatabase";
@@ -121,28 +120,13 @@ export function GlobalProvider ({children}:any) {
         productPageCtx.onlineShopHandler.fetchOnlineShopData()
     }
 
-    const updateOfferData = async () => {
-        // readDb('OfferData/',(arg) => {
-        //     dispatch({type:'setOfferApi',payload:arg})
-        // })
-
-        const data:{'box1':string,'box2':string,'box3':string,} = await readData('offer-data')
-        console.log(data);
-        
-        const offerContent:_OfferContentTypes = {
-            'firstBox':{'icons':'','content':data['box1']},
-            'secondBox':{'icons':'','content':data['box2']},
-            'thirdBox':{'icons':'','content':data['box3']}
-        }
-        dispatch({type:'setOfferApi',payload:offerContent})
+    const updateOfferData = () => {
+        readData('offer-data').then ((res)=>{
+            dispatch({type:'setOfferApi',payload:res})
+        })
     }
 
     const updateImageApi =  async () => {
-        // readDb('ImageDataApi/',(arg) => {
-        //     dispatch({type:'setImageApi',payload:arg})
-        //     dispatch({type:'loadingDone'})
-        // })
-
         await getListImageFromCloud('model-image')
         .then((res)=>{
            res.urlList.forEach((val,index)=>{
