@@ -1,0 +1,12 @@
+.dashboard-containter::before{
+    position: absolute;
+    top: 2em;
+    background-color: #e3bd9b;
+    width: 100%;
+    height: 5px;
+    content: '';
+}
+
+.dashboard-containter{
+    position: relative;
+}
