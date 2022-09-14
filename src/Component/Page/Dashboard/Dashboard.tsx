@@ -83,7 +83,7 @@ const Charts = ()=>{
       <div className='mg-1'>
         <div className='fontz-xxl flex-center-start gap-1'><FaMoneyBillWaveAlt/>15.3k</div>
         <div className='fontz-l flex-center-start clr-darklight gap-1'><BsPeopleFill/>45 Customers</div>
-        <div className='fontz-l flex-center-start clr-darklight gap-1'><BsCalendarDateFill/>Month of December 2022</div>   
+        <div className='fontz-l flex-center-start clr-darklight gap-1'><BsCalendarDateFill/>Month of <b>December</b> 2022</div>   
       </div>
 
       <BarChart
