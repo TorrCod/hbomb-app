@@ -24,3 +24,5 @@ yarn-error.log*
 
 #log files
 .log
+database-debug.log
+firebase-debug.log
