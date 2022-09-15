@@ -8,7 +8,6 @@ import  {GlobalProvider} from './hooks/GlobalContext';
 import { ClassicProvider, CollectionProvider, ModelProvider, OfferProvider } from './hooks/HomeContext';
 import { UserProvider } from './hooks/UserContext';
 import { ProductPageProvider } from './hooks/ProductPageContext';
-import { UserVisitLogEvent } from './FirebaseService/Analytics';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

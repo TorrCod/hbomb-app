@@ -1,4 +1,4 @@
-import { Button, Popover } from "antd";
+import { Button } from "antd";
 import ModelProduct, { ModelProductItems} from "./ModelProduct";
 import './css/ProductPage.css';
 import { Link, Outlet} from "react-router-dom";

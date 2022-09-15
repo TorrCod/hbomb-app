@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useHoverStyle:useHoverStyle = (hoverStyle:React.CSSProperties) => {
+const useHoverStyle:styledHover = (hoverStyle:React.CSSProperties) => {
     const [style, setStyle] = useState<React.CSSProperties>({})
 
     return {
@@ -18,7 +18,7 @@ const useHoverStyle:useHoverStyle = (hoverStyle:React.CSSProperties) => {
 
 export default useHoverStyle;
 
-type useHoverStyle = (hoverStyle:React.CSSProperties) => useHoverStyleRET;
+type styledHover = (hoverStyle:React.CSSProperties) => useHoverStyleRET;
 type useHoverStyleRET = {
     state: React.CSSProperties;
     props:React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;

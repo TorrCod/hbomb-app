@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import { _imageData, _ImageDataDb, _OfferContentTypes, _UploadData, _uploadFile } from "../api/CustomType";
+import { _imageData, _ImageDataDb, _OfferContentTypes, _UploadData } from "../api/CustomType";
 import { getListImageFromCloud } from "../FirebaseService/CloudStorage";
 import { readData } from "../FirebaseService/RealtimeDatabase";
 import ProductPageContext from "./ProductPageContext";

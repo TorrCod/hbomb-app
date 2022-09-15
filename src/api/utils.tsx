@@ -1,7 +1,3 @@
-import {initializeApp} from "firebase/app"
-import { connectAuthEmulator, getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getStorage, ref, uploadBytes, listAll, deleteObject, connectStorageEmulator} from "firebase/storage";
-import { getDatabase , ref as rdbRef,set, onValue, connectDatabaseEmulator } from "firebase/database";
 import { RcFile } from "antd/lib/upload";
 import * as _CustomType from "./CustomType";
 import { UploadFile } from "antd/es/upload";

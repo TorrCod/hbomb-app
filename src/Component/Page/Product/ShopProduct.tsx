@@ -22,7 +22,6 @@ import { getListImageFromCloud, uploadToCloudStorage } from "../../../FirebaseSe
 import { UserContext } from "../../../hooks/UserContext";
 import HbombLoading from "../../../Feature/HbombLoading";
 import AddtoCart from "../../../Feature/AddToCart";
-import { Link } from "react-router-dom";
 import CheckOutBtn from "../../../Feature/CheckOutBtn";
 
 const OnlineShopSwipe = ({children,autoplay,onAddCategory}:DivProp) => {
@@ -293,7 +292,7 @@ const ViewItemsReducer = (state:ViewItems_state,action:ViewItems_action): ViewIt
 
 export const ViewItems = (props:ViewItem_props) => {
     const onEdit  = props.onEdit?.state;
-    const {onAddToCart,onBackButton,onCheckOut,items,onSaveEdit} = props;
+    const {onBackButton,items,onSaveEdit} = props;
     const [onPreview, setOnPreview] = useState(false)
     const [state, dispatch] = useReducer(ViewItemsReducer, items);
     const [isLoading, setIsLoading] = useState(false)

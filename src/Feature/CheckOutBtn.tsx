@@ -5,7 +5,7 @@ import { UserContext } from "../hooks/UserContext"
 
 const CheckOutBtn = (props:ChkOut) => {
     const userContext = UserContext()
-    const isCartItemEmpty = userContext.state.CartItem.length == 0
+    const isCartItemEmpty = userContext.state.CartItem.length === 0
     const handleButtonCheckOut = () => {
         const addToCart = userContext.cartItemHandler.addToCart
         if(props.item) addToCart(props.item);

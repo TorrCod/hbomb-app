@@ -3,7 +3,6 @@ import { Menu } from 'antd';
 import {Link} from 'react-router-dom';
 import {AiFillHome, AiFillShopping} from 'react-icons/ai'
 import {BsFillPeopleFill} from "react-icons/bs"
-import { useEffect, useState } from 'react';
 import { TbLayoutDashboard } from 'react-icons/tb';
 import { useAdminSignedin } from '../../customhooks/useAdminSignedIn';
 

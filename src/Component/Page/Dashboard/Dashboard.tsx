@@ -1,7 +1,7 @@
-import { BsPeople, BsCalendarDate, BsPeopleFill, BsCalendarDateFill } from 'react-icons/bs';
+import { BsPeopleFill, BsCalendarDateFill } from 'react-icons/bs';
 import { FaMoneyBillWaveAlt } from 'react-icons/fa';
 import { useWindowSize } from 'react-use';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import './Dashboard.css'
 
 export const Dashboard = () => {
@@ -39,7 +39,7 @@ const Charts = ()=>{
     {
       name: 'Jun',
       sales: 2300,
-    },
+    }
   ];
 
   const secondSixMonthsData = [
@@ -63,16 +63,14 @@ const Charts = ()=>{
       name: 'Nov',
       sales: 800,
     },
-    ,
     {
       name: 'Dec',
       sales: 2700,
     },
-    ,
     {
       name: 'Jul',
       sales: 2400,
-    },
+    }
   ];
 
   const {width} = useWindowSize()
