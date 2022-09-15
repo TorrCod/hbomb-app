@@ -15,7 +15,7 @@ export const Dashboard = () => {
 }
 
 const Charts = ()=>{
-  const firstSixMonthsData = [
+  const chartData = [
     {
       name: 'Jan',
       sales: 1500,
@@ -39,10 +39,7 @@ const Charts = ()=>{
     {
       name: 'Jun',
       sales: 2300,
-    }
-  ];
-
-  const secondSixMonthsData = [
+    },
     {
       name:'Jul',
       sales:2100
@@ -66,12 +63,13 @@ const Charts = ()=>{
     {
       name: 'Dec',
       sales: 2700,
-    },
-    {
-      name: 'Jul',
-      sales: 2400,
     }
   ];
+
+  const halfYearChartData = (opt:{'firstHalf'?:boolean,'lasthalf'?:boolean}) => {
+    if (opt.firstHalf) return chartData.slice(0,5);
+    else return chartData.slice(5)
+  }
 
   const {width} = useWindowSize()
 
@@ -87,7 +85,7 @@ const Charts = ()=>{
       <BarChart
         width = {(width <= 400)?width-50:400}
         height={200}
-        data={firstSixMonthsData}
+        data={halfYearChartData({lasthalf:true})}
         margin={{
           top: 5,
           right: 30,
