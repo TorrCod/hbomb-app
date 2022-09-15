@@ -1,5 +1,8 @@
+import { Button, Space } from 'antd';
+import { useEffect, useState } from 'react';
 import { BsPeopleFill, BsCalendarDateFill } from 'react-icons/bs';
 import { FaMoneyBillWaveAlt } from 'react-icons/fa';
+import {GrLinkNext,GrLinkPrevious} from 'react-icons/gr'
 import { useWindowSize } from 'react-use';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import './Dashboard.css'
@@ -14,7 +17,10 @@ export const Dashboard = () => {
   )
 }
 
-const Charts = ()=>{
+const Charts = () => {
+  const [opt, setOpt] = useState<{'firstHalf'?:boolean,'lasthalf'?:boolean}>({})
+  const {width} = useWindowSize()
+  const [yearNow, setYearNow] = useState(0)
   const chartData = [
     {
       name: 'Jan',
@@ -67,25 +73,33 @@ const Charts = ()=>{
   ];
 
   const halfYearChartData = (opt:{'firstHalf'?:boolean,'lasthalf'?:boolean}) => {
-    if (opt.firstHalf) return chartData.slice(0,5);
-    else return chartData.slice(5)
+    if (opt.firstHalf) return chartData.slice(0,6);
+    else return chartData.slice(6)
   }
 
-  const {width} = useWindowSize()
+  useEffect(() => {
+    const timeElapsed = Date.now();
+    const date = new Date(timeElapsed);
+    const monthNow = date.getMonth();
+    if (monthNow > 6) setOpt({lasthalf:true});
+    else setOpt({firstHalf:true});
+    setYearNow(date.getFullYear())
+  }, [])
+  
 
   return (
-    <div className='bg-white roundcorner-1em pd-top-1 dashboard-containter'> 
+    <div className='bg-white roundcorner-1em pd-bottop-1 dashboard-containter'> 
 
       <div className='mg-1'>
         <div className='fontz-xxl flex-center-start gap-1'><FaMoneyBillWaveAlt/>15.3k</div>
         <div className='fontz-l flex-center-start clr-darklight gap-1'><BsPeopleFill/>45 Customers</div>
-        <div className='fontz-l flex-center-start clr-darklight gap-1'><BsCalendarDateFill/>Month of <b>December</b> 2022</div>   
+        <div className='fontz-l flex-center-start clr-darklight gap-1'><BsCalendarDateFill/>Year of {yearNow}</div>   
       </div>
 
       <BarChart
         width = {(width <= 400)?width-50:400}
         height={200}
-        data={halfYearChartData({lasthalf:true})}
+        data={halfYearChartData(opt)}
         margin={{
           top: 5,
           right: 30,
@@ -100,6 +114,12 @@ const Charts = ()=>{
         <Legend />
         <Bar dataKey="sales" fill="#e3bd9b" />
       </BarChart>
+
+      <Space direction='horizontal' className='wd-full flex-center'>
+      <Button className='flex-center' onClick={()=>setOpt({firstHalf:true})}><GrLinkPrevious/></Button>
+      <Button className='flex-center' onClick={()=>setOpt({lasthalf:true})}><GrLinkNext/></Button>
+      </Space>
+
     </div>
   )
 }
