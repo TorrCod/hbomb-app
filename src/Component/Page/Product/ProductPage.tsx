@@ -48,8 +48,7 @@ function ProductPage() {
                                 {modelItems.length?modelItems:
                                 (<ModelProductItems key={'default'} className='flex-center' >
                                     <img className="image" src={''} alt='product items'/>
-                                </ModelProductItems>)
-                                }
+                                </ModelProductItems>)}
                             </ModelProduct>
                         </div>
                         <div className="productsection-buttons flex-center web-left">

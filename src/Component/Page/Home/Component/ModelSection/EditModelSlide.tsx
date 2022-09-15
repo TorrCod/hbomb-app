@@ -10,16 +10,16 @@ function EditModelSlide() {
   const modelHooks = ModelContext();
   
   const handleChange:UploadProps['onChange'] = async ({fileList:newFileList}) =>{
-    let previewChange:UploadFile[] = []
-    for (const iterator of newFileList) {
-      if(!iterator.url) iterator.url = await getBase64(iterator.originFileObj as RcFile)
-      previewChange.push({
-        uid:iterator.uid,
-        name:iterator.name,
-        url:iterator.url,
-      })
-    }
-    modelHooks.dispatch({type:'onupload',payload:previewChange})
+    // let previewChange:UploadFile[] = []
+    // for (const iterator of newFileList) {
+    //   if(!iterator.url) iterator.url = await getBase64(iterator.originFileObj as RcFile)
+    //   previewChange.push({
+    //     uid:iterator.uid,
+    //     name:iterator.name,
+    //     url:iterator.url,
+    //   })
+    // }
+    modelHooks.dispatch({type:'onupload',payload:newFileList})
   } 
 
   const uploadButton = (

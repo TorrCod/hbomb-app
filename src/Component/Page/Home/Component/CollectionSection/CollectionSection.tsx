@@ -11,7 +11,35 @@ function CollectionSection() {
     const collectoinData = globalContext.globalState.imageApi.CollectionData;
     const onUpload = collectionContext.onUploadImage
     const isLogin = UserContext().state.UserState.checkCredential
-    
+
+    const collectionImages = Object.keys(collectoinData).map((child,index) => {
+        return(
+            <div  
+            className={'collectionSection-box ' + ((index === 0)? 'highlight':'')} 
+            key={'collectionSection-box-' + collectoinData[child].id}>
+                {(isLogin)?<div className="button collection-buttonsetting">
+                    <Upload 
+                        customRequest={({file,onSuccess}) => {
+                            setTimeout(() => {
+                            onSuccess!("ok");
+                            },0);
+                        }}
+                        fileList={[]}
+                        onChange={(info) => {onUpload(info,index)}}
+                    >
+                    <Button 
+                        onClick={(arg) => {}}
+                        type="primary" 
+                        shape="round"
+                        icon={<AiTwotoneEdit/>} 
+                        size={'large'}/>
+                    </Upload>
+                </div>:null}
+                <img src={collectoinData[child].url} id={collectoinData[child].id} className="image collection-image" alt=''/>
+            </div>
+        )
+    })
+
     return ( 
         <div className='positionRelative'>
             <div className='allbg bgViolet bgright'></div>
@@ -19,33 +47,7 @@ function CollectionSection() {
                 <h1>COLLECTIONS</h1>
                 <div className='collection-box-container'>
                 {
-                    Object.keys(collectoinData).map((child,index) => {
-                        return(
-                            <div  
-                            className={'collectionSection-box ' + ((index === 0)? 'highlight':'')} 
-                            key={'collectionSection-box-' + collectoinData[child].id}>
-                                {(isLogin)?<div className="button collection-buttonsetting">
-                                    <Upload 
-                                        customRequest={({file,onSuccess}) => {
-                                            setTimeout(() => {
-                                            onSuccess!("ok");
-                                            },0);
-                                        }}
-                                        fileList={[]}
-                                        onChange={(info) => {onUpload(info,index)}}
-                                    >
-                                    <Button 
-                                        onClick={(arg) => {}}
-                                        type="primary" 
-                                        shape="round"
-                                        icon={<AiTwotoneEdit/>} 
-                                        size={'large'}/>
-                                    </Upload>
-                                </div>:null}
-                                <img src={collectoinData[child].url} id={collectoinData[child].id} className="image collection-image" alt=''/>
-                            </div>
-                        )
-                    })
+                    collectionImages.length? collectionImages:'test'
                 }
                 </div>
             </div>

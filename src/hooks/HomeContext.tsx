@@ -1,8 +1,9 @@
 import { UploadFile } from "antd";
 import { RcFile, UploadChangeParam} from "antd/lib/upload";
 import React, { ChangeEvent, createContext, useContext, useEffect, useReducer } from "react"
-import { _OfferContentTypes } from "../api/CustomType";
+import { _OfferContentTypes, _uploadFile } from "../api/CustomType";
 import { ButtonHandle, getBase64, HomeFunction} from "../api/utils";
+import { getListImageFromCloud, uploadToCloudStorage } from "../FirebaseService/CloudStorage";
 import { writeDatabase } from "../FirebaseService/RealtimeDatabase";
 import { GlobalContext } from "./GlobalContext";
 
@@ -545,7 +546,15 @@ export const ModelProvider = ({children}:any) => {
         const result = HomeFunction.toImageApi(state.previewChange,defaultImageApi,'ModelData')
         dispatch({type:"handleok"})
         globalContext.dispatch({type:'setImageApi',payload:result})
-        // updateDb('ImageDataApi/','ModelData',result.ModelData)
+        console.log(state.previewChange);
+        for (const file of state.previewChange) {
+            uploadToCloudStorage(file,'model-image')
+        }
+        getListImageFromCloud('model-image').then((res)=>{
+
+        })
+
+        // uploadToCloudStorage(itemToUpload,'model-image')
     }
 
     const handleSliding = (nextSlide:number) => {
