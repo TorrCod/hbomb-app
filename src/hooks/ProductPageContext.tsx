@@ -40,13 +40,17 @@ export const ProductPageProvider = ({children}:DivElement) => {
 
     const fetchProductLandingPage = () => {
         readData('productlandingpage').then((val) => {
-            const uploadFileList:UploadFile[] = []
-            const valKeyList = Object.keys(val);
-            for (const uploadFile of valKeyList) {
-                const valChild = (val[uploadFile] as UploadFile)
-                uploadFileList.push(valChild)
+            try {
+                const uploadFileList:UploadFile[] = []
+                const valKeyList = Object.keys(val);
+                for (const uploadFile of valKeyList) {
+                    const valChild = (val[uploadFile] as UploadFile)
+                    uploadFileList.push(valChild)
+                }
+                dispatch({type:'updatelandingpage',payload:uploadFileList})
+            }catch {
+
             }
-            dispatch({type:'updatelandingpage',payload:uploadFileList})
         })
     }
 

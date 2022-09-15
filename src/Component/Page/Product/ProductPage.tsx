@@ -24,6 +24,13 @@ function ProductPage() {
     const FsRef = useRef<FsHandle>(null);
     const myCartRef = useRef<HTMLDivElement>(null);
 
+    const modelItems = ImageData.map((child,index) => {
+        return(
+        <ModelProductItems key={child.uid+index} className='flex-center' >
+            <img className="image" src={child.url} alt='product items'/>
+        </ModelProductItems>
+    )})
+
     return ( 
         <div>
             <FullScrollSlide 
@@ -38,11 +45,11 @@ function ProductPage() {
                         className="product-section product-section-landingpage flex-center">
                         <div className="product-section-container flex-center">
                             <ModelProduct>
-                                {ImageData.map((child,index) => {return(
-                                    <ModelProductItems key={child.uid+index} className='flex-center' >
-                                        <img className="image" src={child.url} alt='product items'/>
-                                    </ModelProductItems>
-                                )})}
+                                {modelItems.length?modelItems:
+                                (<ModelProductItems key={'default'} className='flex-center' >
+                                    <img className="image" src={''} alt='product items'/>
+                                </ModelProductItems>)
+                                }
                             </ModelProduct>
                         </div>
                         <div className="productsection-buttons flex-center web-left">
