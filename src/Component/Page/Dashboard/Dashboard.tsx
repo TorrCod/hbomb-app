@@ -4,12 +4,12 @@ import { BsPeopleFill, BsCalendarDateFill } from 'react-icons/bs';
 import { FaMoneyBillWaveAlt } from 'react-icons/fa';
 import {GrLinkNext,GrLinkPrevious} from 'react-icons/gr'
 import { useWindowSize } from 'react-use';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './Dashboard.css'
 
 export const Dashboard = () => {
   return (
-    <div className="fullpage-center">
+    <div className="fullpage-center pd-1">
         <Charts/>
         <Sales/>
         <PendingOrders/>
@@ -19,7 +19,6 @@ export const Dashboard = () => {
 
 const Charts = () => {
   const [opt, setOpt] = useState<{'firstHalf'?:boolean,'lasthalf'?:boolean}>({})
-  const {width} = useWindowSize()
   const [yearNow, setYearNow] = useState(0)
   const chartData = [
     {
@@ -88,7 +87,7 @@ const Charts = () => {
   
 
   return (
-    <div className='bg-white roundcorner-1em pd-bottop-1 dashboard-containter'> 
+    <div className='bg-white h-30 roundcorner-1em pd-bottop-1 dashboard-containter wd-full'> 
 
       <div className='mg-1'>
         <div className='fontz-xxl flex-center-start gap-1'><FaMoneyBillWaveAlt/>15.3k</div>
@@ -96,9 +95,10 @@ const Charts = () => {
         <div className='fontz-l flex-center-start clr-darklight gap-1'><BsCalendarDateFill/>Year of {yearNow}</div>   
       </div>
 
+      <ResponsiveContainer width='100%' height='50%' >
       <BarChart
-        width = {(width <= 400)?width-50:400}
         height={200}
+        width={300}
         data={halfYearChartData(opt)}
         margin={{
           top: 5,
@@ -114,6 +114,8 @@ const Charts = () => {
         <Legend />
         <Bar dataKey="sales" fill="#e3bd9b" />
       </BarChart>
+      </ResponsiveContainer>
+      
 
       <Space direction='horizontal' className='wd-full flex-center'>
       <Button disabled={opt.firstHalf} className='flex-center' onClick={()=>setOpt({firstHalf:true})}><GrLinkPrevious/></Button>
@@ -129,6 +131,29 @@ const Sales = ()=>{
 }
 
 const PendingOrders = ()=>{
-  return <div>Pending Orders</div>
+  return (
+    <div className='bg-white roundcorner-1em pd-bottop-1 dashboard-containter'>
+      PENDING ORDERS
+      <table>
+        <tbody>
+          <tr>
+            <td>User1</td>
+            <td>Jan 2 2022</td>
+            <td>P500</td>
+          </tr>
+          <tr>
+            <td>User2</td>
+            <td>Jan 3 2022</td>
+            <td>P400</td>
+          </tr>
+          <tr>
+            <td>User3</td>
+            <td>Jan 6 2022</td>
+            <td>P5000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  )
 }
 
