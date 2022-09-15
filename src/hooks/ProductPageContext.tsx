@@ -57,22 +57,25 @@ export const ProductPageProvider = ({children}:DivElement) => {
     const onlineShopHandler = {
         fetchOnlineShopData:() => {
             readData('onlineshop-category').then((response) => {
-                const itemToSet:CatListState = {}
-                const data = Object.values(response) 
-                for (const child of data) {
-                    const category = (child as CatItem)
-                    itemToSet[category.categoryId] = {...category,'items':[]}
-                }
-                readData('onlineshop-items').then((items) => {
-                    const itemArr = Object.values(items)
-                    for (const item of itemArr) {
-                        // console.log(item);
-                        const shopItem = item as OLSitems
-                        itemToSet[shopItem.categoryId!].items.push(shopItem)
+                try {
+                    const itemToSet:CatListState = {}
+                    const data = Object.values(response) 
+                    for (const child of data) {
+                        const category = (child as CatItem)
+                        itemToSet[category.categoryId] = {...category,'items':[]}
                     }
+                    readData('onlineshop-items').then((items) => {
+                        const itemArr = Object.values(items)
+                        for (const item of itemArr) {
+                            // console.log(item);
+                            const shopItem = item as OLSitems
+                            itemToSet[shopItem.categoryId!].items.push(shopItem)
+                        }
 
-                    dispatch({'type':'updateOnlineShopData','payload':itemToSet})
-                })
+                        dispatch({'type':'updateOnlineShopData','payload':itemToSet})
+                    })
+                } catch {}
+                
             })
         },
         updateCategory:{
