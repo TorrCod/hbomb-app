@@ -116,8 +116,8 @@ const Charts = () => {
       </BarChart>
 
       <Space direction='horizontal' className='wd-full flex-center'>
-      <Button className='flex-center' onClick={()=>setOpt({firstHalf:true})}><GrLinkPrevious/></Button>
-      <Button className='flex-center' onClick={()=>setOpt({lasthalf:true})}><GrLinkNext/></Button>
+      <Button disabled={opt.firstHalf} className='flex-center' onClick={()=>setOpt({firstHalf:true})}><GrLinkPrevious/></Button>
+      <Button disabled={opt.lasthalf} className='flex-center' onClick={()=>setOpt({lasthalf:true})}><GrLinkNext/></Button>
       </Space>
 
     </div>
