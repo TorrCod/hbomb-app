@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { BsPeopleFill, BsCalendarDateFill } from 'react-icons/bs';
 import { FaMoneyBillWaveAlt } from 'react-icons/fa';
 import {GrLinkNext,GrLinkPrevious} from 'react-icons/gr'
-import { useWindowSize } from 'react-use';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './Dashboard.css'
 
