@@ -10,6 +10,7 @@ import { UploadFile } from 'antd/es/upload';
 import { UserContext } from '../../../../../hooks/UserContext';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import EditImageButton from '../../../../../Feature/EditImageAdmin';
 
 function ModelSection() {
     const userContext = UserContext()
@@ -22,6 +23,7 @@ function ModelSection() {
     const modelSlide = modelSectionState.modelSlide
     let onSwipeLocation = {start: 0, end: 0};
     
+    const modelImagelist:UploadFile[] = []
 
     const imageActive = {
         transform: "scale(1.3)",
@@ -77,12 +79,18 @@ function ModelSection() {
                 <button onClick={modelContext.modelSlideHandle.handlePrevious} className='button aiIcons aiIcons-right'><AiIcons.AiFillCaretRight/></button>
                 <div className='model-navigator'></div>
                 {(isLogin)?<div className='button model-editbutton' >
-                    <Button 
+                    {/* <Button 
                     onClick={showModal}
                     type="primary" 
                     shape="round"
                     icon={<AiIcons.AiTwotoneEdit/>} 
-                    size={'large'}/>
+                    size={'large'}/> */}
+                    <EditImageButton 
+                    icon={<AiIcons.AiTwotoneEdit/>} 
+                    onsave={()=>{}} 
+                    onCancel={()=>{}} 
+                    onchange={()=>{}} 
+                    imageList={modelImagelist} />
                 </div>:null}
             </div>
             <div className='model-logo'><HbombLogo/></div>
@@ -94,14 +102,14 @@ function ModelSection() {
                     <Button type='default' size='large'>ABOUT US</Button>
                 </Link>
             </div>
-            <Modal 
+            {/* <Modal 
             forceRender
             title="Add | Remove Models" 
             visible={modelSectionState.isModalVisible} 
             onOk={modelContext.modelSlideHandle.handleOk} 
             onCancel={modelContext.modelSlideHandle.handleCancelSetting}>
                 <EditModelSlide/>
-            </Modal>
+            </Modal> */}
         </div>
      );
 }

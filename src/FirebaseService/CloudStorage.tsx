@@ -21,8 +21,10 @@ export const uploadToCloudStorage = async (filetoUplaod:UploadFile,path:path,spe
     return response
 }
 
-export const getImageFromCloud = (path:string) => {
-    
+export const getImageFromCloud = async (path:path,name:string) => {
+    const storageRef = ref(cloudStorage, path+"/"+name);
+    const url = await getDownloadURL(storageRef)
+    return url
 }
 
 export const getListImageFromCloud: GLI = async (path:path) => {
@@ -72,8 +74,6 @@ type UrlorMetaData = {
 }
 
 export const deleteImageFromCloudStorage = async (path?:path,itemRef?:StorageReference) => {
-    console.log(itemRef);
-    
     const deleteRef = itemRef? itemRef:ref(cloudStorage,path)
     deleteObject(deleteRef).then((response) => {
         
@@ -83,8 +83,6 @@ export const deleteImageFromCloudStorage = async (path?:path,itemRef?:StorageRef
 }
 
 export const deleteCloudStoragePath = async (path:path) => {
-    console.log('deleting path');
-    
     const deleteRef = ref(cloudStorage, path);
 
     (await listAll(deleteRef)).items.forEach(async (itemRef) => {
@@ -94,9 +92,6 @@ export const deleteCloudStoragePath = async (path:path) => {
             console.log(error);
         });
     })
-
-    console.log('deleting path - done');
-    
 }
 
 export const isImageAlreadyExist = async (path:path,filetoUplaod:UploadFile) =>  {
@@ -136,7 +131,7 @@ export const itemRefNotExistList = async (path:path,fileList:UploadFile[]) => {
 }
 
 
-type path = 
+export type path = 
 'productlandingpage'|
 'online-shop'|
 'model-image'|

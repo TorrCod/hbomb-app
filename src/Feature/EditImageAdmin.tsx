@@ -5,6 +5,7 @@ import { DetailedHTMLProps, useRef, useState } from "react";
 import './css/EditImageAdmin.css'
 import { UploadChangeParam } from "antd/lib/upload";
 import AdminPreviledge from "./AdminPreviledge";
+import { getImageFromCloud, path, uploadToCloudStorage } from "../FirebaseService/CloudStorage";
 
 const EditImageButton = (props:type_EditImageButton) => {
     const modalAntDRef = useRef<MADhandle>(null);
@@ -34,9 +35,18 @@ const EditImageButton = (props:type_EditImageButton) => {
         onCancel()
     }
 
-    const handleEditImageSave = () => {
+    const handleEditImageSave = async () => {
         props.onsave(imageList);
-        onCancel()
+        onCancel();
+        try {
+            const data =  await uploadData(props.uploadPath!);
+            if (props.uploadData) props.uploadData(data)
+        }catch (e) {
+            if (!props.uploadPath) {
+                console.log("Upload Path must specify if uploadData");
+                console.log(e);
+            }
+        }
     }
 
     const uploadButton = (
@@ -45,6 +55,29 @@ const EditImageButton = (props:type_EditImageButton) => {
           <div style={{ marginTop: 8 }}>Upload</div>
         </div>
     );
+
+    const uploadData = async (path:path):Promise<UploadFile[]> => {
+        for (const file of imageList) {
+            await uploadToCloudStorage(file,path)
+        }
+        // for (const file of imageList) {
+        //     const fileName = file['uid']
+        //     const storagePath:path = path
+        //     const url = await getImageFromCloud(storagePath,fileName)
+        // }
+
+        imageList.forEach(async (file,index)=>{
+            const fileName = file['uid']
+            const storagePath:path = path
+            const url = await getImageFromCloud(storagePath,fileName)
+            imageList[index]['url'] = url;
+        })
+
+        console.log(imageList);
+        
+
+        return imageList
+    }
 
     return (
         <AdminPreviledge>
@@ -75,6 +108,8 @@ const EditImageButton = (props:type_EditImageButton) => {
 }
 
 type type_EditImageButton={
+    uploadPath?:path
+    uploadData?:(uploadData:UploadFile[])=>void
     maxList?:number;
     onCancel:() => void;
     onsave:(imageList:UploadFile<any>[]) => void;

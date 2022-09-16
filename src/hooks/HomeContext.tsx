@@ -551,7 +551,9 @@ export const ModelProvider = ({children}:any) => {
             uploadToCloudStorage(file,'model-image')
         }
         getListImageFromCloud('model-image').then((res)=>{
-
+            try {
+                
+            }catch{}
         })
 
         // uploadToCloudStorage(itemToUpload,'model-image')
