@@ -60,7 +60,7 @@ const MenuAntd = (props: { HandleButton: () => void }) => {
       { key: "4", label: "/dashboard" },
     ];
     const result = locationData.find((val) => val.label === pathname);
-    setActiveKey(result!.key);
+    setActiveKey(result?.key ?? "");
   }, [pathname]);
 
   const onClick: MenuProps["onClick"] = (e) => {
