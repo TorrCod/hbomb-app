@@ -91,6 +91,7 @@ function ModelSection() {
                         console.log(file);
                         console.log(fileUploaded);
                     }} 
+                    uploadPath = {{'cloudPath':'model-image','databasePath':'model-data'}}
                     onCancel={()=>{}} 
                     onchange={()=>{}} 
                     imageList={modelImagelist} />

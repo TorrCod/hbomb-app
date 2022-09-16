@@ -6,6 +6,7 @@ import './css/EditImageAdmin.css'
 import { UploadChangeParam } from "antd/lib/upload";
 import AdminPreviledge from "./AdminPreviledge";
 import { getImageFromCloud, path, uploadToCloudStorage } from "../FirebaseService/CloudStorage";
+import { writeDatabase } from "../FirebaseService/RealtimeDatabase";
 
 const EditImageButton = (props:type_EditImageButton) => {
     const modalAntDRef = useRef<MADhandle>(null);
@@ -36,13 +37,14 @@ const EditImageButton = (props:type_EditImageButton) => {
     }
 
     const handleEditImageSave = async () => {
-        let data:UploadFile[] = []
-        if (props.uploadPath === undefined) {
-            console.log("Upload Path must specify if uploadData");
+        let uploadedData:UploadFile[] = []
+
+        if (props.uploadPath !== undefined) {
+            uploadedData =  await uploadData(props.uploadPath['cloudPath']);
+            await writeDatabase(props.uploadPath['databasePath'],uploadedData);
         }
-        else  data =  await uploadData(props.uploadPath!);
-        
-        props.onsave(imageList,data);
+
+        props.onsave(imageList,uploadedData);
         onCancel();
     }
 
@@ -54,23 +56,18 @@ const EditImageButton = (props:type_EditImageButton) => {
     );
 
     const uploadData = async (path:path):Promise<UploadFile[]> => {
+        const data:UploadFile[] = []
         for (const file of imageList) {
             await uploadToCloudStorage(file,path)
         }
-        // for (const file of imageList) {
-        //     const fileName = file['uid']
-        //     const storagePath:path = path
-        //     const url = await getImageFromCloud(storagePath,fileName)
-        // }
 
-        imageList.forEach(async (file,index)=>{
+        for (const file of imageList) {
             const fileName = file['uid']
             const storagePath:path = path
             const url = await getImageFromCloud(storagePath,fileName)
-            imageList[index]['url'] = url;
-        })
-
-        return imageList
+            data.push({'url':url,'name':file.name,uid:file.uid})
+        }
+        return data
     }
 
     return (
@@ -102,7 +99,7 @@ const EditImageButton = (props:type_EditImageButton) => {
 }
 
 type type_EditImageButton={
-    uploadPath?:path
+    uploadPath?:{cloudPath:path,databasePath:string}
     maxList?:number;
     onCancel:() => void;
     onsave:(imageList:UploadFile<any>[],data?:UploadFile[]) => void;
