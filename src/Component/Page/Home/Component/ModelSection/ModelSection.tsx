@@ -23,11 +23,7 @@ function ModelSection() {
   const modelData = globalContext.globalState.imageApi.ModelData;
   const modelSlide = modelSectionState.modelSlide;
   let onSwipeLocation = { start: 0, end: 0 };
-
   const modelImagelist: UploadFile[] = modelData as unknown as UploadFile[];
-
-  console.log(modelImagelist);
-
   const imageActive = {
     transform: "scale(1.3)",
     zIndex: "5",
@@ -119,7 +115,7 @@ function ModelSection() {
                   type: "setImageApi",
                   payload: {
                     ...globalContext.globalState.imageApi,
-                    ModelData: file as unknown as _UploadData,
+                    ModelData: uploadedFile as unknown as _UploadData,
                   },
                 });
               }}
