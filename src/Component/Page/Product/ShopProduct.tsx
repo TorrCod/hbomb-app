@@ -495,8 +495,13 @@ export const ViewItems = (props: ViewItem_props) => {
               )}
               pcs
             </h3>
-            <AddtoCart item={state} />
-            <CheckOutBtn type={"default"} shape={"round"} item={state} />
+            <AddtoCart item={state} disabled={onEdit} />
+            <CheckOutBtn
+              type={"default"}
+              shape={"round"}
+              item={state}
+              disabled={onEdit}
+            />
           </div>
 
           <div
