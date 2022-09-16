@@ -45,7 +45,7 @@ const MenuAntd = (props: { HandleButton: () => void }) => {
     ),
 
     getItem(
-      <Link to="/aboutus">About</Link>,
+      <Link to="/aboutus">About Us</Link>,
       "3",
       "/aboutus",
       <BsFillPeopleFill />
