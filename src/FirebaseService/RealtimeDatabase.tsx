@@ -29,4 +29,5 @@ type ReadPath = 'productlandingpage'
 |'onlineshop-items'
 |'offer-data'
 |'user-visited'
+|'model-data'
 ;
