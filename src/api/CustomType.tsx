@@ -1,3 +1,18 @@
+import { OLSitems } from "../Component/Page/Product/ShopProduct";
+
+export type Orders = {
+  date: Date;
+  orderNumber: number;
+  name: string;
+  emailcontact: number;
+  address: string;
+  totalPrice: number;
+  itemOrdered: {
+    itemCount: number;
+    item: OLSitems;
+  }[];
+};
+//----Order Details------//
 //----OfferSection----//
 export type _OfferContent_Data = {
   icons: any;

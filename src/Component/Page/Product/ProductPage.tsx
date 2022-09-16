@@ -260,6 +260,7 @@ export const CheckOutPage = () => {
   const totalPrice = priceList.reduce((prev, curr) => prev + curr, 0);
 
   const onPlaceOrder = () => {
+    const clearCartItem = userContext.cartItemHandler.clear;
     const orderDetailes = {
       date: dateNow,
       orderNumber: state.orderNumber,
@@ -269,7 +270,6 @@ export const CheckOutPage = () => {
       totalPrice: totalPrice,
       itemOrdered: cartItemList,
     };
-    const clearCartItem = userContext.cartItemHandler.clear;
 
     writeDatabase("order-list/" + orderDetailes.orderNumber, orderDetailes);
     clearCartItem();
