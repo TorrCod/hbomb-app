@@ -160,8 +160,7 @@ export function GlobalProvider({ children }: any) {
     // })
 
     await readData("model-data").then((res) => {
-        console.log(res);
-        
+      console.log(res);
     });
 
     await getListImageFromCloud("collection-image").then((res) => {
@@ -169,9 +168,8 @@ export function GlobalProvider({ children }: any) {
         const file: _UploadData = state.imageApi.CollectionData;
         file[index] = {
           url: val,
-          id: res.MetaDatalist[index].name,
+          uid: res.MetaDatalist[index].name,
           name: res.MetaDatalist[index].name,
-          content: "",
         };
 
         dispatch({
@@ -186,9 +184,8 @@ export function GlobalProvider({ children }: any) {
         const file: _UploadData = state.imageApi.ClassicData;
         file[index] = {
           url: val,
-          id: res.MetaDatalist[index].name,
+          uid: res.MetaDatalist[index].name,
           name: res.MetaDatalist[index].name,
-          content: "",
         };
 
         dispatch({

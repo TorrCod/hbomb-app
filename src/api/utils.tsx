@@ -1,7 +1,7 @@
 import { RcFile } from "antd/lib/upload";
 import * as _CustomType from "./CustomType";
 import { UploadFile } from "antd/es/upload";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 // export const firebaseConfig = {
 //   apiKey: "AIzaSyB902lKg4FLhCtOPcHrghCozN0Eb-trpWk",
@@ -30,7 +30,6 @@ import { useState, useEffect } from 'react';
 //   const dbRef = rdbRef(firebaseDB,'OfferData/')
 //   set(dbRef,data)
 // }
-
 
 // export const updateDb = (dbPath:_CustomType._Path,key:keyof _CustomType._ImageDataDb,file: _CustomType._UploadData) => {
 //   const dbRef = rdbRef(firebaseDB,dbPath+key)
@@ -74,42 +73,43 @@ import { useState, useEffect } from 'react';
 // }
 
 export const ButtonHandle = {
-    carousel : {
-        next : (state: number,imageData: string | any[]) => {
-            if (state === imageData.length - 1){
-            return 0
-            }
-            else {
-            return state+1;
-            }
-        },
-        previous : (state: number, imageData: string | any[]) => { 
-            if (state === 0){
-              return imageData.length - 1
-            }
-            else {
-              return state-1
-            }
-        }
-    }
-}
-export const onSwipe = (onSwipeLocation: { start: any; end: any; }, nextSlide: { (): void; (): void; }, previousSlide: { (): void; (): void; })=> {
+  carousel: {
+    next: (state: number, imageData: string | any[]) => {
+      if (state === imageData.length - 1) {
+        return 0;
+      } else {
+        return state + 1;
+      }
+    },
+    previous: (state: number, imageData: string | any[]) => {
+      if (state === 0) {
+        return imageData.length - 1;
+      } else {
+        return state - 1;
+      }
+    },
+  },
+};
+export const onSwipe = (
+  onSwipeLocation: { start: any; end: any },
+  nextSlide: { (): void; (): void },
+  previousSlide: { (): void; (): void }
+) => {
   const swipeDirection = onSwipeLocation.start - onSwipeLocation.end;
-  if (swipeDirection > 0){
+  if (swipeDirection > 0) {
     nextSlide();
   }
-  if (swipeDirection < 0){
+  if (swipeDirection < 0) {
     previousSlide();
   }
-}
+};
 export const getBase64 = (file: RcFile): Promise<any> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result as string);
-    reader.onerror = error => reject(error);
-  }
-);
+    reader.onerror = (error) => reject(error);
+  });
 
 // const deleteImages = async (path:string,file:_CustomType._imageData) => {
 //   for (const key in file) {
@@ -122,13 +122,12 @@ export const getBase64 = (file: RcFile): Promise<any> =>
 //         itemNameList.push(iterator.name)
 //       }
 
-      
 //       for (const iterator of imageRef) {
 //         const isExistOnBucket = itemNameList.includes(iterator.name);
-        
+
 //         if(!isExistOnBucket) {
 //           await deleteObject(iterator).then((itemDeleted) => {
-            
+
 //           })
 //         };
 //       }
@@ -137,11 +136,11 @@ export const getBase64 = (file: RcFile): Promise<any> =>
 // }
 
 // const uploadImages = async(path:string, file:_CustomType._imageData) => {
-  
+
 //   for (const key in file) {
-    
+
 //     if(file[key as keyof _CustomType._imageData]!.length){
-      
+
 //       const storageRef = ref(cloudStorage,path+"/");
 //       const imageRef = (await listAll(storageRef)).items
 //       const itemNameList:string[] = []
@@ -149,10 +148,10 @@ export const getBase64 = (file: RcFile): Promise<any> =>
 //       for (const iterator of imageRef) {
 //         itemNameList.push(iterator.name)
 //       }
-      
+
 //       for (const iterator of file[key as keyof _CustomType._imageData]!) {
 //         const isExistOnBucket = itemNameList.includes(iterator.name)
-        
+
 //         if(!isExistOnBucket){
 //           const storageRef = ref(cloudStorage,path+"/"+iterator.name);
 //           await uploadBytes(storageRef,iterator.originFileObj)
@@ -163,53 +162,58 @@ export const getBase64 = (file: RcFile): Promise<any> =>
 // }
 
 export const HomeFunction = {
-  'toImageApi': (file:UploadFile[], state:_CustomType._ImageDataDb,key:keyof _CustomType._ImageDataDb) => {
-    let defaultFile:_CustomType._ImageDataDb = {...state}
-    const toImageApi:_CustomType._UploadData = {}
+  toImageApi: (
+    file: UploadFile[],
+    state: _CustomType._ImageDataDb,
+    key: keyof _CustomType._ImageDataDb
+  ) => {
+    let defaultFile: _CustomType._ImageDataDb = { ...state };
+    const toImageApi: _CustomType._UploadData = {};
     for (const iterator of file) {
       toImageApi[iterator.uid] = {
-        name:iterator.name,
-        id:iterator.uid,
-        url:iterator.url!,
-        content:'',
-      }
+        name: iterator.name,
+        uid: iterator.uid,
+        url: iterator.url!,
+      };
     }
-    defaultFile = {...state,[key]:toImageApi}
-    return defaultFile
-  }
-}
+    defaultFile = { ...state, [key]: toImageApi };
+    return defaultFile;
+  },
+};
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
-    height
+    height,
   };
 }
 
 export function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
 
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
     }
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return windowDimensions;
 }
 
-export function hasNumber(myString:string) {
+export function hasNumber(myString: string) {
   return /\d/.test(myString);
 }
 
-let _scroll_timeout: NodeJS.Timeout
-export const debounce = (callback:() => void,delay:number) => {
-    clearTimeout(_scroll_timeout);
-    _scroll_timeout = setTimeout(function(){
-        callback();
-    }, delay);
-}
+let _scroll_timeout: NodeJS.Timeout;
+export const debounce = (callback: () => void, delay: number) => {
+  clearTimeout(_scroll_timeout);
+  _scroll_timeout = setTimeout(function () {
+    callback();
+  }, delay);
+};
