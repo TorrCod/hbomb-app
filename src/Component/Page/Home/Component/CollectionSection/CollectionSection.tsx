@@ -32,7 +32,24 @@ function CollectionSection() {
       <div className="section collectionSection flex-column defaultPadding">
         <h1>COLLECTIONS</h1>
         <div className="collection-box-container">
-          {collectionImages.length ? collectionImages : "test"}
+          {collectionImages.length ? (
+            collectionImages
+          ) : (
+            <>
+              <div
+                className="collectionSection-box highlight"
+                children={"please add image"}
+              />
+              <div
+                className="collectionSection-box"
+                children={"please add image"}
+              />
+              <div
+                className="collectionSection-box"
+                children={"please add image"}
+              />
+            </>
+          )}
           <EditImageButton
             icon={<AiTwotoneEdit />}
             onsave={(file, uploadedFile) => {
