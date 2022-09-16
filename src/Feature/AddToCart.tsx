@@ -10,6 +10,7 @@ const AddtoCart = (props: AddtoCart_props) => {
   const { size, type, shape } = props;
 
   const buttonHandler = () => {
+    message.success(props.item.name + " added to cart");
     addToCart(props.item);
   };
 
