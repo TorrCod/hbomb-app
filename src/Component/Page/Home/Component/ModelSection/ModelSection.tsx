@@ -108,9 +108,6 @@ function ModelSection() {
             <EditImageButton
               icon={<AiIcons.AiTwotoneEdit />}
               onsave={(file, uploadedFile) => {
-                console.log(file);
-                console.log(uploadedFile);
-
                 globalDispatch({
                   type: "setImageApi",
                   payload: {
@@ -123,8 +120,8 @@ function ModelSection() {
                 cloudPath: "model-image",
                 databasePath: "model-data",
               }}
-              onCancel={() => {}}
-              onchange={() => {}}
+              onCancel={() => { }}
+              onchange={() => { }}
               imageList={modelImagelist}
             />
           </div>
