@@ -11,6 +11,7 @@ import { UserContext } from "../../../../../hooks/UserContext";
 import React from "react";
 import { Link } from "react-router-dom";
 import EditImageButton from "../../../../../Feature/EditImageAdmin";
+import { _UploadData } from "../../../../../api/CustomType";
 
 function ModelSection() {
   const userContext = UserContext();
@@ -23,7 +24,9 @@ function ModelSection() {
   const modelSlide = modelSectionState.modelSlide;
   let onSwipeLocation = { start: 0, end: 0 };
 
-  const modelImagelist: UploadFile[] = [];
+  const modelImagelist: UploadFile[] = modelData as unknown as UploadFile[];
+
+  console.log(modelImagelist);
 
   const imageActive = {
     transform: "scale(1.3)",
@@ -85,7 +88,7 @@ function ModelSection() {
                   src={modelData[child].url}
                   id={modelData[child].uid}
                   className="image model-image"
-                  alt=""
+                  alt={modelData[child].name}
                 />
               </div>
             );
@@ -108,9 +111,17 @@ function ModelSection() {
                     size={'large'}/> */}
             <EditImageButton
               icon={<AiIcons.AiTwotoneEdit />}
-              onsave={(file, fileUploaded) => {
+              onsave={(file, uploadedFile) => {
                 console.log(file);
-                console.log(fileUploaded);
+                console.log(uploadedFile);
+
+                globalDispatch({
+                  type: "setImageApi",
+                  payload: {
+                    ...globalContext.globalState.imageApi,
+                    ModelData: file as unknown as _UploadData,
+                  },
+                });
               }}
               uploadPath={{
                 cloudPath: "model-image",

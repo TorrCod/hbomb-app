@@ -160,7 +160,14 @@ export function GlobalProvider({ children }: any) {
     // })
 
     await readData("model-data").then((res) => {
-      console.log(res);
+      let data: _ImageDataDb = { ...state.imageApi, ModelData: res };
+      if (res === null) {
+        data = {
+          ...state.imageApi,
+          ModelData: [] as any,
+        };
+      }
+      dispatch({ type: "setImageApi", payload: data });
     });
 
     await getListImageFromCloud("collection-image").then((res) => {
@@ -201,6 +208,7 @@ export function GlobalProvider({ children }: any) {
   const updateImageData = (images: _imageData) => {
     dispatch({ type: "onLoading", payload: images });
   };
+
   const value: GlobalStateContent = {
     updateImageApi,
     UpdateNewData,
@@ -209,6 +217,7 @@ export function GlobalProvider({ children }: any) {
     updateImageData,
     dispatch,
   };
+
   return (
     <useGlobalContext.Provider value={value}>
       {children}
