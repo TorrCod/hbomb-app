@@ -1,57 +1,77 @@
-import './CollectionSection.css'
-import { Button, Upload } from "antd";
+import "./CollectionSection.css";
 import { GlobalContext } from "../../../../../hooks/GlobalContext";
-import { CollectionContext } from "../../../../../hooks/HomeContext";
-import {AiTwotoneEdit} from 'react-icons/ai';
-import { UserContext } from '../../../../../hooks/UserContext';
+import { AiTwotoneEdit } from "react-icons/ai";
+import { _UploadData } from "../../../../../api/CustomType";
+import EditImageButton from "../../../../../Feature/EditImageAdmin";
+import { UploadFile } from "antd/es/upload";
 
 function CollectionSection() {
-    const globalContext = GlobalContext();
-    const collectionContext = CollectionContext();
-    const collectoinData = globalContext.globalState.imageApi.CollectionData;
-    const onUpload = collectionContext.onUploadImage
-    const isLogin = UserContext().state.UserState.checkCredential
-    
-    return ( 
-        <div className='positionRelative'>
-            <div className='allbg bgViolet bgright'></div>
-            <div className="section collectionSection flex-column defaultPadding">
-                <h1>COLLECTIONS</h1>
-                <div className='collection-box-container'>
-                {
-                    Object.keys(collectoinData).map((child,index) => {
-                        return(
-                            <div  
-                            className={'collectionSection-box ' + ((index === 0)? 'highlight':'')} 
-                            key={'collectionSection-box-' + collectoinData[child].id}>
-                                {(isLogin)?<div className="button collection-buttonsetting">
-                                    <Upload 
-                                        customRequest={({file,onSuccess}) => {
-                                            setTimeout(() => {
-                                            onSuccess!("ok");
-                                            },0);
-                                        }}
-                                        fileList={[]}
-                                        onChange={(info) => {onUpload(info,index)}}
-                                    >
-                                    <Button 
-                                        onClick={(arg) => {}}
-                                        type="primary" 
-                                        shape="round"
-                                        icon={<AiTwotoneEdit/>} 
-                                        size={'large'}/>
-                                    </Upload>
-                                </div>:null}
-                                <img src={collectoinData[child].url} id={collectoinData[child].id} className="image collection-image" alt=''/>
-                            </div>
-                        )
-                    })
-                }
-                </div>
-            </div>
-        </div>
-     );
-}
+  const globalContext = GlobalContext();
+  const globalDispatch = globalContext.dispatch;
+  const collectoinData = globalContext.globalState.imageApi.CollectionData;
 
+  const collectionImages = Object.keys(collectoinData).map((child, index) => {
+    return (
+      <div
+        className={"collectionSection-box " + (index === 0 ? "highlight" : "")}
+        key={"collectionSection-box-" + collectoinData[child].uid}
+      >
+        <img
+          src={collectoinData[child].url}
+          id={collectoinData[child].uid}
+          className="image collection-image image-cover"
+          alt=""
+        />
+      </div>
+    );
+  });
+
+  return (
+    <div className="positionRelative">
+      <div className="allbg bgViolet bgright"></div>
+      <div className="section collectionSection flex-column defaultPadding">
+        <h1>COLLECTIONS</h1>
+        <div className="collection-box-container">
+          {collectionImages.length ? (
+            collectionImages
+          ) : (
+            <>
+              <div
+                className="collectionSection-box highlight"
+                children={"please add image"}
+              />
+              <div
+                className="collectionSection-box"
+                children={"please add image"}
+              />
+              <div
+                className="collectionSection-box"
+                children={"please add image"}
+              />
+            </>
+          )}
+          <EditImageButton
+            icon={<AiTwotoneEdit />}
+            onsave={(file, uploadedFile) => {
+              globalDispatch({
+                type: "setImageApi",
+                payload: {
+                  ...globalContext.globalState.imageApi,
+                  CollectionData: uploadedFile as unknown as _UploadData,
+                },
+              });
+            }}
+            uploadPath={{
+              cloudPath: "collection-image",
+              databasePath: "collection-data",
+            }}
+            imageList={collectoinData as unknown as UploadFile[]}
+            maxList={3}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default CollectionSection;

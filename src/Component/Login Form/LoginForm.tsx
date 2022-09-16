@@ -1,12 +1,11 @@
-import { Avatar, Button, Checkbox, Form, Input, Menu, MenuProps, message, Space } from 'antd';
-import { auth, SignIn } from '../../api/utils';
+import { Avatar, Button, Checkbox, Form, Input,message, Space } from 'antd';
+// import { auth, SignIn } from '../../api/utils';
 import { UserContext } from '../../hooks/UserContext';
 import './LoginForm.css'
 import {UserOutlined} from '@ant-design/icons'
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useUserModalCtx } from '../../hooks/UserModalContext';
-import {TbLayoutDashboard} from 'react-icons/tb'
+import { SignIn } from '../../FirebaseService/Auth';
+import { auth } from '../../FirebaseService/FirebaseConfig';
 
 interface Props {
   HandleButton: ()=>void

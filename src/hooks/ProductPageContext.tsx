@@ -40,13 +40,17 @@ export const ProductPageProvider = ({children}:DivElement) => {
 
     const fetchProductLandingPage = () => {
         readData('productlandingpage').then((val) => {
-            const uploadFileList:UploadFile[] = []
-            const valKeyList = Object.keys(val);
-            for (const uploadFile of valKeyList) {
-                const valChild = (val[uploadFile] as UploadFile)
-                uploadFileList.push(valChild)
+            try {
+                const uploadFileList:UploadFile[] = []
+                const valKeyList = Object.keys(val);
+                for (const uploadFile of valKeyList) {
+                    const valChild = (val[uploadFile] as UploadFile)
+                    uploadFileList.push(valChild)
+                }
+                dispatch({type:'updatelandingpage',payload:uploadFileList})
+            }catch {
+
             }
-            dispatch({type:'updatelandingpage',payload:uploadFileList})
         })
     }
 
@@ -57,22 +61,25 @@ export const ProductPageProvider = ({children}:DivElement) => {
     const onlineShopHandler = {
         fetchOnlineShopData:() => {
             readData('onlineshop-category').then((response) => {
-                const itemToSet:CatListState = {}
-                const data = Object.values(response) 
-                for (const child of data) {
-                    const category = (child as CatItem)
-                    itemToSet[category.categoryId] = {...category,'items':[]}
-                }
-                readData('onlineshop-items').then((items) => {
-                    const itemArr = Object.values(items)
-                    for (const item of itemArr) {
-                        // console.log(item);
-                        const shopItem = item as OLSitems
-                        itemToSet[shopItem.categoryId!].items.push(shopItem)
+                try {
+                    const itemToSet:CatListState = {}
+                    const data = Object.values(response) 
+                    for (const child of data) {
+                        const category = (child as CatItem)
+                        itemToSet[category.categoryId] = {...category,'items':[]}
                     }
+                    readData('onlineshop-items').then((items) => {
+                        const itemArr = Object.values(items)
+                        for (const item of itemArr) {
+                            // console.log(item);
+                            const shopItem = item as OLSitems
+                            itemToSet[shopItem.categoryId!].items.push(shopItem)
+                        }
 
-                    dispatch({'type':'updateOnlineShopData','payload':itemToSet})
-                })
+                        dispatch({'type':'updateOnlineShopData','payload':itemToSet})
+                    })
+                } catch {}
+                
             })
         },
         updateCategory:{

@@ -2,7 +2,7 @@ import { Button } from "antd";
 import { OLSitems } from "../Component/Page/Product/ShopProduct";
 import { UserContext } from "../hooks/UserContext";
 
-const Cart_CountBtn = (props:Props) => {
+const CartCountBtn = (props:Props) => {
     const userContext = UserContext();
     const itemCount = userContext.state.CartItem.filter(e => e.item.itemId === props.item.itemId)[0].itemCount
     const incrementItemCount =  itemCount + 1;
@@ -42,4 +42,4 @@ type Props = {
     item: OLSitems;
     type:'increment'|'decrement';
 }
-export default Cart_CountBtn
+export default CartCountBtn

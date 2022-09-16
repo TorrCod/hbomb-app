@@ -71,7 +71,6 @@
 }
 .model-editbutton {
     position: absolute;
-    z-index: 3;
     bottom: 4em;
 }
 .model-upload {

@@ -9,13 +9,13 @@ import { useEffect} from 'react';
 import { GlobalContext } from './hooks/GlobalContext';
 import HbombLogo from './Component/Logo/HbombLogo';
 import { UserContext } from './hooks/UserContext';
-import { auth } from './api/utils';
+// import { auth } from './api/utils';
 import ProductPageContext from './hooks/ProductPageContext';
 import { Dashboard } from './Component/Page/Dashboard/Dashboard';
+import { auth } from './FirebaseService/FirebaseConfig';
 
 //-- Test Mode -- //
 // import ProductPage from './Component/Page/Product/__test__/ProductPage';
-
 
 const App = () => {
   // Get The Images from firebase storage:
@@ -27,12 +27,14 @@ const App = () => {
   useEffect(() => {
     globalContext.startFetchingData();
     productPageContext.fetchProductLandingPage()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
+
   useEffect(() => {
     userCtxDispatch({type:'signin',payload:(auth.currentUser)?true:false})
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[auth.currentUser])
+  
 
   // Render Components
   return (

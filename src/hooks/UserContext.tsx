@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer } from "react";
-import { auth } from "../api/utils";
+// import { auth } from "../api/utils";
 import { OLSitems } from "../Component/Page/Product/ShopProduct";
+import { auth } from "../FirebaseService/FirebaseConfig";
 // import { GlobalContext } from "./GlobalContext";
 
 export type _UserStateType = {

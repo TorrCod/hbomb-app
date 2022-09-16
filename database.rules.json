@@ -1,10 +1,14 @@
 {
   "rules": {
-    "ImageDataApi":{".read":"true",".write":"auth != null"},
+    "model-data":{".read":"true",".write":"auth != null"},
+    "classic-data":{".read":"true",".write":"auth != null"},
+    "offer-data":{".read":"true",".write":"auth != null"},
+    "collection-data":{".read":"true",".write":"auth != null"},
     "OfferData":{".read":"true",".write":"auth != null"},
     "onlineshop-category":{".read":"true",".write":"auth != null"},
     "onlineshop-items":{".read":"true",".write":"auth != null"},
     "productlandingpage":{".read":"true",".write":"auth != null"},
-    "order-list":{".read":"auth != null",".write":"true"}
+    "order-list":{".read":"auth != null",".write":"true"},
+    "user-visited":{".read":"true",".write":true}
   }
 }
