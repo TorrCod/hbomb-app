@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useReducer,
 } from "react";
-import { _OfferContentTypes, _uploadFile } from "../api/CustomType";
+import { _OfferContentTypes } from "../api/CustomType";
 import { ButtonHandle, getBase64, HomeFunction } from "../api/utils";
 import {
   getListImageFromCloud,
@@ -51,11 +51,11 @@ type _offer_content = {
 
 const _offer_content_init = {
   handleDropDown: {
-    onVisibleChange: () => {},
+    onVisibleChange: () => { },
   },
-  handleChange: () => {},
+  handleChange: () => { },
   state: _offer_state_init,
-  dispatch: () => {},
+  dispatch: () => { },
 };
 
 export const useofferContext =
@@ -162,13 +162,13 @@ type _collection_content = {
 
 const _collection_content_init = {
   handleDropDown: {
-    onCancelSetting: () => {},
-    onConfirmSetting: () => {},
-    toggleDropdown: () => {},
+    onCancelSetting: () => { },
+    onConfirmSetting: () => { },
+    toggleDropdown: () => { },
   },
-  onUploadImage: async () => {},
+  onUploadImage: async () => { },
   state: _collection_state_init,
-  dispatch: () => {},
+  dispatch: () => { },
 };
 
 export const useCollectionContext = createContext<_collection_content>(
@@ -345,13 +345,13 @@ export type ClassicStateContent = {
 };
 
 export const initClassicStateContent = {
-  handlePreview: async () => {},
-  handleOk: () => {},
-  handleCancel: () => {},
-  previousClassSlide: () => {},
+  handlePreview: async () => { },
+  handleOk: () => { },
+  handleCancel: () => { },
+  previousClassSlide: () => { },
   state: InitClassicState,
-  dispatch: () => {},
-  nextClassSlide: () => {},
+  dispatch: () => { },
+  nextClassSlide: () => { },
 };
 
 export const useClassicContext = createContext<ClassicStateContent>(
@@ -394,7 +394,7 @@ export const ClassicProvider = ({ children }: any) => {
     dispatch({ type: "previewSetting", payload: false });
   };
 
-  const handleChange = () => {};
+  const handleChange = () => { };
 
   const nextClassSlide = () => {
     if (isReady) {
@@ -573,16 +573,16 @@ export type ModelStateContent = {
 
 export const useModelContext = createContext<ModelStateContent>({
   modelSlideHandle: {
-    handleCancelSetting: () => {},
-    handleOk: () => {},
-    handleSliding: () => {},
-    handleNext: () => {},
-    handlePrevious: () => {},
+    handleCancelSetting: () => { },
+    handleOk: () => { },
+    handleSliding: () => { },
+    handleNext: () => { },
+    handlePrevious: () => { },
   },
-  handlePreview: () => {},
-  handleCancel: () => {},
+  handlePreview: () => { },
+  handleCancel: () => { },
   state: initializeModelState,
-  dispatch: () => {},
+  dispatch: () => { },
 });
 export const ModelProvider = ({ children }: any) => {
   const globalContext = GlobalContext();
@@ -614,7 +614,7 @@ export const ModelProvider = ({ children }: any) => {
     }
     getListImageFromCloud("model-image").then((res) => {
       try {
-      } catch {}
+      } catch { }
     });
 
     // uploadToCloudStorage(itemToUpload,'model-image')

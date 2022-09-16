@@ -1,19 +1,14 @@
 import "./CollectionSection.css";
 import { GlobalContext } from "../../../../../hooks/GlobalContext";
-import { CollectionContext } from "../../../../../hooks/HomeContext";
 import { AiTwotoneEdit } from "react-icons/ai";
-import { UserContext } from "../../../../../hooks/UserContext";
 import { _UploadData } from "../../../../../api/CustomType";
 import EditImageButton from "../../../../../Feature/EditImageAdmin";
 import { UploadFile } from "antd/es/upload";
 
 function CollectionSection() {
   const globalContext = GlobalContext();
-  const collectionContext = CollectionContext();
-  const globalDispatch = globalContext.dispatch
+  const globalDispatch = globalContext.dispatch;
   const collectoinData = globalContext.globalState.imageApi.CollectionData;
-  const onUpload = collectionContext.onUploadImage;
-  const isLogin = UserContext().state.UserState.checkCredential;
 
   const collectionImages = Object.keys(collectoinData).map((child, index) => {
     return (
@@ -50,11 +45,9 @@ function CollectionSection() {
               });
             }}
             uploadPath={{
-              cloudPath: 'collection-image',
+              cloudPath: "collection-image",
               databasePath: "collection-data",
             }}
-            onCancel={() => { }}
-            onchange={() => { }}
             imageList={collectoinData as unknown as UploadFile[]}
             maxList={3}
           />

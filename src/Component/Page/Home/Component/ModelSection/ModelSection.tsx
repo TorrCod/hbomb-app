@@ -1,9 +1,8 @@
 import "./ModelSection.css";
 import * as AiIcons from "react-icons/ai";
 import { onSwipe } from "../../../../../api/utils";
-import { Button, Modal } from "antd";
+import { Button } from "antd";
 import HbombLogo from "../../../../Logo/HbombLogo";
-import EditModelSlide from "./EditModelSlide";
 import { GlobalContext } from "../../../../../hooks/GlobalContext";
 import { ModelContext } from "../../../../../hooks/HomeContext";
 import { UploadFile } from "antd/es/upload";
@@ -27,20 +26,6 @@ function ModelSection() {
   const imageActive = {
     transform: "scale(1.3)",
     zIndex: "5",
-  };
-
-  const showModal = () => {
-    const modelData = globalContext.globalState.imageApi.ModelData;
-    let addImage: UploadFile[] = [];
-    for (const iterator of Object.keys(modelData)) {
-      addImage.push({
-        uid: modelData[iterator].uid,
-        name: modelData[iterator].name,
-        url: modelData[iterator].url,
-      });
-    }
-    modelContext.dispatch({ type: "onupload", payload: addImage });
-    modelContext.dispatch({ type: "showmodal" });
   };
 
   return (
@@ -99,12 +84,6 @@ function ModelSection() {
         <div className="model-navigator"></div>
         {isLogin ? (
           <div className="button model-editbutton">
-            {/* <Button 
-                    onClick={showModal}
-                    type="primary" 
-                    shape="round"
-                    icon={<AiIcons.AiTwotoneEdit/>} 
-                    size={'large'}/> */}
             <EditImageButton
               icon={<AiIcons.AiTwotoneEdit />}
               onsave={(file, uploadedFile) => {
@@ -148,14 +127,6 @@ function ModelSection() {
           </Button>
         </Link>
       </div>
-      {/* <Modal 
-            forceRender
-            title="Add | Remove Models" 
-            visible={modelSectionState.isModalVisible} 
-            onOk={modelContext.modelSlideHandle.handleOk} 
-            onCancel={modelContext.modelSlideHandle.handleCancelSetting}>
-                <EditModelSlide/>
-            </Modal> */}
     </div>
   );
 }

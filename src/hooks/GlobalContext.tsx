@@ -111,12 +111,12 @@ const GlobalReducer = (
 };
 
 export const globalStateContentinit: GlobalStateContent = {
-  updateImageApi: () => { },
-  UpdateNewData: () => { },
-  updateImageData: () => { },
-  startFetchingData: () => { },
+  updateImageApi: () => {},
+  UpdateNewData: () => {},
+  updateImageData: () => {},
+  startFetchingData: () => {},
   globalState: { ...globalReducerInit },
-  dispatch: () => { },
+  dispatch: () => {},
 };
 const useGlobalContext = createContext<GlobalStateContent>({
   ...globalStateContentinit,
@@ -149,66 +149,48 @@ export function GlobalProvider({ children }: any) {
   };
 
   const updateImageApi = async () => {
-    // await getListImageFromCloud('model-image')
-    // .then((res)=>{
-    //    res.urlList.forEach((val,index)=>{
-    //         const file:_UploadData = state.imageApi.ModelData
-    //         file[index] = {'url':val,'id':res.MetaDatalist[index].name,'name':res.MetaDatalist[index].name,content:''}
+    let data: _ImageDataDb = { ...state.imageApi };
 
-    //         dispatch({type:'setImageApi',payload:{...state.imageApi,ModelData:file}})
-    //     })
-    // })
-    let data: _ImageDataDb = { ...state.imageApi }
+    const updateImageInDb = async (
+      dbPath: "model-data" | "classic-data" | "collection-data",
+      imageState: keyof _ImageDataDb
+    ) => {
+      await readData(dbPath).then((res) => {
+        data[imageState] = res;
+        if (res === null) {
+          data[imageState] = [] as any;
+        }
+        dispatch({ type: "setImageApi", payload: data });
+      });
+    };
 
-    await readData("model-data").then((res) => {
-      data['ModelData'] = res;
-      if (res === null) {
-        data['ModelData'] = [] as any;
-      }
-      console.log(data);
+    await updateImageInDb("model-data", "ModelData");
+    await updateImageInDb("collection-data", "CollectionData");
+    await updateImageInDb("classic-data", "ClassicData");
 
-      dispatch({ type: "setImageApi", payload: data });
-    });
-
-    // await getListImageFromCloud("collection-image").then((res) => {
-    //   res.urlList.forEach((val, index) => {
-    //     const file: _UploadData = state.imageApi.CollectionData;
-    //     file[index] = {
-    //       url: val,
-    //       uid: res.MetaDatalist[index].name,
-    //       name: res.MetaDatalist[index].name,
-    //     };
-
-    //     dispatch({
-    //       type: "setImageApi",
-    //       payload: { ...state.imageApi, CollectionData: file },
-    //     });
-    //   });
+    // await readData("model-data").then((res) => {
+    //   data["ModelData"] = res;
+    //   if (res === null) {
+    //     data["ModelData"] = [] as any;
+    //   }
+    //   dispatch({ type: "setImageApi", payload: data });
     // });
 
-    await readData('collection-data').then((res) => {
-      data['CollectionData'] = res;
-      if (res === null) {
-        data['CollectionData'] = [] as any;
-      }
-      dispatch({ type: "setImageApi", payload: data });
-    });
+    // await readData("collection-data").then((res) => {
+    //   data["CollectionData"] = res;
+    //   if (res === null) {
+    //     data["CollectionData"] = [] as any;
+    //   }
+    //   dispatch({ type: "setImageApi", payload: data });
+    // });
 
-    await getListImageFromCloud("classic-image").then((res) => {
-      res.urlList.forEach((val, index) => {
-        const file: _UploadData = state.imageApi.ClassicData;
-        file[index] = {
-          url: val,
-          uid: res.MetaDatalist[index].name,
-          name: res.MetaDatalist[index].name,
-        };
-
-        dispatch({
-          type: "setImageApi",
-          payload: { ...state.imageApi, ClassicData: file },
-        });
-      });
-    });
+    // await readData("classic-data").then((res) => {
+    //   data["ClassicData"] = res;
+    //   if (res === null) {
+    //     data["ClassicData"] = [] as any;
+    //   }
+    //   dispatch({ type: "setImageApi", payload: data });
+    // });
 
     dispatch({ type: "loadingDone" });
   };
