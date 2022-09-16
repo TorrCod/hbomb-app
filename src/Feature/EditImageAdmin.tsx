@@ -36,17 +36,14 @@ const EditImageButton = (props:type_EditImageButton) => {
     }
 
     const handleEditImageSave = async () => {
-        props.onsave(imageList);
-        onCancel();
-        try {
-            const data =  await uploadData(props.uploadPath!);
-            if (props.uploadData) props.uploadData(data)
-        }catch (e) {
-            if (!props.uploadPath) {
-                console.log("Upload Path must specify if uploadData");
-                console.log(e);
-            }
+        let data:UploadFile[] = []
+        if (props.uploadPath === undefined) {
+            console.log("Upload Path must specify if uploadData");
         }
+        else  data =  await uploadData(props.uploadPath!);
+        
+        props.onsave(imageList,data);
+        onCancel();
     }
 
     const uploadButton = (
@@ -72,9 +69,6 @@ const EditImageButton = (props:type_EditImageButton) => {
             const url = await getImageFromCloud(storagePath,fileName)
             imageList[index]['url'] = url;
         })
-
-        console.log(imageList);
-        
 
         return imageList
     }
@@ -109,10 +103,9 @@ const EditImageButton = (props:type_EditImageButton) => {
 
 type type_EditImageButton={
     uploadPath?:path
-    uploadData?:(uploadData:UploadFile[])=>void
     maxList?:number;
     onCancel:() => void;
-    onsave:(imageList:UploadFile<any>[]) => void;
+    onsave:(imageList:UploadFile<any>[],data?:UploadFile[]) => void;
     onchange:() => void;
     icon?: React.ReactNode;
     children?:React.ReactNode | undefined;

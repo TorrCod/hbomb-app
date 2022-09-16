@@ -87,7 +87,10 @@ function ModelSection() {
                     size={'large'}/> */}
                     <EditImageButton 
                     icon={<AiIcons.AiTwotoneEdit/>} 
-                    onsave={()=>{}} 
+                    onsave={(file,fileUploaded)=>{
+                        console.log(file);
+                        console.log(fileUploaded);
+                    }} 
                     onCancel={()=>{}} 
                     onchange={()=>{}} 
                     imageList={modelImagelist} />
