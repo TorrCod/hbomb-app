@@ -5,7 +5,7 @@ import { useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 
 const TimeDateDropdown = (props: Props) => {
-  const [activeKey, setActiveKey] = useState<string>("weekly");
+  const [activeKey, setActiveKey] = useState<string>("monthly");
 
   const menuItem: MenuItemType[] = [
     // { key: "daily", label: "Daily" },

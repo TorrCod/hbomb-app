@@ -23,9 +23,24 @@ const getDate = (stringDate: string) => {
   const formatedDate = new Date(dataDate);
   return formatedDate;
 };
-function getRandomNumberBetween(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+
+const getMonthName = (number: number) => {
+  const data = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  return data[number];
+};
 
 const simpliFyArr = (datasss: { date: string; sales: string }[]) => {
   const res = Array.from(
@@ -52,79 +67,12 @@ const Charts = () => {
   const userContext = UserContext();
   const orderList = userContext.state.OrderList;
   const [transacCount, setTransacCount] = useState(0);
-  const [opt, setOpt] = useState<{ firstHalf?: boolean; lasthalf?: boolean }>(
-    {}
-  );
-  const [yearNow, setYearNow] = useState(0);
-  const [dropdownChange, setDropdownChange] = useState<Key>("weekly");
+  const [dropdownChange, setDropdownChange] = useState<Key>("monthly");
   const [orderData, setOrderData] = useState<{ date: string; sales: string }[]>(
     []
   );
+  const [dateNow, setDateNow] = useState<Date>(new Date());
   const [total, setTotal] = useState(0);
-  const chartData = [
-    {
-      name: "Jan",
-      sales: 1500,
-    },
-    {
-      name: "Feb",
-      sales: 2000,
-    },
-    {
-      name: "March",
-      sales: 1600,
-    },
-    {
-      name: "April",
-      sales: 1800,
-    },
-    {
-      name: "May",
-      sales: 1000,
-    },
-    {
-      name: "Jun",
-      sales: 2300,
-    },
-    {
-      name: "Jul",
-      sales: 2100,
-    },
-    {
-      name: "Aug",
-      sales: 1300,
-    },
-    {
-      name: "Sept",
-      sales: 1450,
-    },
-    {
-      name: "Oct",
-      sales: 1000,
-    },
-    {
-      name: "Nov",
-      sales: 800,
-    },
-    {
-      name: "Dec",
-      sales: 2700,
-    },
-  ];
-
-  type Month =
-    | "Jan"
-    | "Feb"
-    | "Mar"
-    | "Apr"
-    | "May"
-    | "Jun"
-    | "Jul"
-    | "Aug"
-    | "Sept"
-    | "Oct"
-    | "Nov"
-    | "Dec";
 
   useEffect(() => {
     let data: { date: string; sales: string }[] = [];
@@ -132,49 +80,14 @@ const Charts = () => {
       data = dailyData(orderList);
     }
 
+    if (dropdownChange === "monthly") {
+      data = monthlyData(orderList);
+    }
+
     setOrderData(data);
   }, [dropdownChange]);
 
-  const dailyData = (data: Orders[]) => {
-    const chartData: { date: string; sales: string }[] = [];
-
-    data.forEach((orders) => {
-      const day = getDate(orders.date).getDate();
-      const sales = orders.totalPrice;
-      chartData.push({ date: day.toString(), sales: sales.toString() });
-    });
-
-    const simplified = simpliFyArr(chartData);
-
-    return simplified;
-  };
-
-  // const yearlyData = (
-  //   orderList: Orders[]
-  // ): { date: Month; sales: number }[] => {
-  //   orderList.forEach((order, index) => {
-  //     console.log(order.date.getMonth);
-  //   });
-
-  //   return [];
-  // };
-
-  // const halfYearChartData = (opt: {
-  //   firstHalf?: boolean;
-  //   lasthalf?: boolean;
-  // }) => {
-  //   if (opt.firstHalf) return chartData.slice(0, 6);
-  //   else return chartData.slice(6);
-  // };
-
   useEffect(() => {
-    const timeElapsed = Date.now();
-    const date = new Date(timeElapsed);
-    const monthNow = date.getMonth();
-    if (monthNow > 6) setOpt({ lasthalf: true });
-    else setOpt({ firstHalf: true });
-    setYearNow(date.getFullYear());
-
     //Update total
     const salesList = orderList.map((val) => {
       return val.totalPrice;
@@ -184,7 +97,35 @@ const Charts = () => {
 
     //update transaction count
     setTransacCount(orderList.length);
+
+    //update Date
+    const dateNow = Date.now();
+    const date = new Date(dateNow);
+    setDateNow(date);
   }, []);
+
+  const dailyData = (data: Orders[]) => {
+    const chartData: { date: string; sales: string }[] = [];
+    data.forEach((orders) => {
+      const day = getDate(orders.date).getDay();
+      const sales = orders.totalPrice;
+      chartData.push({ date: day.toString(), sales: sales.toString() });
+    });
+    const simplified = simpliFyArr(chartData);
+    return simplified;
+  };
+
+  const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
+    const chartData: { date: string; sales: string }[] = [];
+    data.forEach((orders) => {
+      const month = getDate(orders.date).getMonth();
+      const monthName = getMonthName(month);
+      const sales = orders.totalPrice;
+      chartData.push({ date: monthName.toString(), sales: sales.toString() });
+    });
+    const simplified = simpliFyArr(chartData);
+    return simplified;
+  };
 
   const onChangeDropdown = (key: any) => {
     setDropdownChange(key);
@@ -203,7 +144,7 @@ const Charts = () => {
         </div>
         <div className="fontz-l flex-center-start clr-darklight gap-1">
           <BsCalendarDateFill />
-          Year of {yearNow}
+          Year of {dateNow?.getFullYear()}
         </div>
       </div>
 
@@ -229,21 +170,7 @@ const Charts = () => {
       </ResponsiveContainer>
 
       <Space direction="horizontal" className="wd-full flex-center">
-        {/* <Button
-          disabled={opt.firstHalf}
-          className="flex-center"
-          onClick={() => setOpt({ firstHalf: true })}
-        >
-          <GrLinkPrevious />
-        </Button> */}
         <TimeDateDropdown onChange={onChangeDropdown} />
-        {/* <Button
-          disabled={opt.lasthalf}
-          className="flex-center"
-          onClick={() => setOpt({ lasthalf: true })}
-        >
-          <GrLinkNext />
-        </Button> */}
       </Space>
     </div>
   );
