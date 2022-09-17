@@ -14,6 +14,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Orders } from "../../../api/CustomType";
+import { UserContext } from "../../../hooks/UserContext";
 import "./Dashboard.css";
 
 export const Dashboard = () => {
@@ -27,6 +28,9 @@ export const Dashboard = () => {
 };
 
 const Charts = () => {
+  const userContext = UserContext()
+  const orderList = userContext.state.OrderList
+  
   const [opt, setOpt] = useState<{ firstHalf?: boolean; lasthalf?: boolean }>(
     {}
   );
@@ -84,6 +88,7 @@ const Charts = () => {
       sales: 2700,
     },
   ];
+
   type Month =
     | "Jan"
     | "Feb"
