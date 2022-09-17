@@ -51,6 +51,7 @@ export const Dashboard = () => {
 const Charts = () => {
   const userContext = UserContext();
   const orderList = userContext.state.OrderList;
+  const [transacCount, setTransacCount] = useState(0);
   const [opt, setOpt] = useState<{ firstHalf?: boolean; lasthalf?: boolean }>(
     {}
   );
@@ -174,11 +175,15 @@ const Charts = () => {
     else setOpt({ firstHalf: true });
     setYearNow(date.getFullYear());
 
+    //Update total
     const salesList = orderList.map((val) => {
       return val.totalPrice;
     });
     const sum = salesList.reduce((partialSum, a) => partialSum + a, 0);
-    console.log(sum);
+    setTotal(sum);
+
+    //update transaction count
+    setTransacCount(orderList.length);
   }, []);
 
   const onChangeDropdown = (key: any) => {
@@ -190,11 +195,11 @@ const Charts = () => {
       <div className="mg-1">
         <div className="fontz-xxl flex-center-start gap-1">
           <FaMoneyBillWaveAlt />
-          15.3k
+          {total}
         </div>
         <div className="fontz-l flex-center-start clr-darklight gap-1">
           <BsPeopleFill />
-          45 Customers
+          {transacCount} Transaction
         </div>
         <div className="fontz-l flex-center-start clr-darklight gap-1">
           <BsCalendarDateFill />
