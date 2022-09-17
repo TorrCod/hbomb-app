@@ -14,6 +14,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Orders } from "../../../api/CustomType";
+import TimeDateDropdown from "../../../Feature/TimeDateDropdown";
 import { UserContext } from "../../../hooks/UserContext";
 import "./Dashboard.css";
 
@@ -28,9 +29,9 @@ export const Dashboard = () => {
 };
 
 const Charts = () => {
-  const userContext = UserContext()
-  const orderList = userContext.state.OrderList
-  
+  const userContext = UserContext();
+  const orderList = userContext.state.OrderList;
+
   const [opt, setOpt] = useState<{ firstHalf?: boolean; lasthalf?: boolean }>(
     {}
   );
@@ -178,6 +179,7 @@ const Charts = () => {
         >
           <GrLinkPrevious />
         </Button>
+        <TimeDateDropdown />
         <Button
           disabled={opt.lasthalf}
           className="flex-center"
