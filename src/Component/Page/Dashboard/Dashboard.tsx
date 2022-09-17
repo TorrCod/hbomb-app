@@ -1,8 +1,7 @@
-import { Button, Space } from "antd";
+import { Space } from "antd";
 import { useEffect, useState } from "react";
 import { BsPeopleFill, BsCalendarDateFill } from "react-icons/bs";
 import { FaMoneyBillWaveAlt } from "react-icons/fa";
-import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import {
   BarChart,
   Bar,
@@ -17,6 +16,29 @@ import { Orders } from "../../../api/CustomType";
 import TimeDateDropdown, { Key } from "../../../Feature/TimeDateDropdown";
 import { UserContext } from "../../../hooks/UserContext";
 import "./Dashboard.css";
+
+const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
+  const chartData: { date: string; sales: string }[] = [];
+  data.forEach((orders) => {
+    const month = getDate(orders.date).getMonth();
+    const monthName = getMonthName(month);
+    const sales = orders.totalPrice;
+    chartData.push({ date: monthName.toString(), sales: sales.toString() });
+  });
+  const simplified = simpliFyArr(chartData);
+  return simplified;
+};
+
+const dailyData = (data: Orders[]) => {
+  const chartData: { date: string; sales: string }[] = [];
+  data.forEach((orders) => {
+    const day = getDate(orders.date).getDay();
+    const sales = orders.totalPrice;
+    chartData.push({ date: day.toString(), sales: sales.toString() });
+  });
+  const simplified = simpliFyArr(chartData);
+  return simplified;
+};
 
 const getDate = (stringDate: string) => {
   const dataDate = Date.parse(stringDate);
@@ -76,6 +98,7 @@ const Charts = () => {
 
   useEffect(() => {
     let data: { date: string; sales: string }[] = [];
+
     if (dropdownChange === "daily") {
       data = dailyData(orderList);
     }
@@ -85,7 +108,7 @@ const Charts = () => {
     }
 
     setOrderData(data);
-  }, [dropdownChange]);
+  }, [dropdownChange, orderList]);
 
   useEffect(() => {
     //Update total
@@ -102,30 +125,7 @@ const Charts = () => {
     const dateNow = Date.now();
     const date = new Date(dateNow);
     setDateNow(date);
-  }, []);
-
-  const dailyData = (data: Orders[]) => {
-    const chartData: { date: string; sales: string }[] = [];
-    data.forEach((orders) => {
-      const day = getDate(orders.date).getDay();
-      const sales = orders.totalPrice;
-      chartData.push({ date: day.toString(), sales: sales.toString() });
-    });
-    const simplified = simpliFyArr(chartData);
-    return simplified;
-  };
-
-  const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
-    const chartData: { date: string; sales: string }[] = [];
-    data.forEach((orders) => {
-      const month = getDate(orders.date).getMonth();
-      const monthName = getMonthName(month);
-      const sales = orders.totalPrice;
-      chartData.push({ date: monthName.toString(), sales: sales.toString() });
-    });
-    const simplified = simpliFyArr(chartData);
-    return simplified;
-  };
+  }, [orderList]);
 
   const onChangeDropdown = (key: any) => {
     setDropdownChange(key);
