@@ -200,24 +200,23 @@ const PendingOrders = () => {
   }, [orderList]);
 
   return (
-    <div className="bg-white roundcorner-1em pd-bottop-3 dashboard-containter wd-full">
-      <h1 className="flex-center">PENDING ORDERS</h1>
-      <table className="dashboard-table">
-        <tbody>
-          {tableData.map(({ date, name, price }, index) => (
-            <tr key={index}>
-              <td>{name}</td>
-              <td>{date.toLocaleDateString("en-US")}</td>
-              <td>{price}</td>
-            </tr>
-          ))}
-          <tr>
-            <td>User3</td>
-            <td>Jan 6 2022</td>
-            <td>P5000</td>
-          </tr>
-        </tbody>
-      </table>
+    <div className="bg-white hover:scale-110 transition-transform roundcorner-1em pd-bottop-3 dashboard-containter wd-full">
+      <h1 className="flex-center text-xl">PENDING ORDERS</h1>
+      <div className="flex-center p-2">
+        <table className="dashboard-table text-lg">
+          <tbody>
+            {tableData.map(({ date, name, price }, index) => (
+              <tr key={index}>
+                <td>{name}</td>
+                <td className="text-left">
+                  {date.toLocaleDateString("en-US")}
+                </td>
+                <td className="text-end">{price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
