@@ -1,5 +1,4 @@
-import { Menu, Dropdown, Button, Space } from "antd";
-import { ItemType } from "antd/lib/menu/hooks/useItems";
+import { Menu, Dropdown, Button } from "antd";
 import { MenuItemType } from "rc-menu/lib/interface";
 import { useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
@@ -16,7 +15,7 @@ const TimeDateDropdown = (props: Props) => {
   const item = (
     <Menu
       onClick={(info) => {
-        if (props.onChange != undefined) props.onChange(info.key as Key);
+        if (props.onChange !== undefined) props.onChange(info.key as Key);
         switch (info.key) {
           case "daily":
             setActiveKey("daily");

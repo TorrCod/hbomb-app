@@ -10,3 +10,12 @@
 .dashboard-containter{
     position: relative;
 }
+
+.dashboard-table {
+    width: 100%;
+}
+
+.dashboard-table td {
+    border: 1px solid red;
+    text-align: center;
+}

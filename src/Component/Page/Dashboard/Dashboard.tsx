@@ -181,21 +181,36 @@ const Sales = () => {
 };
 
 const PendingOrders = () => {
+  type TableData = { name: string; date: Date; price: string }[];
+  const [tableData, setTableData] = useState<TableData>([]);
+  const orderList = UserContext().state.OrderList;
+
+  useEffect(() => {
+    //Update Table Data
+    const holder: TableData = [];
+    const getData = (name: string, date: Date, price: string) => ({
+      name: name,
+      date: date,
+      price: price,
+    });
+    for (const { name, date, totalPrice } of orderList) {
+      holder.push(getData(name, getDate(date), "P" + totalPrice));
+    }
+    setTableData(holder);
+  }, [orderList]);
+
   return (
-    <div className="bg-white roundcorner-1em pd-bottop-1 dashboard-containter">
-      PENDING ORDERS
-      <table>
+    <div className="bg-white roundcorner-1em pd-bottop-3 dashboard-containter wd-full">
+      <h1 className="flex-center">PENDING ORDERS</h1>
+      <table className="dashboard-table">
         <tbody>
-          <tr>
-            <td>User1</td>
-            <td>Jan 2 2022</td>
-            <td>P500</td>
-          </tr>
-          <tr>
-            <td>User2</td>
-            <td>Jan 3 2022</td>
-            <td>P400</td>
-          </tr>
+          {tableData.map(({ date, name, price }, index) => (
+            <tr key={index}>
+              <td>{name}</td>
+              <td>{date.toLocaleDateString("en-US")}</td>
+              <td className="text-end">{price}</td>
+            </tr>
+          ))}
           <tr>
             <td>User3</td>
             <td>Jan 6 2022</td>
