@@ -9,6 +9,7 @@
 
 .dashboard-containter{
     position: relative;
+    min-height: 20rem;
 }
 
 .dashboard-table {

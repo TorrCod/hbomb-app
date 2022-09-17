@@ -77,7 +77,8 @@ const simpliFyArr = (datasss: { date: string; sales: string }[]) => {
 
 export const Dashboard = () => {
   return (
-    <div className="fullpage-center pd-1">
+    <div className="pd-1">
+      <div className="h-12" />
       <Charts />
       <Sales />
       <PendingOrders />
@@ -200,7 +201,7 @@ const PendingOrders = () => {
   }, [orderList]);
 
   return (
-    <div className="bg-white hover:scale-110 transition-transform roundcorner-1em pd-bottop-3 dashboard-containter wd-full">
+    <div className="bg-white cursor-pointer hover:scale-105 transition-transform roundcorner-1em pd-bottop-3 dashboard-containter wd-full">
       <h1 className="flex-center text-xl">PENDING ORDERS</h1>
       <div className="flex-center p-2">
         <table className="dashboard-table text-lg">
