@@ -1,7 +1,7 @@
 import { OLSitems } from "../Component/Page/Product/ShopProduct";
 
 export type Orders = {
-  date: Date;
+  date: string;
   orderNumber: number;
   name: string;
   emailcontact: number;

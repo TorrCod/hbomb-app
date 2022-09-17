@@ -4,11 +4,11 @@ import { MenuItemType } from "rc-menu/lib/interface";
 import { useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
 
-const TimeDateDropdown = () => {
+const TimeDateDropdown = (props: Props) => {
   const [activeKey, setActiveKey] = useState<string>("weekly");
 
   const menuItem: MenuItemType[] = [
-    { key: "dayly", label: "Dayly" },
+    { key: "daily", label: "Daily" },
     { key: "weekly", label: "Weekly" },
     { key: "monthly", label: "Monthly" },
   ];
@@ -16,9 +16,10 @@ const TimeDateDropdown = () => {
   const item = (
     <Menu
       onClick={(info) => {
+        if (props.onChange != undefined) props.onChange(info.key as Key);
         switch (info.key) {
-          case "dayly":
-            setActiveKey("dayly");
+          case "daily":
+            setActiveKey("daily");
             return;
           case "weekly":
             setActiveKey("weekly");
@@ -41,6 +42,11 @@ const TimeDateDropdown = () => {
       </Button>
     </Dropdown>
   );
+};
+
+export type Key = "daily" | "weekly" | "monthly";
+type Props = {
+  onChange?: (key: Key) => void;
 };
 
 export default TimeDateDropdown;

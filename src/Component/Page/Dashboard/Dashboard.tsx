@@ -14,9 +14,29 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Orders } from "../../../api/CustomType";
-import TimeDateDropdown from "../../../Feature/TimeDateDropdown";
+import TimeDateDropdown, { Key } from "../../../Feature/TimeDateDropdown";
 import { UserContext } from "../../../hooks/UserContext";
 import "./Dashboard.css";
+
+const getDate = (stringDate: string) => {
+  const dataDate = Date.parse(stringDate);
+  const formatedDate = new Date(dataDate);
+  return formatedDate;
+};
+function getRandomNumberBetween(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+const simpliFyArr = (datasss: { date: string; sales: string }[]) => {
+  const res = Array.from(
+    datasss.reduce(
+      (m, { date, sales }) => m.set(date, (m.get(date) || 0) + Number(sales)),
+      new Map()
+    ),
+    ([date, sales]) => ({ date, sales })
+  );
+  return res;
+};
 
 export const Dashboard = () => {
   return (
@@ -31,14 +51,15 @@ export const Dashboard = () => {
 const Charts = () => {
   const userContext = UserContext();
   const orderList = userContext.state.OrderList;
-
   const [opt, setOpt] = useState<{ firstHalf?: boolean; lasthalf?: boolean }>(
     {}
   );
   const [yearNow, setYearNow] = useState(0);
+  const [dropdownChange, setDropdownChange] = useState<Key>("weekly");
   const [orderData, setOrderData] = useState<{ date: string; sales: string }[]>(
     []
   );
+  const [total, setTotal] = useState(0);
   const chartData = [
     {
       name: "Jan",
@@ -104,23 +125,46 @@ const Charts = () => {
     | "Nov"
     | "Dec";
 
-  const yearlyData = (
-    orderList: Orders[]
-  ): { date: Month; sales: number }[] => {
-    orderList.forEach((order, index) => {
-      console.log(order.date.getMonth);
+  useEffect(() => {
+    let data: { date: string; sales: string }[] = [];
+    if (dropdownChange === "daily") {
+      data = dailyData(orderList);
+    }
+
+    setOrderData(data);
+  }, [dropdownChange]);
+
+  const dailyData = (data: Orders[]) => {
+    const chartData: { date: string; sales: string }[] = [];
+
+    data.forEach((orders) => {
+      const day = getDate(orders.date).getDate();
+      const sales = orders.totalPrice;
+      chartData.push({ date: day.toString(), sales: sales.toString() });
     });
 
-    return [];
+    const simplified = simpliFyArr(chartData);
+
+    return simplified;
   };
 
-  const halfYearChartData = (opt: {
-    firstHalf?: boolean;
-    lasthalf?: boolean;
-  }) => {
-    if (opt.firstHalf) return chartData.slice(0, 6);
-    else return chartData.slice(6);
-  };
+  // const yearlyData = (
+  //   orderList: Orders[]
+  // ): { date: Month; sales: number }[] => {
+  //   orderList.forEach((order, index) => {
+  //     console.log(order.date.getMonth);
+  //   });
+
+  //   return [];
+  // };
+
+  // const halfYearChartData = (opt: {
+  //   firstHalf?: boolean;
+  //   lasthalf?: boolean;
+  // }) => {
+  //   if (opt.firstHalf) return chartData.slice(0, 6);
+  //   else return chartData.slice(6);
+  // };
 
   useEffect(() => {
     const timeElapsed = Date.now();
@@ -130,8 +174,16 @@ const Charts = () => {
     else setOpt({ firstHalf: true });
     setYearNow(date.getFullYear());
 
-    // yearlyData();
+    const salesList = orderList.map((val) => {
+      return val.totalPrice;
+    });
+    const sum = salesList.reduce((partialSum, a) => partialSum + a, 0);
+    console.log(sum);
   }, []);
+
+  const onChangeDropdown = (key: any) => {
+    setDropdownChange(key);
+  };
 
   return (
     <div className="bg-white h-30 roundcorner-1em pd-bottop-1 dashboard-containter wd-full">
@@ -172,21 +224,21 @@ const Charts = () => {
       </ResponsiveContainer>
 
       <Space direction="horizontal" className="wd-full flex-center">
-        <Button
+        {/* <Button
           disabled={opt.firstHalf}
           className="flex-center"
           onClick={() => setOpt({ firstHalf: true })}
         >
           <GrLinkPrevious />
-        </Button>
-        <TimeDateDropdown />
-        <Button
+        </Button> */}
+        <TimeDateDropdown onChange={onChangeDropdown} />
+        {/* <Button
           disabled={opt.lasthalf}
           className="flex-center"
           onClick={() => setOpt({ lasthalf: true })}
         >
           <GrLinkNext />
-        </Button>
+        </Button> */}
       </Space>
     </div>
   );
