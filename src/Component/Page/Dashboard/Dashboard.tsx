@@ -208,7 +208,7 @@ const PendingOrders = () => {
             <tr key={index}>
               <td>{name}</td>
               <td>{date.toLocaleDateString("en-US")}</td>
-              <td className="text-end">{price}</td>
+              <td>{price}</td>
             </tr>
           ))}
           <tr>
