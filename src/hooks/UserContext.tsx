@@ -1,7 +1,9 @@
 import { createContext, useContext, useReducer } from "react";
+import { Orders } from "../api/CustomType";
 // import { auth } from "../api/utils";
 import { OLSitems } from "../Component/Page/Product/ShopProduct";
 import { auth } from "../FirebaseService/FirebaseConfig";
+import { readData } from "../FirebaseService/RealtimeDatabase";
 // import { GlobalContext } from "./GlobalContext";
 
 export type _UserStateType = {
@@ -13,9 +15,11 @@ export type _UserStateType = {
         itemCount:number;
         item:OLSitems
     }[]
+    OrderList:Orders[]
 }
 
 type _UserStateAction = 
+|{type:'updateorderlist',payload:Orders[]}
 |{type:'signin',payload:boolean}
 |{type:'loadingdone',payload:boolean}
 |{type:'updatecartitem',payload:{itemCount:number;item:OLSitems}[]}
@@ -25,18 +29,21 @@ const  _UserState_init = {
         checkCredential: (auth.currentUser)?true:false,
         isLoading:false
     },
-    CartItem:[]
+    CartItem:[],
+    OrderList:[]
 }
 
-export function userReducer(state:_UserStateType,action: _UserStateAction):_UserStateType {
-
-    switch(action.type){
+export  function userReducer(state:_UserStateType,action: _UserStateAction):_UserStateType {
+    const {type,payload} = action;
+    switch(type){
+        case 'updateorderlist':
+            return {...state,OrderList:payload};
         case 'signin':
             return {
                 ...state,
                 UserState:{
                     ...state.UserState,
-                    checkCredential:action.payload
+                    checkCredential:payload
                 }
             };
         case 'loadingdone':
@@ -44,13 +51,13 @@ export function userReducer(state:_UserStateType,action: _UserStateAction):_User
                 ...state,
                 UserState:{
                     ...state.UserState,
-                    isLoading:action.payload
+                    isLoading:payload
                 }
             };
         case 'updatecartitem':
             return {
                 ...state,
-                CartItem:action.payload
+                CartItem:payload
             }
     }
 }
@@ -66,6 +73,7 @@ type _UserState_Content = {
         delete : (item:OLSitems) => void,
         clear: ()=>void
     }
+    updateOrderList:() => void
 }
 
 const _UserState_Content_init = {
@@ -79,7 +87,7 @@ const _UserState_Content_init = {
         delete : () =>{},
         clear : () =>{}
     },
-    
+    updateOrderList: ()=>{}
 }
 
 export const useUserContext = createContext<_UserState_Content>(_UserState_Content_init)
@@ -113,11 +121,18 @@ export const UserProvider = ({children}:any) => {
         }
     }
 
+    const updateOrderList = ()=>{
+        const dashboard = new Dashboard()
+        dashboard.fetchOrderList()
+        .then((orderList)=>dispatch({type:'updateorderlist',payload:orderList}))
+    }
+
     const value = {
         loadingDone,
         state,
         dispatch,
-        cartItemHandler
+        cartItemHandler,
+        updateOrderList
     }
     return <useUserContext.Provider value={value}>{children}</useUserContext.Provider>
 }
@@ -163,6 +178,17 @@ class HbombCart {
 
     clearCartItem():void {
         this.dispatch({type:'updatecartitem',payload:[]})
+    }
+}
+
+class Dashboard {
+    ordesList:Orders[] = []
+
+    async fetchOrderList():Promise<Orders[]>{
+        const response = await readData('order-list')
+        const orderList:Orders[] =  Object.values(response)
+
+        return orderList
     }
 }
 

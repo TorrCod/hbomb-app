@@ -32,4 +32,5 @@ type ReadPath = 'productlandingpage'
     | 'model-data'
     | 'classic-data'
     | 'collection-data'
+    |'order-list'
     ;

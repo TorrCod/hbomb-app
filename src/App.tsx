@@ -20,8 +20,9 @@ import { auth } from './FirebaseService/FirebaseConfig';
 const App = () => {
   // Get The Images from firebase storage:
   const globalContext = GlobalContext()
+  const userContext = UserContext()
   const userLoading = UserContext().state.UserState.isLoading
-  const userCtxDispatch = UserContext().dispatch
+  const userCtxDispatch = userContext.dispatch
   const productPageContext = ProductPageContext()
 
   useEffect(() => {
@@ -31,7 +32,10 @@ const App = () => {
   },[])
 
   useEffect(() => {
+    const updateOrderList = userContext.updateOrderList
     userCtxDispatch({type:'signin',payload:(auth.currentUser)?true:false})
+    
+    updateOrderList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[auth.currentUser])
   
