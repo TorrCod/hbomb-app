@@ -4,9 +4,10 @@ export type Orders = {
   date: string;
   orderNumber: number;
   name: string;
-  emailcontact: number;
+  emailcontact: string;
   address: string;
   totalPrice: number;
+  status: "pending" | "sucess";
   itemOrdered: {
     itemCount: number;
     item: OLSitems;

@@ -26,6 +26,7 @@ import Cart_TotalPrice, {
 } from "../../../Feature/Cart_TotalPrice";
 import { writeDatabase } from "../../../FirebaseService/RealtimeDatabase";
 import OrderResult from "./OrderResult";
+import { Orders } from "../../../api/CustomType";
 
 function ProductPage() {
   const productPageCtx = ProductPageContext();
@@ -261,10 +262,11 @@ export const CheckOutPage = () => {
 
   const onPlaceOrder = () => {
     const clearCartItem = userContext.cartItemHandler.clear;
-    const orderDetailes = {
+    const orderDetailes: Orders = {
       date: dateNow,
       orderNumber: state.orderNumber,
       name: state.name,
+      status: "pending",
       emailcontact: state.contactInfo,
       address: state.address,
       totalPrice: totalPrice,
