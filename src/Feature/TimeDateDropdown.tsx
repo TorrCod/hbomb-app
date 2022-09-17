@@ -8,8 +8,8 @@ const TimeDateDropdown = (props: Props) => {
   const [activeKey, setActiveKey] = useState<string>("weekly");
 
   const menuItem: MenuItemType[] = [
-    { key: "daily", label: "Daily" },
-    { key: "weekly", label: "Weekly" },
+    // { key: "daily", label: "Daily" },
+    // { key: "weekly", label: "Weekly" },
     { key: "monthly", label: "Monthly" },
   ];
 
