@@ -184,7 +184,8 @@ const Sales = () => {
 const PendingOrders = () => {
   type TableData = { name: string; date: Date; price: string }[];
   const [tableData, setTableData] = useState<TableData>([]);
-  const orderList = UserContext().state.OrderList;
+  const userContext = UserContext();
+  const orderList = userContext.state.OrderList;
 
   useEffect(() => {
     //Update Table Data
@@ -198,7 +199,20 @@ const PendingOrders = () => {
       holder.push(getData(name, getDate(date), "P" + totalPrice));
     }
     setTableData(holder);
+
+    return () => {
+      holder.length = 0;
+    };
   }, [orderList]);
+
+  useEffect(() => {
+    // fetch orders every 5 seconds
+    const updateOrderList = userContext.updateOrderList;
+    const interval = setInterval(() => {
+      updateOrderList();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="bg-white cursor-pointer hover:scale-105 transition ease-out roundcorner-1em pd-bottop-3 dashboard-containter wd-full">
