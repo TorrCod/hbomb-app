@@ -3,25 +3,27 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { OLSitems } from "../Component/Page/Product/ShopProduct";
 import { UserContext } from "../hooks/UserContext";
 
-const DeleteCartItemBtn = (props:Props) => {
-    const userContext = UserContext();
-    const deleteItem = userContext.cartItemHandler.delete
+const DeleteCartItemBtn = (props: Props) => {
+  const userContext = UserContext();
+  const deleteItem = userContext.cartItemHandler.delete;
 
-    const buttonHandler = () => {
-        deleteItem(props.item)
-    }
-    return (
-        <Button 
-            onClick={buttonHandler} 
-            shape = 'circle'
-            icon ={<BsFillTrashFill/>}
-            danger
-        />
-    )
-}
+  const buttonHandler = () => {
+    deleteItem(props.item);
+  };
+  return (
+    <Button
+      className="flex-center"
+      onClick={buttonHandler}
+      shape="circle"
+      size="small"
+      icon={<BsFillTrashFill />}
+      danger
+    />
+  );
+};
 
 type Props = {
-    item : OLSitems
-}
+  item: OLSitems;
+};
 
-export default DeleteCartItemBtn
+export default DeleteCartItemBtn;
