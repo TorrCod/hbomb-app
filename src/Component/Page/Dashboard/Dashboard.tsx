@@ -201,7 +201,7 @@ const PendingOrders = () => {
   }, [orderList]);
 
   return (
-    <div className="bg-white cursor-pointer hover:scale-105 transition-transform roundcorner-1em pd-bottop-3 dashboard-containter wd-full">
+    <div className="bg-white cursor-pointer hover:scale-105 transition ease-out roundcorner-1em pd-bottop-3 dashboard-containter wd-full">
       <h1 className="flex-center text-xl">PENDING ORDERS</h1>
       <div className="flex-center p-2">
         <table className="dashboard-table text-lg">
