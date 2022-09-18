@@ -6,7 +6,7 @@ import FullScrollSlide, {
   FullScrollSection,
   FsHandle,
 } from "../../../Feature/FullScrollSlide";
-import { useReducer, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import MyCart from "./MyCart";
 import ProductPageContext from "../../../hooks/ProductPageContext";
 import OnlineShopSwipe, {
@@ -206,6 +206,8 @@ const inputReducer = (
   action: InptRdcerAct
 ): InptRdcerState => {
   switch (action.type) {
+    case "setordernumber":
+      return { ...state, orderNumber: action.payload };
     case "updatename":
       return {
         ...state,
@@ -234,12 +236,13 @@ const InptState_init = {
   name: "",
   contactInfo: "",
   address: "",
-  orderNumber: Math.floor(Date.now() * Math.random()),
+  orderNumber: 0,
 };
 type InptRdcerAct =
   | { type: "updatename"; payload: string }
   | { type: "updatecontactinfo"; payload: string }
-  | { type: "updateaddress"; payload: string };
+  | { type: "updateaddress"; payload: string }
+  | { type: "setordernumber"; payload: number };
 
 export const CheckOutPage = () => {
   const userContext = UserContext();
@@ -276,6 +279,15 @@ export const CheckOutPage = () => {
     writeDatabase("order-list/" + orderDetailes.orderNumber, orderDetailes);
     clearCartItem();
   };
+
+  useEffect(() => {
+    // Update ordernumber
+    let generatedNumber = Math.floor(Date.now() * Math.random());
+    dispatch({ type: "setordernumber", payload: generatedNumber });
+    return () => {
+      generatedNumber = 0;
+    };
+  }, []);
 
   return onSubmit ? (
     <div className="box-shadow-default padding-1em bg-white roundcorner-1em">
