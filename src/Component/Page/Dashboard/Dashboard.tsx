@@ -2,6 +2,7 @@ import { Space } from "antd";
 import { useEffect, useState } from "react";
 import { BsPeopleFill, BsCalendarDateFill } from "react-icons/bs";
 import { FaMoneyBillWaveAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import {
   BarChart,
   Bar,
@@ -81,7 +82,9 @@ export const Dashboard = () => {
       <div className="h-12" />
       <Charts />
       <Sales />
-      <PendingOrders />
+      <Link to="/dashboard/pending-orders">
+        <PendingOrders />
+      </Link>
     </div>
   );
 };
@@ -218,7 +221,7 @@ const PendingOrders = () => {
     <div className="bg-white cursor-pointer hover:scale-105 transition ease-out roundcorner-1em pd-bottop-3 dashboard-containter wd-full">
       <h1 className="flex-center text-xl">PENDING ORDERS</h1>
       <div className="flex-center p-2">
-        <table className="dashboard-table text-lg">
+        <table className="dashboard-table text-lg text-black opacity-75 h-40">
           <tbody>
             {tableData.map(({ date, name, price }, index) => (
               <tr key={index}>
