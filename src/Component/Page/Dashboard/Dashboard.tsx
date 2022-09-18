@@ -138,7 +138,7 @@ const Charts = () => {
   };
 
   return (
-    <div className="bg-white h-30 roundcorner-1em pd-bottop-1 dashboard-containter wd-full">
+    <div className="bg-white box-shadow-default h-30 roundcorner-1em pd-bottop-1 dashboard-containter wd-full">
       <div className="mg-1">
         <div className="fontz-xxl flex-center-start gap-1">
           <FaMoneyBillWaveAlt />
@@ -190,10 +190,10 @@ const Sales = () => {
   const tableData = useOrderListTable("success", orderList);
 
   return (
-    <div className="bg-white cursor-pointer roundcorner-1em pd-bottop-3 dashboard-containter wd-full max-h-96">
+    <div className="box-shadow-default overflow-hidden bg-white cursor-pointer roundcorner-1em pd-bottop-3 dashboard-containter wd-full">
       <h1 className="flex-center text-2xl">SALES</h1>
       <div className="flex-center p-2">
-        <table className="dashboard-table text-lg text-black opacity-75 h-40">
+        <table className="dashboard-table text-lg text-black opacity-75 max-h-40">
           <tbody>
             {tableData.map(({ date, name, price }, index) => (
               <tr key={index}>
@@ -250,13 +250,13 @@ const PendingOrders = () => {
   // }, []);
 
   return (
-    <div className="bg-white cursor-pointer hover:scale-105 transition ease-out roundcorner-1em pd-bottop-3 dashboard-containter wd-full max-h-96">
+    <div className="box-shadow-default bg-white cursor-pointer overflow-hidden hover:scale-105 transition ease-out roundcorner-1em pd-bottop-3 dashboard-containter wd-full max-h-96">
       <h1 className="flex-center text-2xl">PENDING ORDERS</h1>
       <div className="flex-center p-2">
-        <table className="dashboard-table text-lg text-black opacity-75 h-40">
+        <table className="dashboard-table text-lg text-black opacity-75">
           <tbody>
             {tableData.map(({ date, name, price }, index) => (
-              <tr key={index}>
+              <tr className="mb-3" key={index}>
                 <td>{name}</td>
                 <td className="text-left">
                   {date.toLocaleDateString("en-US")}
