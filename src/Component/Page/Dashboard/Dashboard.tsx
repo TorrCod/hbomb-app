@@ -78,7 +78,7 @@ const simpliFyArr = (datasss: { date: string; sales: string }[]) => {
 
 export const Dashboard = () => {
   return (
-    <div className="pd-1">
+    <div className="pd-1 grid gap-5">
       <div className="h-12" />
       <Charts />
       <Sales />
@@ -182,15 +182,101 @@ const Charts = () => {
   );
 };
 
+type TableData = { name: string; date: Date; price: string }[];
+
 const Sales = () => {
-  return <div>Sales</div>;
+  const userContext = UserContext();
+  const orderList = userContext.state.OrderList;
+  const tableData = useOrderListTable("success", orderList);
+
+  return (
+    <div className="bg-white cursor-pointer roundcorner-1em pd-bottop-3 dashboard-containter wd-full max-h-96">
+      <h1 className="flex-center text-2xl">SALES</h1>
+      <div className="flex-center p-2">
+        <table className="dashboard-table text-lg text-black opacity-75 h-40">
+          <tbody>
+            {tableData.map(({ date, name, price }, index) => (
+              <tr key={index}>
+                <td>{name}</td>
+                <td className="text-left">
+                  {date.toLocaleDateString("en-US")}
+                </td>
+                <td className="text-end">{price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 const PendingOrders = () => {
-  type TableData = { name: string; date: Date; price: string }[];
-  const [tableData, setTableData] = useState<TableData>([]);
   const userContext = UserContext();
   const orderList = userContext.state.OrderList;
+  const tableData = useOrderListTable("pending", orderList);
+
+  // const [tableData, setTableData] = useState<TableData>([]);
+  // const userContext = UserContext();
+  // const orderList = userContext.state.OrderList;
+
+  // useEffect(() => {
+  //   //Update Table Data
+  //   const holder: TableData = [];
+  //   const getData = (name: string, date: Date, price: string) => ({
+  //     name: name,
+  //     date: date,
+  //     price: price,
+  //   });
+  //   for (const { name, date, totalPrice, status } of orderList) {
+  //     const isPending = status === "pending";
+  //     if (isPending)
+  //       holder.push(getData(name, getDate(date), "P" + totalPrice));
+  //   }
+  //   setTableData(holder);
+
+  //   return () => {
+  //     holder.length = 0;
+  //   };
+  // }, [orderList]);
+
+  // useEffect(() => {
+  //   // fetch orders every 5 seconds
+  //   const updateOrderList = userContext.updateOrderList;
+  //   const interval = setInterval(() => {
+  //     updateOrderList();
+  //   }, 5000);
+  //   return () => clearInterval(interval);
+  // }, []);
+
+  return (
+    <div className="bg-white cursor-pointer hover:scale-105 transition ease-out roundcorner-1em pd-bottop-3 dashboard-containter wd-full max-h-96">
+      <h1 className="flex-center text-2xl">PENDING ORDERS</h1>
+      <div className="flex-center p-2">
+        <table className="dashboard-table text-lg text-black opacity-75 h-40">
+          <tbody>
+            {tableData.map(({ date, name, price }, index) => (
+              <tr key={index}>
+                <td>{name}</td>
+                <td className="text-left">
+                  {date.toLocaleDateString("en-US")}
+                </td>
+                <td className="text-end">{price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+const useOrderListTable = (
+  status: "pending" | "success",
+  orderList: Orders[]
+) => {
+  const [tableData, setTableData] = useState<TableData>([]);
+  const userContext = UserContext();
 
   useEffect(() => {
     //Update Table Data
@@ -200,8 +286,8 @@ const PendingOrders = () => {
       date: date,
       price: price,
     });
-    for (const { name, date, totalPrice, status } of orderList) {
-      const isPending = status === "pending";
+    for (const { name, date, totalPrice, status: orderStatus } of orderList) {
+      const isPending = orderStatus === status;
       if (isPending)
         holder.push(getData(name, getDate(date), "P" + totalPrice));
     }
@@ -221,24 +307,5 @@ const PendingOrders = () => {
     return () => clearInterval(interval);
   }, []);
 
-  return (
-    <div className="bg-white cursor-pointer hover:scale-105 transition ease-out roundcorner-1em pd-bottop-3 dashboard-containter wd-full max-h-96">
-      <h1 className="flex-center text-xl">PENDING ORDERS</h1>
-      <div className="flex-center p-2">
-        <table className="dashboard-table text-lg text-black opacity-75 h-40">
-          <tbody>
-            {tableData.map(({ date, name, price }, index) => (
-              <tr key={index}>
-                <td>{name}</td>
-                <td className="text-left">
-                  {date.toLocaleDateString("en-US")}
-                </td>
-                <td className="text-end">{price}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+  return tableData;
 };
