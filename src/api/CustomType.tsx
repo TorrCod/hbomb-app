@@ -7,7 +7,7 @@ export type Orders = {
   emailcontact: string;
   address: string;
   totalPrice: number;
-  status: "pending" | "sucess";
+  status: "pending" | "success";
   itemOrdered: {
     itemCount: number;
     item: OLSitems;

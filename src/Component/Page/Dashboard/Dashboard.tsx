@@ -79,7 +79,7 @@ const simpliFyArr = (datasss: { date: string; sales: string }[]) => {
 
 export const Dashboard = () => {
   return (
-    <div className="pd-1 grid gap-5">
+    <div className="pd-1 gap-5 place-content-center grid">
       <div className="h-12" />
       <Charts />
       <Sales />
@@ -100,12 +100,12 @@ const Charts = () => {
   );
   const [dateNow, setDateNow] = useState<Date>(new Date());
   const [total, setTotal] = useState(0);
-  const { width } = useWindowSize();
 
   useEffect(() => {
     let data: { date: string; sales: string }[] = [];
 
-    const salesData = orderList.filter(({ status }) => status === "sucess");
+    const salesData = orderList.filter(({ status }) => status === "success");
+    console.log(orderList);
 
     if (dropdownChange === "daily") {
       data = dailyData(salesData);
@@ -141,6 +141,9 @@ const Charts = () => {
 
   return (
     <div className="bg-white box-shadow-default h-30 roundcorner-1em pd-bottop-1 dashboard-containter wd-full">
+      {/* <div className="sales-chart w-full">
+        
+      </div> */}
       <div className="mg-1">
         <div className="fontz-xxl flex-center-start gap-1">
           <FaMoneyBillWaveAlt />
@@ -156,34 +159,33 @@ const Charts = () => {
         </div>
       </div>
 
-      {/* <div className="border-2 border-indigo-600 h-48 relative">
-        <ResponsiveContainer width="100%" height="50%">
+      {/* <div className="w-full relative">
           
-        </ResponsiveContainer>
-        
-      </div> */}
-      <BarChart
-        height={200}
-        width={width - 30}
-        data={orderData}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="sales" fill="#e3bd9b" />
-      </BarChart>
+        </div> */}
+      <ResponsiveContainer width="100%" height="50%">
+        <BarChart
+          height={200}
+          width={300}
+          data={orderData}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="sales" fill="#e3bd9b" />
+        </BarChart>
+      </ResponsiveContainer>
 
-      <Space direction="horizontal" className="wd-full flex-center">
+      {/* <Space direction="horizontal" className="wd-full flex-center">
         <TimeDateDropdown onChange={onChangeDropdown} />
-      </Space>
+      </Space> */}
     </div>
   );
 };
@@ -271,14 +273,14 @@ const useOrderListTable = (
     };
   }, [orderList]);
 
-  useEffect(() => {
-    // fetch orders every 5 seconds
-    const updateOrderList = userContext.updateOrderList;
-    const interval = setInterval(() => {
-      updateOrderList();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   // fetch orders every 5 seconds
+  //   const updateOrderList = userContext.updateOrderList;
+  //   const interval = setInterval(() => {
+  //     updateOrderList();
+  //   }, 5000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return tableData;
 };
