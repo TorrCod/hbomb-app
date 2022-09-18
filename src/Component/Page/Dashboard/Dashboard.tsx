@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { BsPeopleFill, BsCalendarDateFill } from "react-icons/bs";
 import { FaMoneyBillWaveAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useWindowSize } from "react-use";
 import {
   BarChart,
   Bar,
@@ -99,6 +100,7 @@ const Charts = () => {
   );
   const [dateNow, setDateNow] = useState<Date>(new Date());
   const [total, setTotal] = useState(0);
+  const { width } = useWindowSize();
 
   useEffect(() => {
     let data: { date: string; sales: string }[] = [];
@@ -154,26 +156,30 @@ const Charts = () => {
         </div>
       </div>
 
-      <ResponsiveContainer width="100%" height="50%">
-        <BarChart
-          height={200}
-          width={300}
-          data={orderData}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="sales" fill="#e3bd9b" />
-        </BarChart>
-      </ResponsiveContainer>
+      {/* <div className="border-2 border-indigo-600 h-48 relative">
+        <ResponsiveContainer width="100%" height="50%">
+          
+        </ResponsiveContainer>
+        
+      </div> */}
+      <BarChart
+        height={200}
+        width={width - 30}
+        data={orderData}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="date" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="sales" fill="#e3bd9b" />
+      </BarChart>
 
       <Space direction="horizontal" className="wd-full flex-center">
         <TimeDateDropdown onChange={onChangeDropdown} />
@@ -215,39 +221,6 @@ const PendingOrders = () => {
   const userContext = UserContext();
   const orderList = userContext.state.OrderList;
   const tableData = useOrderListTable("pending", orderList);
-
-  // const [tableData, setTableData] = useState<TableData>([]);
-  // const userContext = UserContext();
-  // const orderList = userContext.state.OrderList;
-
-  // useEffect(() => {
-  //   //Update Table Data
-  //   const holder: TableData = [];
-  //   const getData = (name: string, date: Date, price: string) => ({
-  //     name: name,
-  //     date: date,
-  //     price: price,
-  //   });
-  //   for (const { name, date, totalPrice, status } of orderList) {
-  //     const isPending = status === "pending";
-  //     if (isPending)
-  //       holder.push(getData(name, getDate(date), "P" + totalPrice));
-  //   }
-  //   setTableData(holder);
-
-  //   return () => {
-  //     holder.length = 0;
-  //   };
-  // }, [orderList]);
-
-  // useEffect(() => {
-  //   // fetch orders every 5 seconds
-  //   const updateOrderList = userContext.updateOrderList;
-  //   const interval = setInterval(() => {
-  //     updateOrderList();
-  //   }, 5000);
-  //   return () => clearInterval(interval);
-  // }, []);
 
   return (
     <div className="box-shadow-default bg-white cursor-pointer overflow-hidden hover:scale-105 transition ease-out roundcorner-1em pd-bottop-3 dashboard-containter wd-full max-h-96">
