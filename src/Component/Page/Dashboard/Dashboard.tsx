@@ -103,12 +103,14 @@ const Charts = () => {
   useEffect(() => {
     let data: { date: string; sales: string }[] = [];
 
+    const salesData = orderList.filter(({ status }) => status === "sucess");
+
     if (dropdownChange === "daily") {
-      data = dailyData(orderList);
+      data = dailyData(salesData);
     }
 
     if (dropdownChange === "monthly") {
-      data = monthlyData(orderList);
+      data = monthlyData(salesData);
     }
 
     setOrderData(data);
@@ -198,8 +200,10 @@ const PendingOrders = () => {
       date: date,
       price: price,
     });
-    for (const { name, date, totalPrice } of orderList) {
-      holder.push(getData(name, getDate(date), "P" + totalPrice));
+    for (const { name, date, totalPrice, status } of orderList) {
+      const isPending = status === "pending";
+      if (isPending)
+        holder.push(getData(name, getDate(date), "P" + totalPrice));
     }
     setTableData(holder);
 
@@ -218,7 +222,7 @@ const PendingOrders = () => {
   }, []);
 
   return (
-    <div className="bg-white cursor-pointer hover:scale-105 transition ease-out roundcorner-1em pd-bottop-3 dashboard-containter wd-full">
+    <div className="bg-white cursor-pointer hover:scale-105 transition ease-out roundcorner-1em pd-bottop-3 dashboard-containter wd-full max-h-96">
       <h1 className="flex-center text-xl">PENDING ORDERS</h1>
       <div className="flex-center p-2">
         <table className="dashboard-table text-lg text-black opacity-75 h-40">
