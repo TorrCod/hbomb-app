@@ -1,9 +1,7 @@
-import { Space } from "antd";
 import { useEffect, useState } from "react";
 import { BsPeopleFill, BsCalendarDateFill } from "react-icons/bs";
 import { FaMoneyBillWaveAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useWindowSize } from "react-use";
 import {
   BarChart,
   Bar,
@@ -15,7 +13,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Orders } from "../../../api/CustomType";
-import TimeDateDropdown, { Key } from "../../../Feature/TimeDateDropdown";
 import { UserContext } from "../../../hooks/UserContext";
 import "./Dashboard.css";
 
@@ -31,16 +28,16 @@ const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
   return simplified;
 };
 
-const dailyData = (data: Orders[]) => {
-  const chartData: { date: string; sales: string }[] = [];
-  data.forEach((orders) => {
-    const day = getDate(orders.date).getDay();
-    const sales = orders.totalPrice;
-    chartData.push({ date: day.toString(), sales: sales.toString() });
-  });
-  const simplified = simpliFyArr(chartData);
-  return simplified;
-};
+// const dailyData = (data: Orders[]) => {
+//   const chartData: { date: string; sales: string }[] = [];
+//   data.forEach((orders) => {
+//     const day = getDate(orders.date).getDay();
+//     const sales = orders.totalPrice;
+//     chartData.push({ date: day.toString(), sales: sales.toString() });
+//   });
+//   const simplified = simpliFyArr(chartData);
+//   return simplified;
+// };
 
 const getDate = (stringDate: string) => {
   const dataDate = Date.parse(stringDate);
@@ -95,7 +92,6 @@ const Charts = () => {
   const userContext = UserContext();
   const orderList = userContext.state.OrderList;
   const [transacCount, setTransacCount] = useState(0);
-  const [dropdownChange, setDropdownChange] = useState<Key>("monthly");
   const [orderData, setOrderData] = useState<{ date: string; sales: string }[]>(
     []
   );
@@ -104,20 +100,10 @@ const Charts = () => {
 
   useEffect(() => {
     let data: { date: string; sales: string }[] = [];
-
     const salesData = orderList.filter(({ status }) => status === "success");
-    console.log(orderList);
-
-    if (dropdownChange === "daily") {
-      data = dailyData(salesData);
-    }
-
-    if (dropdownChange === "monthly") {
-      data = monthlyData(salesData);
-    }
-
+    data = monthlyData(salesData);
     setOrderData(data);
-  }, [dropdownChange, orderList]);
+  }, [orderList]);
 
   useEffect(() => {
     //Update total
@@ -135,10 +121,6 @@ const Charts = () => {
     const date = new Date(dateNow);
     setDateNow(date);
   }, [orderList]);
-
-  const onChangeDropdown = (key: any) => {
-    setDropdownChange(key);
-  };
 
   return (
     <div className="dashboard-child charts box-shadow-default">
@@ -160,7 +142,7 @@ const Charts = () => {
       <ResponsiveContainer width={"100%"} height={"100%"}>
         <BarChart
           height={200}
-          width={350}
+          width={300}
           data={orderData}
           margin={{
             top: 5,
@@ -238,7 +220,6 @@ const useOrderListTable = (
   orderList: Orders[]
 ) => {
   const [tableData, setTableData] = useState<TableData>([]);
-  const userContext = UserContext();
 
   useEffect(() => {
     //Update Table Data
@@ -258,16 +239,7 @@ const useOrderListTable = (
     return () => {
       holder.length = 0;
     };
-  }, [orderList]);
-
-  // useEffect(() => {
-  //   // fetch orders every 5 seconds
-  //   const updateOrderList = userContext.updateOrderList;
-  //   const interval = setInterval(() => {
-  //     updateOrderList();
-  //   }, 5000);
-  //   return () => clearInterval(interval);
-  // }, []);
+  }, [orderList, status]);
 
   return tableData;
 };
