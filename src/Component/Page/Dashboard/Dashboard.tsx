@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { BsPeopleFill, BsCalendarDateFill } from "react-icons/bs";
 import { FaMoneyBillWaveAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 import {
   BarChart,
   Bar,
@@ -15,6 +16,7 @@ import {
 import { Orders } from "../../../api/CustomType";
 import { UserContext } from "../../../hooks/UserContext";
 import "./Dashboard.css";
+import { Breadcrumb } from "antd";
 
 const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
   const chartData: { date: string; sales: string }[] = [];
@@ -75,18 +77,41 @@ const simpliFyArr = (datasss: { date: string; sales: string }[]) => {
 };
 
 export const Dashboard = () => {
+  const [swiper, setSwiper] = useState<any>();
   return (
-    <div className="dashboard-container">
+    <>
+      <Swiper
+        spaceBetween={50}
+        allowTouchMove={false}
+        onSwiper={(swiper) => setSwiper(swiper)}
+        className="h-screen"
+      >
+        <SwiperSlide className="overflow-scroll">
+          <div className="dashboard-container">
+            <div className="dashboard-container">
+              <div className="dashboard">
+                <Charts />
+                <Sales />
+                <PendingOrders onClick={() => swiper.slideTo(1)} />
+              </div>
+            </div>
+          </div>
+        </SwiperSlide>
+
+        <SwiperSlide className="flex-center p-5">
+          <PendingOrders onClick={() => swiper.slideTo(0)} />
+        </SwiperSlide>
+      </Swiper>
+    </>
+  );
+};
+/* <div className="dashboard-container">
       <div className="dashboard">
         <Charts />
         <Sales />
-        <Link to="/dashboard/pending-orders">
-          <PendingOrders />
-        </Link>
+        <PendingOrders />
       </div>
-    </div>
-  );
-};
+    </div> */
 
 const Charts = () => {
   const userContext = UserContext();
@@ -139,7 +164,7 @@ const Charts = () => {
         </div>
       </div>
 
-      <ResponsiveContainer width={"100%"} height={"100%"}>
+      <ResponsiveContainer width={"100%"} height={"70%"}>
         <BarChart
           height={200}
           width={300}
@@ -176,7 +201,7 @@ const Sales = () => {
 
   return (
     <div className="dashboard-child box-shadow-default">
-      <h1 className="text-2xl flex-center">SALES</h1>
+      <h1 className="text-2xl flex-center mb-10">SALES</h1>
       <table className="dashboard-table text-lg text-black opacity-75 max-h-40 w-full">
         <tbody>
           {tableData.map(({ date, name, price }, index) => (
@@ -192,14 +217,17 @@ const Sales = () => {
   );
 };
 
-const PendingOrders = () => {
+const PendingOrders = (props: { onClick: () => void }) => {
   const userContext = UserContext();
   const orderList = userContext.state.OrderList;
   const tableData = useOrderListTable("pending", orderList);
 
   return (
-    <div className="dashboard-child box-shadow-default hover:scale-105 transition ease-in">
-      <h1 className="text-2xl flex-center">PENDING ORDERS</h1>
+    <div
+      onClick={() => props.onClick()}
+      className="dashboard-child box-shadow-default hover:scale-105 transition ease-in cursor-pointer"
+    >
+      <h1 className="text-2xl flex-center mb-10">PENDING ORDERS</h1>
       <table className="dashboard-table text-lg text-black opacity-75 w-full">
         <tbody>
           {tableData.map(({ date, name, price }, index) => (
