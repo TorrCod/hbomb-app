@@ -79,13 +79,14 @@ const simpliFyArr = (datasss: { date: string; sales: string }[]) => {
 
 export const Dashboard = () => {
   return (
-    <div className="pd-1 gap-5 place-content-center grid">
-      <div className="h-12" />
-      <Charts />
-      <Sales />
-      <Link to="/dashboard/pending-orders">
-        <PendingOrders />
-      </Link>
+    <div className="dashboard-container">
+      <div className="dashboard">
+        <Charts />
+        <Sales />
+        <Link to="/dashboard/pending-orders">
+          <PendingOrders />
+        </Link>
+      </div>
     </div>
   );
 };
@@ -140,11 +141,8 @@ const Charts = () => {
   };
 
   return (
-    <div className="bg-white box-shadow-default h-30 roundcorner-1em pd-bottop-1 dashboard-containter wd-full">
-      {/* <div className="sales-chart w-full">
-        
-      </div> */}
-      <div className="mg-1">
+    <div className="dashboard-child charts box-shadow-default">
+      <div className="flex-column">
         <div className="fontz-xxl flex-center-start gap-1">
           <FaMoneyBillWaveAlt />
           {total}
@@ -159,13 +157,10 @@ const Charts = () => {
         </div>
       </div>
 
-      {/* <div className="w-full relative">
-          
-        </div> */}
-      <ResponsiveContainer width="100%" height="50%">
+      <ResponsiveContainer width={"100%"} height={"100%"}>
         <BarChart
           height={200}
-          width={300}
+          width={350}
           data={orderData}
           margin={{
             top: 5,
@@ -198,23 +193,19 @@ const Sales = () => {
   const tableData = useOrderListTable("success", orderList);
 
   return (
-    <div className="box-shadow-default overflow-hidden bg-white cursor-pointer roundcorner-1em pd-bottop-3 dashboard-containter wd-full">
-      <h1 className="flex-center text-2xl">SALES</h1>
-      <div className="flex-center p-2">
-        <table className="dashboard-table text-lg text-black opacity-75 max-h-40">
-          <tbody>
-            {tableData.map(({ date, name, price }, index) => (
-              <tr key={index}>
-                <td>{name}</td>
-                <td className="text-left">
-                  {date.toLocaleDateString("en-US")}
-                </td>
-                <td className="text-end">{price}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    <div className="dashboard-child box-shadow-default">
+      <h1 className="text-2xl flex-center">SALES</h1>
+      <table className="dashboard-table text-lg text-black opacity-75 max-h-40 w-full">
+        <tbody>
+          {tableData.map(({ date, name, price }, index) => (
+            <tr key={index}>
+              <td>{name}</td>
+              <td className="text-left">{date.toLocaleDateString("en-US")}</td>
+              <td className="text-end">{price}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
@@ -225,23 +216,19 @@ const PendingOrders = () => {
   const tableData = useOrderListTable("pending", orderList);
 
   return (
-    <div className="box-shadow-default bg-white cursor-pointer overflow-hidden hover:scale-105 transition ease-out roundcorner-1em pd-bottop-3 dashboard-containter wd-full max-h-96">
-      <h1 className="flex-center text-2xl">PENDING ORDERS</h1>
-      <div className="flex-center p-2">
-        <table className="dashboard-table text-lg text-black opacity-75">
-          <tbody>
-            {tableData.map(({ date, name, price }, index) => (
-              <tr className="mb-3" key={index}>
-                <td>{name}</td>
-                <td className="text-left">
-                  {date.toLocaleDateString("en-US")}
-                </td>
-                <td className="text-end">{price}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    <div className="dashboard-child box-shadow-default hover:scale-105 transition ease-in">
+      <h1 className="text-2xl flex-center">PENDING ORDERS</h1>
+      <table className="dashboard-table text-lg text-black opacity-75 w-full">
+        <tbody>
+          {tableData.map(({ date, name, price }, index) => (
+            <tr key={index}>
+              <td>{name}</td>
+              <td className="text-left">{date.toLocaleDateString("en-US")}</td>
+              <td className="text-end">{price}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
