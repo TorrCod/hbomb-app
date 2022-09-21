@@ -17,6 +17,7 @@ import { Orders } from "../../../api/CustomType";
 import { UserContext } from "../../../hooks/UserContext";
 import "./Dashboard.css";
 import { Breadcrumb } from "antd";
+import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
 
 const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
   const chartData: { date: string; sales: string }[] = [];
@@ -79,30 +80,44 @@ const simpliFyArr = (datasss: { date: string; sales: string }[]) => {
 export const Dashboard = () => {
   const [swiper, setSwiper] = useState<any>();
   return (
-    <>
+    <div className="h-screen">
       <Swiper
         spaceBetween={50}
         allowTouchMove={false}
         onSwiper={(swiper) => setSwiper(swiper)}
-        className="h-screen"
+        className="dashboard-swiper"
       >
-        <SwiperSlide className="overflow-scroll">
-          <div className="dashboard-container">
-            <div className="dashboard-container">
-              <div className="dashboard">
-                <Charts />
-                <Sales />
-                <PendingOrders onClick={() => swiper.slideTo(1)} />
-              </div>
+        <SwiperSlide className="dashbboard-main">
+          <div className="p-5 my-5 w-fit rounded-r-lg bg-white opacity-80 dashboard-nav">
+            <Breadcrumb>
+              <BreadcrumbItem>DASHBOARD</BreadcrumbItem>
+            </Breadcrumb>
+          </div>
+          <div className="flex-center">
+            <div className="dashboard">
+              <Charts />
+              <Sales />
+              <PendingOrders onClick={() => swiper.slideTo(1)} />
             </div>
           </div>
         </SwiperSlide>
 
-        <SwiperSlide className="flex-center p-5">
-          <PendingOrders onClick={() => swiper.slideTo(0)} />
+        <SwiperSlide>
+          <div className="p-5 my-5 w-fit rounded-r-lg bg-white opacity-80">
+            <Breadcrumb>
+              <BreadcrumbItem
+                className="cursor-pointer"
+                onClick={() => swiper.slideTo(0)}
+              >
+                DASHBOARD
+              </BreadcrumbItem>
+              <BreadcrumbItem>PENDING ORDERS</BreadcrumbItem>
+            </Breadcrumb>
+          </div>
+          <div className="bg-black h-10 w-10"></div>
         </SwiperSlide>
       </Swiper>
-    </>
+    </div>
   );
 };
 /* <div className="dashboard-container">
