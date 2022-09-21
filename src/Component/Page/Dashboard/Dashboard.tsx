@@ -16,8 +16,9 @@ import {
 import { Orders } from "../../../api/CustomType";
 import { UserContext } from "../../../hooks/UserContext";
 import "./Dashboard.css";
-import { Breadcrumb } from "antd";
+import { Breadcrumb, Button, Menu } from "antd";
 import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
+import { ItemType } from "antd/lib/menu/hooks/useItems";
 
 const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
   const chartData: { date: string; sales: string }[] = [];
@@ -79,6 +80,7 @@ const simpliFyArr = (datasss: { date: string; sales: string }[]) => {
 
 export const Dashboard = () => {
   const [swiper, setSwiper] = useState<any>();
+  const orderList = UserContext().state.OrderList;
   return (
     <div className="h-screen">
       <Swiper
@@ -88,7 +90,7 @@ export const Dashboard = () => {
         className="dashboard-swiper"
       >
         <SwiperSlide className="dashbboard-main">
-          <div className="p-5 my-5 w-fit rounded-r-lg bg-white opacity-80 dashboard-nav">
+          <div className="p-5 my-5 w-fit rounded-r-lg bg-white opacity-80">
             <Breadcrumb>
               <BreadcrumbItem>DASHBOARD</BreadcrumbItem>
             </Breadcrumb>
@@ -102,7 +104,7 @@ export const Dashboard = () => {
           </div>
         </SwiperSlide>
 
-        <SwiperSlide>
+        <SwiperSlide className="overflow-scroll">
           <div className="p-5 my-5 w-fit rounded-r-lg bg-white opacity-80">
             <Breadcrumb>
               <BreadcrumbItem
@@ -114,7 +116,7 @@ export const Dashboard = () => {
               <BreadcrumbItem>PENDING ORDERS</BreadcrumbItem>
             </Breadcrumb>
           </div>
-          <div className="bg-black h-10 w-10"></div>
+          <PendingOrdersMenu orderList={orderList} />
         </SwiperSlide>
       </Swiper>
     </div>
@@ -207,7 +209,12 @@ const Charts = () => {
   );
 };
 
-type TableData = { name: string; date: Date; price: string }[];
+type TableData = {
+  name: string;
+  date: Date;
+  price: string;
+  orderNumber: number;
+}[];
 
 const Sales = () => {
   const userContext = UserContext();
@@ -231,21 +238,20 @@ const Sales = () => {
     </div>
   );
 };
-
-const PendingOrders = (props: { onClick: () => void }) => {
+type PropsPendingOrders = { onClick?: () => void };
+const PendingOrders = (props: PropsPendingOrders) => {
   const userContext = UserContext();
   const orderList = userContext.state.OrderList;
   const tableData = useOrderListTable("pending", orderList);
-
   return (
     <div
-      onClick={() => props.onClick()}
+      onClick={() => (props.onClick ? props.onClick() : {})}
       className="dashboard-child box-shadow-default hover:scale-105 transition ease-in cursor-pointer"
     >
       <h1 className="text-2xl flex-center mb-10">PENDING ORDERS</h1>
       <table className="dashboard-table text-lg text-black opacity-75 w-full">
         <tbody>
-          {tableData.map(({ date, name, price }, index) => (
+          {tableData.map(({ date, name, price, orderNumber }, index) => (
             <tr key={index}>
               <td>{name}</td>
               <td className="text-left">{date.toLocaleDateString("en-US")}</td>
@@ -267,15 +273,29 @@ const useOrderListTable = (
   useEffect(() => {
     //Update Table Data
     const holder: TableData = [];
-    const getData = (name: string, date: Date, price: string) => ({
+    const getData = (
+      name: string,
+      date: Date,
+      price: string,
+      orderNumber: number
+    ) => ({
       name: name,
       date: date,
       price: price,
+      orderNumber: orderNumber,
     });
-    for (const { name, date, totalPrice, status: orderStatus } of orderList) {
+    for (const {
+      name,
+      date,
+      totalPrice,
+      status: orderStatus,
+      orderNumber,
+    } of orderList) {
       const isPending = orderStatus === status;
       if (isPending)
-        holder.push(getData(name, getDate(date), "P" + totalPrice));
+        holder.push(
+          getData(name, getDate(date), "P" + totalPrice, orderNumber)
+        );
     }
     setTableData(holder);
 
@@ -285,4 +305,87 @@ const useOrderListTable = (
   }, [orderList, status]);
 
   return tableData;
+};
+
+const PendingOrdersMenu = (props: PropsOrderMenu) => {
+  const pendingOrdersList = useOrderListTable("pending", props.orderList);
+  const [menuItem, setMenuItem] = useState<ItemType[]>([]);
+  const [selectedOrderNumber, setSelectedOrderNumber] = useState<number>(0);
+  const orderDetails = useFindOrderDetails(selectedOrderNumber);
+
+  useEffect(() => {
+    const holder: ItemType[] = [];
+    for (const pendingOrders of pendingOrdersList) {
+      const date = pendingOrders.date.toLocaleDateString("en-US");
+
+      const label = (
+        <div className="grid grid-cols-2">
+          <div>{pendingOrders.name}</div>
+          <div className="place-self-end">{date}</div>
+        </div>
+      );
+
+      const key = pendingOrders.orderNumber;
+      holder.push({ key: key, label: label });
+    }
+    setMenuItem(holder);
+  }, [pendingOrdersList]);
+
+  return (
+    <div className="w-full p-5">
+      <div className="dashboard-child pending-menu">
+        <h1 className="text-2xl flex-center mb-10">PENDING ORDERS</h1>
+        <div className="h-40 overflow-scroll">
+          <Menu
+            onClick={(val) => {
+              setSelectedOrderNumber(Number(val.key));
+            }}
+            mode="inline"
+            items={menuItem}
+          />
+        </div>
+      </div>
+      <div className="dashboard-child">
+        <div>NAME: {orderDetails?.name.toLocaleUpperCase()}</div>
+        <div>ADDRESS: {orderDetails?.address.toLocaleUpperCase()}</div>
+        <div>PHONE/EMAIL: {orderDetails?.emailcontact.toLocaleUpperCase()}</div>
+        <div>DATE ORDERED: {orderDetails?.date.toLocaleUpperCase()}</div>
+        <div>
+          <div>TOTAL: {orderDetails?.totalPrice}</div>
+          <div>
+            <Button type="primary">SOLD</Button>
+            <Button danger>CANCELED</Button>
+          </div>
+        </div>
+        <div>ITEMS</div>
+        <div>
+          {orderDetails?.itemOrdered.map((val, index) => {
+            return (
+              <>
+                <div>{val.item.name}</div>
+                <img src={val.item.url} />
+              </>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const useFindOrderDetails = (orderNumber: number) => {
+  const [orderDetails, setorderDetails] = useState<Orders>();
+  const orderList = UserContext().state.OrderList;
+
+  useEffect(() => {
+    const details = orderList.find((val) => val.orderNumber === orderNumber);
+    if (details) {
+      setorderDetails(details);
+    }
+  }, [orderNumber]);
+  return orderDetails;
+};
+
+type PropsOrderMenu = {
+  orderList: Orders[];
 };

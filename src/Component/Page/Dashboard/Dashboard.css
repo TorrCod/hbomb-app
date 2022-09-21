@@ -71,3 +71,8 @@
     display: grid;
     place-items: end;
 }
+
+.pending-menu{
+    padding-inline: 0;
+    min-height: 15em;
+}
