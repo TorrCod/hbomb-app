@@ -19,7 +19,6 @@ import "./Dashboard.css";
 import { Breadcrumb, Button, Menu, Table } from "antd";
 import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
 import { ItemType } from "antd/lib/menu/hooks/useItems";
-import { OLSitems } from "../Product/ShopProduct";
 import { ColumnsType } from "antd/lib/table";
 
 const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
@@ -322,6 +321,7 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
   const [menuItem, setMenuItem] = useState<ItemType[]>([]);
   const [selectedOrderNumber, setSelectedOrderNumber] = useState<number>(0);
   const [itemList, setItemList] = useState<ItemSource[]>();
+  const [defaultKey, setDefaultKey] = useState<string>("");
   const orderDetails = useFindOrderDetails(selectedOrderNumber);
 
   useEffect(() => {
@@ -336,13 +336,16 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
 
       const label = (
         <div className="grid grid-cols-2">
-          <div>{pendingOrders.name}</div>
+          <div>{pendingOrders.name.toLocaleUpperCase()}</div>
           <div className="place-self-end">{date}</div>
         </div>
       );
 
       const key = pendingOrders.orderNumber;
       holder.push({ key: key, label: label });
+    }
+    if (holder[0]) {
+      setDefaultKey(holder[0].key!.toString());
     }
     setMenuItem(holder);
   }, [pendingOrdersList]);
@@ -367,12 +370,19 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
     });
     setItemList(holder);
   }, [orderDetails]);
+
+  useEffect(() => {
+    setSelectedOrderNumber(Number(defaultKey));
+  }, [defaultKey]);
+
   return (
     <div className="w-full px-5 grid gap-5 pb-10">
       <div className="dashboard-child pending-menu">
-        <h1 className="text-2xl flex-center mb-10">PENDING ORDERS</h1>
+        <h1 className="text-2xl flex-center mb-5">PENDING ORDERS</h1>
         <div className="h-40 overflow-scroll">
           <Menu
+            selectedKeys={[selectedOrderNumber.toString()]}
+            defaultOpenKeys={[defaultKey]}
             onClick={(val) => {
               setSelectedOrderNumber(Number(val.key));
             }}
@@ -386,7 +396,7 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
         <div>ADDRESS: {orderDetails?.address.toLocaleUpperCase()}</div>
         <div>PHONE/EMAIL: {orderDetails?.emailcontact.toLocaleUpperCase()}</div>
         <div>DATE ORDERED: {orderDetails?.date.toLocaleUpperCase()}</div>
-        <div className="place-self-end grid gap-3 p-5 w-11/12 bg-black/25 rounded-l-lg pr-13 translate-x-3">
+        <div className="place-self-end grid gap-3 p-5 w-11/12 bg-black/25 rounded-l-lg pr-13 translate-x-7">
           <div className="text-3xl">TOTAL: {orderDetails?.totalPrice}</div>
           <div className="flex gap-5">
             <Button size="large" type="primary">
@@ -427,7 +437,7 @@ const useFindOrderDetails = (orderNumber: number) => {
     if (details) {
       setorderDetails(details);
     }
-  }, [orderNumber]);
+  }, [orderNumber, orderList]);
   return orderDetails;
 };
 

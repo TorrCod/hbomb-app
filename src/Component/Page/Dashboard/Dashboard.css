@@ -76,3 +76,8 @@
     padding-inline: 0;
     min-height: 15em;
 }
+
+.order-details{ 
+    padding: 2em;
+    padding-top: 3em;
+}
