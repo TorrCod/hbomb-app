@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { BsPeopleFill, BsCalendarDateFill } from "react-icons/bs";
 import { FaMoneyBillWaveAlt } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,9 +16,11 @@ import {
 import { Orders } from "../../../api/CustomType";
 import { UserContext } from "../../../hooks/UserContext";
 import "./Dashboard.css";
-import { Breadcrumb, Button, Menu } from "antd";
+import { Breadcrumb, Button, Menu, Table } from "antd";
 import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
 import { ItemType } from "antd/lib/menu/hooks/useItems";
+import { OLSitems } from "../Product/ShopProduct";
+import { ColumnsType } from "antd/lib/table";
 
 const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
   const chartData: { date: string; sales: string }[] = [];
@@ -306,11 +308,20 @@ const useOrderListTable = (
 
   return tableData;
 };
-
+const itemColumns: ColumnsType<ItemSource> = [
+  { dataIndex: "itemName", key: "name" },
+  { dataIndex: "itemPrice", key: "price" },
+];
+type ItemSource = {
+  key: string;
+  itemName: ReactNode;
+  itemPrice: number;
+};
 const PendingOrdersMenu = (props: PropsOrderMenu) => {
   const pendingOrdersList = useOrderListTable("pending", props.orderList);
   const [menuItem, setMenuItem] = useState<ItemType[]>([]);
   const [selectedOrderNumber, setSelectedOrderNumber] = useState<number>(0);
+  const [itemList, setItemList] = useState<ItemSource[]>();
   const orderDetails = useFindOrderDetails(selectedOrderNumber);
 
   useEffect(() => {
@@ -336,8 +347,28 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
     setMenuItem(holder);
   }, [pendingOrdersList]);
 
+  useEffect(() => {
+    const holder: {
+      key: string;
+      itemName: ReactNode;
+      itemPrice: number;
+    }[] = [];
+    orderDetails?.itemOrdered.forEach((val, index) => {
+      let { name, itemId, price, url } = val.item;
+      const tableName = (
+        <div className="flex gap-3 text-lg items-center">
+          <div className="h-10 w-7 rounded overflow-hidden">
+            <img className="object-cover w-full h-full" src={url} alt="item" />
+          </div>{" "}
+          {name}
+        </div>
+      );
+      holder.push({ key: itemId!, itemName: tableName, itemPrice: price });
+    });
+    setItemList(holder);
+  }, [orderDetails]);
   return (
-    <div className="w-full p-5">
+    <div className="w-full px-5 grid gap-5 pb-10">
       <div className="dashboard-child pending-menu">
         <h1 className="text-2xl flex-center mb-10">PENDING ORDERS</h1>
         <div className="h-40 overflow-scroll">
@@ -350,26 +381,37 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
           />
         </div>
       </div>
-      <div className="dashboard-child">
+      <div className="dashboard-child order-details grid gap-4">
         <div>NAME: {orderDetails?.name.toLocaleUpperCase()}</div>
         <div>ADDRESS: {orderDetails?.address.toLocaleUpperCase()}</div>
         <div>PHONE/EMAIL: {orderDetails?.emailcontact.toLocaleUpperCase()}</div>
         <div>DATE ORDERED: {orderDetails?.date.toLocaleUpperCase()}</div>
-        <div>
-          <div>TOTAL: {orderDetails?.totalPrice}</div>
-          <div>
-            <Button type="primary">SOLD</Button>
-            <Button danger>CANCELED</Button>
+        <div className="place-self-end grid gap-3 p-5 w-11/12 bg-black/25 rounded-l-lg pr-13 translate-x-3">
+          <div className="text-3xl">TOTAL: {orderDetails?.totalPrice}</div>
+          <div className="flex gap-5">
+            <Button size="large" type="primary">
+              SOLD
+            </Button>
+            <Button size="large" danger>
+              CANCELED
+            </Button>
           </div>
         </div>
-        <div>ITEMS</div>
         <div>
-          {orderDetails?.itemOrdered.map((val, index) => (
+          <div className="flex-center text-xl mt-7">ITEMS</div>
+
+          {/* {orderDetails?.itemOrdered.map((val, index) => (
             <div key={val.item.itemId + "no. " + index}>
               <div>{val.item.name}</div>
               <img src={val.item.url} />
             </div>
-          ))}
+          ))} */}
+          <Table
+            pagination={false}
+            showHeader={false}
+            columns={itemColumns}
+            dataSource={itemList}
+          />
         </div>
       </div>
     </div>
