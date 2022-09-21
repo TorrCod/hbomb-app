@@ -315,7 +315,12 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
 
   useEffect(() => {
     const holder: ItemType[] = [];
-    for (const pendingOrders of pendingOrdersList) {
+
+    const sortedByDate = pendingOrdersList.sort(
+      (a, b) => -a.date.getTime() + b.date.getTime()
+    );
+
+    for (const pendingOrders of sortedByDate) {
       const date = pendingOrders.date.toLocaleDateString("en-US");
 
       const label = (
@@ -359,14 +364,12 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
         </div>
         <div>ITEMS</div>
         <div>
-          {orderDetails?.itemOrdered.map((val, index) => {
-            return (
-              <>
-                <div>{val.item.name}</div>
-                <img src={val.item.url} />
-              </>
-            );
-          })}
+          {orderDetails?.itemOrdered.map((val, index) => (
+            <div key={val.item.itemId + "no. " + index}>
+              <div>{val.item.name}</div>
+              <img src={val.item.url} />
+            </div>
+          ))}
         </div>
       </div>
     </div>
