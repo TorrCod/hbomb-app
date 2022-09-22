@@ -376,10 +376,10 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
   }, [defaultKey]);
 
   return (
-    <div className="w-full px-5 grid gap-5 pb-10">
-      <div className="dashboard-child pending-menu">
+    <div className="w-full px-5 grid gap-5 pb-10 md:grid-cols-2">
+      <div className="dashboard-child pending-menu md-pc-60vh">
         <h1 className="text-2xl flex-center mb-5">PENDING ORDERS</h1>
-        <div className="h-40 overflow-scroll">
+        <div className="h-4/5 overflow-scroll">
           <Menu
             selectedKeys={[selectedOrderNumber.toString()]}
             defaultOpenKeys={[defaultKey]}
@@ -391,7 +391,7 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
           />
         </div>
       </div>
-      <div className="dashboard-child order-details grid gap-4">
+      <div className="dashboard-child order-details grid gap-4 md-pc-60vh overflow-scroll">
         <div>NAME: {orderDetails?.name.toLocaleUpperCase()}</div>
         <div>ADDRESS: {orderDetails?.address.toLocaleUpperCase()}</div>
         <div>PHONE/EMAIL: {orderDetails?.emailcontact.toLocaleUpperCase()}</div>
