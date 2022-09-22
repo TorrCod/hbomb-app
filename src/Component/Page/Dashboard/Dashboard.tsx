@@ -20,6 +20,7 @@ import { Breadcrumb, Button, Menu, Table } from "antd";
 import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
 import { ItemType } from "antd/lib/menu/hooks/useItems";
 import { ColumnsType } from "antd/lib/table";
+import { SoldBtn } from "../../../Feature/SoldBtn";
 
 const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
   const chartData: { date: string; sales: string }[] = [];
@@ -403,9 +404,10 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
         <div className="justify-self-end self-center grid gap-3 p-5 w-11/12 bg-black/25 rounded-l-lg pr-13 translate-x-7 area-b md:w-full">
           <div className="text-3xl">TOTAL: {orderDetails?.totalPrice}</div>
           <div className="flex gap-5">
-            <Button size="large" type="primary">
+            {/* <Button size="large" type="primary">
               SOLD
-            </Button>
+            </Button> */}
+            <SoldBtn itemSold={orderDetails} />
             <Button size="large" danger>
               CANCELED
             </Button>
