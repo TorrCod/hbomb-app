@@ -391,12 +391,16 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
           />
         </div>
       </div>
-      <div className="dashboard-child order-details grid gap-4 md-pc-60vh overflow-scroll">
-        <div>NAME: {orderDetails?.name.toLocaleUpperCase()}</div>
-        <div>ADDRESS: {orderDetails?.address.toLocaleUpperCase()}</div>
-        <div>PHONE/EMAIL: {orderDetails?.emailcontact.toLocaleUpperCase()}</div>
-        <div>DATE ORDERED: {orderDetails?.date.toLocaleUpperCase()}</div>
-        <div className="place-self-end grid gap-3 p-5 w-11/12 bg-black/25 rounded-l-lg pr-13 translate-x-7">
+      <div className="dashboard-child order-details grid gap-4 md-pc-60vh">
+        <div className="area-a grid gap-5">
+          <div>NAME: {orderDetails?.name.toLocaleUpperCase()}</div>
+          <div>ADDRESS: {orderDetails?.address.toLocaleUpperCase()}</div>
+          <div>
+            PHONE/EMAIL: {orderDetails?.emailcontact.toLocaleUpperCase()}
+          </div>
+          <div>DATE ORDERED: {orderDetails?.date.toLocaleUpperCase()}</div>
+        </div>
+        <div className="justify-self-end self-center grid gap-3 p-5 w-11/12 bg-black/25 rounded-l-lg pr-13 translate-x-7 area-b md:w-full">
           <div className="text-3xl">TOTAL: {orderDetails?.totalPrice}</div>
           <div className="flex gap-5">
             <Button size="large" type="primary">
@@ -407,15 +411,8 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
             </Button>
           </div>
         </div>
-        <div>
+        <div className="area-c">
           <div className="flex-center text-xl mt-7">ITEMS</div>
-
-          {/* {orderDetails?.itemOrdered.map((val, index) => (
-            <div key={val.item.itemId + "no. " + index}>
-              <div>{val.item.name}</div>
-              <img src={val.item.url} />
-            </div>
-          ))} */}
           <Table
             pagination={false}
             showHeader={false}

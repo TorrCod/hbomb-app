@@ -43,6 +43,16 @@
     .md-pc-60vh {
         height: 60vh;
     }
+
+    .order-details {
+        grid-template-areas: 
+        "a b"
+        "c c";
+        overflow-y: scroll;
+    }
+    .area-a {grid-area: a;}
+    .area-b {grid-area: b;}
+    .area-c {grid-area: c;}
 }
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
