@@ -16,11 +16,13 @@ import {
 import { Orders } from "../../../api/CustomType";
 import { UserContext } from "../../../hooks/UserContext";
 import "./Dashboard.css";
-import { Breadcrumb, Button, Menu, Table } from "antd";
+import { Breadcrumb, Button, Divider, Menu, Table } from "antd";
 import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
 import { ItemType } from "antd/lib/menu/hooks/useItems";
 import { ColumnsType } from "antd/lib/table";
 import { SoldBtn } from "../../../Feature/SoldBtn";
+import { CancelledOrderBtn } from "../../../Feature/CancelledOrderBtn";
+import { AiFillFileUnknown } from "react-icons/ai";
 
 const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
   const chartData: { date: string; sales: string }[] = [];
@@ -310,12 +312,14 @@ const useOrderListTable = (
 };
 const itemColumns: ColumnsType<ItemSource> = [
   { dataIndex: "itemName", key: "name" },
+  { dataIndex: "itemCount", key: "price" },
   { dataIndex: "itemPrice", key: "price" },
 ];
 type ItemSource = {
   key: string;
   itemName: ReactNode;
-  itemPrice: number;
+  itemPrice: string;
+  itemCount: string;
 };
 const PendingOrdersMenu = (props: PropsOrderMenu) => {
   const pendingOrdersList = useOrderListTable("pending", props.orderList);
@@ -327,47 +331,52 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
 
   useEffect(() => {
     const holder: ItemType[] = [];
-
-    const sortedByDate = pendingOrdersList.sort(
-      (a, b) => -a.date.getTime() + b.date.getTime()
-    );
-
-    for (const pendingOrders of sortedByDate) {
-      const date = pendingOrders.date.toLocaleDateString("en-US");
-
-      const label = (
-        <div className="grid grid-cols-2">
-          <div>{pendingOrders.name.toLocaleUpperCase()}</div>
-          <div className="place-self-end">{date}</div>
-        </div>
+    if (pendingOrdersList.length === 0) setSelectedOrderNumber(0);
+    else {
+      const sortedByDate = pendingOrdersList.sort(
+        (a, b) => -a.date.getTime() + b.date.getTime()
       );
 
-      const key = pendingOrders.orderNumber;
-      holder.push({ key: key, label: label });
-    }
-    if (holder[0]) {
-      setDefaultKey(holder[0].key!.toString());
+      for (const pendingOrders of sortedByDate) {
+        const date = pendingOrders.date.toLocaleDateString("en-US");
+
+        const label = (
+          <div className="grid grid-cols-2">
+            <div>{pendingOrders.name.toLocaleUpperCase()}</div>
+            <div className="place-self-end">{date}</div>
+          </div>
+        );
+
+        const key = pendingOrders.orderNumber;
+        holder.push({ key: key, label: label });
+      }
+
+      if (holder[0]) {
+        setDefaultKey(holder[0].key!.toString());
+      }
     }
     setMenuItem(holder);
   }, [pendingOrdersList]);
 
   useEffect(() => {
-    const holder: {
-      key: string;
-      itemName: ReactNode;
-      itemPrice: number;
-    }[] = [];
+    const holder: ItemSource[] = [];
     orderDetails?.itemOrdered.forEach((val, index) => {
       let { name, itemId, price, url } = val.item;
+      const itemCount = val.itemCount;
       const tableName = (
-        <div className="flex gap-3 text-lg items-center">
+        <div className="flex gap-3 text-sm items-center">
           <div className="h-10 w-7 rounded overflow-hidden">
             <img className="object-cover w-full h-full" src={url} alt="item" />
-          </div>{" "}
+          </div>
           {name}
         </div>
       );
-      holder.push({ key: itemId!, itemName: tableName, itemPrice: price });
+      holder.push({
+        key: itemId!,
+        itemName: tableName,
+        itemCount: "x " + itemCount,
+        itemPrice: "₱ " + price,
+      });
     });
     setItemList(holder);
   }, [orderDetails]);
@@ -392,37 +401,45 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
           />
         </div>
       </div>
-      <div className="dashboard-child order-details grid gap-4 md-pc-60vh">
-        <div className="area-a grid gap-5">
-          <div>NAME: {orderDetails?.name.toLocaleUpperCase()}</div>
-          <div>ADDRESS: {orderDetails?.address.toLocaleUpperCase()}</div>
-          <div>
-            PHONE/EMAIL: {orderDetails?.emailcontact.toLocaleUpperCase()}
-          </div>
-          <div>DATE ORDERED: {orderDetails?.date.toLocaleUpperCase()}</div>
-        </div>
-        <div className="justify-self-end self-center grid gap-3 p-5 w-11/12 bg-black/25 rounded-l-lg pr-13 translate-x-7 area-b md:w-full">
-          <div className="text-3xl">TOTAL: {orderDetails?.totalPrice}</div>
-          <div className="flex gap-5">
-            {/* <Button size="large" type="primary">
-              SOLD
-            </Button> */}
-            <SoldBtn itemSold={orderDetails} />
-            <Button size="large" danger>
-              CANCELED
-            </Button>
+      {selectedOrderNumber === 0 ? (
+        <div className="dashboard-child grid gap-4 md-pc-60vh place-items-center">
+          <div className="grid place-items-center gap-5 text-black opacity-70">
+            <AiFillFileUnknown className="text-6xl" />
+            {pendingOrdersList.length === 0
+              ? "No Pending Orders"
+              : "Select items on Pending Orders"}
           </div>
         </div>
-        <div className="area-c">
-          <div className="flex-center text-xl mt-7">ITEMS</div>
-          <Table
-            pagination={false}
-            showHeader={false}
-            columns={itemColumns}
-            dataSource={itemList}
-          />
-        </div>
-      </div>
+      ) : (
+        <>
+          <div className="dashboard-child order-details grid gap-4 md-pc-60vh">
+            <div className="area-a grid gap-5">
+              <div>NAME: {orderDetails?.name.toLocaleUpperCase()}</div>
+              <div>ADDRESS: {orderDetails?.address.toLocaleUpperCase()}</div>
+              <div>
+                PHONE/EMAIL: {orderDetails?.emailcontact.toLocaleUpperCase()}
+              </div>
+              <div>DATE ORDERED: {orderDetails?.date.toLocaleUpperCase()}</div>
+            </div>
+            <div className="justify-self-end self-center grid gap-3 p-5 w-11/12 bg-black/25 rounded-l-lg pr-13 translate-x-7 area-b md:w-full">
+              <div className="text-3xl">TOTAL: {orderDetails?.totalPrice}</div>
+              <div className="flex gap-5">
+                <SoldBtn itemSold={orderDetails} />
+                <CancelledOrderBtn orderDetails={orderDetails} />
+              </div>
+            </div>
+            <div className="area-c">
+              <div className="flex-center text-xl mt-7">ITEMS</div>
+              <Table
+                pagination={false}
+                showHeader={false}
+                columns={itemColumns}
+                dataSource={itemList}
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
