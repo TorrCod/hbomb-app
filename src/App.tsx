@@ -43,8 +43,10 @@ const App = () => {
 
     if (auth.currentUser !== null) {
       onChangeData("order-list", (val) => {
-        const orderList = Object.values(val);
-        userCtxDispatch({ type: "updateorderlist", payload: orderList });
+        try {
+          const orderList = Object.values(val);
+          userCtxDispatch({ type: "updateorderlist", payload: orderList });
+        } catch (e) {}
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
