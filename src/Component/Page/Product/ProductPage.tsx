@@ -255,11 +255,7 @@ export const CheckOutPage = () => {
     state.contactInfo.includes("09");
   const isFilled =
     emailCheck && state.address.length !== 0 && state.name.length !== 0;
-  const dateNow = new Date().toLocaleDateString("en-us", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const dateNow = new Date().toString();
   const priceList = itemPriceList(cartItemList);
   const totalPrice = priceList.reduce((prev, curr) => prev + curr, 0);
 

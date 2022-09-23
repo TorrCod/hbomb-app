@@ -24,64 +24,6 @@ import { SoldBtn } from "../../../Feature/SoldBtn";
 import { CancelledOrderBtn } from "../../../Feature/CancelledOrderBtn";
 import { AiFillFileUnknown } from "react-icons/ai";
 
-const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
-  const chartData: { date: string; sales: string }[] = [];
-  data.forEach((orders) => {
-    const month = getDate(orders.date).getMonth();
-    const monthName = getMonthName(month);
-    const sales = orders.totalPrice;
-    chartData.push({ date: monthName.toString(), sales: sales.toString() });
-  });
-  const simplified = simpliFyArr(chartData);
-  return simplified;
-};
-
-// const dailyData = (data: Orders[]) => {
-//   const chartData: { date: string; sales: string }[] = [];
-//   data.forEach((orders) => {
-//     const day = getDate(orders.date).getDay();
-//     const sales = orders.totalPrice;
-//     chartData.push({ date: day.toString(), sales: sales.toString() });
-//   });
-//   const simplified = simpliFyArr(chartData);
-//   return simplified;
-// };
-
-const getDate = (stringDate: string) => {
-  const dataDate = Date.parse(stringDate);
-  const formatedDate = new Date(dataDate);
-  return formatedDate;
-};
-
-const getMonthName = (number: number) => {
-  const data = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  return data[number];
-};
-
-const simpliFyArr = (datasss: { date: string; sales: string }[]) => {
-  const res = Array.from(
-    datasss.reduce(
-      (m, { date, sales }) => m.set(date, (m.get(date) || 0) + Number(sales)),
-      new Map()
-    ),
-    ([date, sales]) => ({ date, sales })
-  );
-  return res;
-};
-
 export const Dashboard = () => {
   const [swiper, setSwiper] = useState<any>();
   const orderList = UserContext().state.OrderList;
@@ -140,7 +82,7 @@ const Charts = () => {
   useEffect(() => {
     let data: { date: string; sales: string }[] = [];
     const salesData = orderList.filter(({ status }) => status === "success");
-    data = monthlyData(salesData);
+    data = dailyData(salesData);
     setOrderData(data);
   }, [orderList]);
 
@@ -191,7 +133,7 @@ const Charts = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
+          <XAxis dataKey="date" format={"test"} />
           <YAxis />
           <Tooltip />
           <Legend />
@@ -235,7 +177,9 @@ const Sales = () => {
     </div>
   );
 };
+
 type PropsPendingOrders = { onClick?: () => void };
+
 const PendingOrders = (props: PropsPendingOrders) => {
   const userContext = UserContext();
   const orderList = userContext.state.OrderList;
@@ -412,7 +356,9 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
               <div>
                 PHONE/EMAIL: {orderDetails?.emailcontact.toLocaleUpperCase()}
               </div>
-              <div>DATE ORDERED: {orderDetails?.date.toLocaleUpperCase()}</div>
+              <div>
+                DATE ORDERED: {getDate(orderDetails!.date).toLocaleDateString()}
+              </div>
             </div>
             <div className="justify-self-end self-center grid gap-3 p-5 w-11/12 bg-black/25 rounded-l-lg pr-13 translate-x-7 area-b md:w-full">
               <div className="text-3xl">TOTAL: {orderDetails?.totalPrice}</div>
@@ -452,4 +398,73 @@ const useFindOrderDetails = (orderNumber: number) => {
 
 type PropsOrderMenu = {
   orderList: Orders[];
+};
+
+const monthlyData = (data: Orders[]): { date: string; sales: string }[] => {
+  const chartData: { date: string; sales: string }[] = [];
+  data.forEach((orders) => {
+    const month = getDate(orders.date).getMonth();
+    const monthName = getMonthName(month);
+    const sales = orders.totalPrice;
+    chartData.push({ date: monthName.toString(), sales: sales.toString() });
+  });
+  const simplified = simpliFyArr(chartData);
+  return simplified;
+};
+
+const dailyData = (data: Orders[]) => {
+  const chartData: { date: string; sales: string }[] = [];
+
+  const pushToChartData = (dataToPush: Orders[]) => {
+    dataToPush.forEach((orders) => {
+      const day = getDate(orders.date).toDateString();
+      const sales = orders.totalPrice;
+      chartData.push({ date: day.toString(), sales: sales.toString() });
+    });
+  };
+
+  if (data.length >= 30) {
+    const last30Days = data.slice(-30);
+    pushToChartData(last30Days);
+  } else {
+    pushToChartData(data);
+  }
+  const simplified = simpliFyArr(chartData);
+
+  return simplified;
+};
+
+const getDate = (stringDate: string) => {
+  const dataDate = Date.parse(stringDate);
+  const formatedDate = new Date(dataDate);
+  return formatedDate;
+};
+
+const getMonthName = (number: number) => {
+  const data = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  return data[number];
+};
+
+const simpliFyArr = (datasss: { date: string; sales: string }[]) => {
+  const res = Array.from(
+    datasss.reduce(
+      (m, { date, sales }) => m.set(date, (m.get(date) || 0) + Number(sales)),
+      new Map()
+    ),
+    ([date, sales]) => ({ date, sales })
+  );
+  return res;
 };
