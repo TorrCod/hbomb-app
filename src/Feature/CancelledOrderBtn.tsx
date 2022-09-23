@@ -1,6 +1,6 @@
 import { message, Button } from "antd";
-import React, { useState } from "react";
-import { clearPath, writeDatabase } from "../FirebaseService/RealtimeDatabase";
+import { useState } from "react";
+import { clearPath } from "../FirebaseService/RealtimeDatabase";
 import { ConfirmationModal } from "./ConfirmationModal";
 import { CancelledOrderedProps } from "./_type/CancelledOrdered.d";
 

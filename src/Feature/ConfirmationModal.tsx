@@ -1,5 +1,5 @@
-import { Modal, Button, Input, message } from "antd";
-import React, { useEffect, useState } from "react";
+import { Modal, Button, Input } from "antd";
+import { useState } from "react";
 import { checkPassword } from "../FirebaseService/Auth";
 import { ConfirmationModalProps } from "./_type/ConfirmationModalProps.d";
 
