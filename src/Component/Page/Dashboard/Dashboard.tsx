@@ -126,13 +126,6 @@ export const Dashboard = () => {
     </div>
   );
 };
-/* <div className="dashboard-container">
-      <div className="dashboard">
-        <Charts />
-        <Sales />
-        <PendingOrders />
-      </div>
-    </div> */
 
 const Charts = () => {
   const userContext = UserContext();
