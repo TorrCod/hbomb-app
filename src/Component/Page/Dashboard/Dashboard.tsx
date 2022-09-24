@@ -82,17 +82,20 @@ const Charts = () => {
   useEffect(() => {
     let data: { date: string; sales: string }[] = [];
     const salesData = orderList.filter(({ status }) => status === "success");
-    data = dailyData(salesData);
+    if (salesData.length) data = dailyData(salesData);
     setOrderData(data);
   }, [orderList]);
 
   useEffect(() => {
     //Update total
-    const salesList = orderList.map((val) => {
+    const succesOrders = orderList.filter((val) => val.status === "success");
+    const salesList = succesOrders.map((val) => {
       return val.totalPrice;
     });
-    const sum = salesList.reduce((partialSum, a) => partialSum + a, 0);
-    setTotal(sum);
+    if (salesList.length) {
+      const sum = salesList.reduce((partialSum, a) => partialSum! + a!, 0);
+      setTotal(sum!);
+    }
 
     //update transaction count
     setTransacCount(orderList.length);
@@ -133,17 +136,12 @@ const Charts = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" format={"test"} />
+          <XAxis dataKey="date" hide />
           <YAxis />
           <Tooltip />
-          <Legend />
           <Bar dataKey="sales" fill="#e3bd9b" />
         </BarChart>
       </ResponsiveContainer>
-
-      {/* <Space direction="horizontal" className="wd-full flex-center">
-        <TimeDateDropdown onChange={onChangeDropdown} />
-      </Space> */}
     </div>
   );
 };
@@ -357,7 +355,7 @@ const PendingOrdersMenu = (props: PropsOrderMenu) => {
                 PHONE/EMAIL: {orderDetails?.emailcontact.toLocaleUpperCase()}
               </div>
               <div>
-                DATE ORDERED: {getDate(orderDetails!.date).toLocaleDateString()}
+                DATE ORDERED: {getDate(orderDetails?.date).toLocaleDateString()}
               </div>
             </div>
             <div className="justify-self-end self-center grid gap-3 p-5 w-11/12 bg-black/25 rounded-l-lg pr-13 translate-x-7 area-b md:w-full">
@@ -417,25 +415,29 @@ const dailyData = (data: Orders[]) => {
 
   const pushToChartData = (dataToPush: Orders[]) => {
     dataToPush.forEach((orders) => {
-      const day = getDate(orders.date).toDateString();
+      const day = getDate(orders.date).toLocaleDateString();
       const sales = orders.totalPrice;
-      chartData.push({ date: day.toString(), sales: sales.toString() });
+      chartData.push({ date: day, sales: sales.toString() });
     });
   };
 
-  if (data.length >= 30) {
-    const last30Days = data.slice(-30);
-    pushToChartData(last30Days);
-  } else {
-    pushToChartData(data);
-  }
-  const simplified = simpliFyArr(chartData);
+  pushToChartData(data);
 
+  let simplified = simpliFyArr(chartData);
+
+  if (simplified.length >= 30) simplified = simplified.slice(-30);
+  else {
+    simplified.length = 30;
+    simplified.forEach((val, index) => {
+      if (!val) simplified[index] = { date: index.toString(), sales: "0" };
+    });
+  }
   return simplified;
 };
 
-const getDate = (stringDate: string) => {
-  const dataDate = Date.parse(stringDate);
+const getDate = (stringDate?: string) => {
+  let dataDate: number = 0;
+  if (stringDate) dataDate = Date.parse(stringDate);
   const formatedDate = new Date(dataDate);
   return formatedDate;
 };
@@ -468,3 +470,68 @@ const simpliFyArr = (datasss: { date: string; sales: string }[]) => {
   );
   return res;
 };
+
+// DATA TESTING
+
+// const dummyData: { date: string; sales: string }[] = [
+//   { date: "9/23/2022", sales: "700" },
+//   { date: "9/23/2022", sales: "1200" },
+//   { date: "9/23/2022", sales: "800" },
+//   { date: "9/24/2022", sales: "700" },
+//   { date: "9/24/2022", sales: "800" },
+//   { date: "9/25/2022", sales: "700" },
+//   { date: "9/27/2022", sales: "400" },
+//   { date: "9/27/2022", sales: "500" },
+//   { date: "9/28/2022", sales: "1200" },
+//   { date: "9/28/2022", sales: "700" },
+//   { date: "9/30/2022", sales: "1100" },
+//   { date: "10/1/2022", sales: "700" },
+//   { date: "10/2/2022", sales: "300" },
+//   { date: "10/2/2022", sales: "400" },
+// ];
+
+// const dummyDataSecond: { date: string; sales: string }[] = [
+//   { date: "9/23/2022", sales: "700" },
+//   { date: "9/23/2022", sales: "1200" },
+//   { date: "9/23/2022", sales: "800" },
+//   { date: "9/24/2022", sales: "700" },
+//   { date: "9/24/2022", sales: "800" },
+//   { date: "9/25/2022", sales: "700" },
+//   { date: "9/27/2022", sales: "400" },
+//   { date: "9/27/2022", sales: "500" },
+//   { date: "9/28/2022", sales: "1200" },
+//   { date: "9/28/2022", sales: "700" },
+//   { date: "9/30/2022", sales: "1100" },
+//   { date: "10/1/2022", sales: "700" },
+//   { date: "10/2/2022", sales: "300" },
+//   { date: "10/2/2022", sales: "400" },
+//   { date: "10/3/2022", sales: "700" },
+//   { date: "10/4/2022", sales: "1200" },
+//   { date: "10/4/2022", sales: "800" },
+//   { date: "10/6/2022", sales: "700" },
+//   { date: "10/6/2022", sales: "800" },
+//   { date: "10/6/2022", sales: "700" },
+//   { date: "10/7/2022", sales: "400" },
+//   { date: "10/8/2022", sales: "500" },
+//   { date: "10/9/2022", sales: "1200" },
+//   { date: "10/10/2022", sales: "700" },
+//   { date: "10/11/2022", sales: "1100" },
+//   { date: "10/12/2022", sales: "700" },
+//   { date: "10/13/2022", sales: "300" },
+//   { date: "10/14/2022", sales: "400" },
+//   { date: "10/15/2022", sales: "1200" },
+//   { date: "10/16/2022", sales: "700" },
+//   { date: "10/17/2022", sales: "1100" },
+//   { date: "10/18/2022", sales: "700" },
+//   { date: "10/19/2022", sales: "300" },
+//   { date: "10/20/2022", sales: "400" },
+//   { date: "10/21/2022", sales: "300" },
+//   { date: "10/22/2022", sales: "400" },
+//   { date: "10/23/2022", sales: "700" },
+//   { date: "10/24/2022", sales: "1100" },
+//   { date: "10/25/2022", sales: "700" },
+//   { date: "10/26/2022", sales: "300" },
+//   { date: "10/27/2022", sales: "400" },
+//   { date: "10/28/2022", sales: "300" },
+//   { date: "10/29/2022", sales: "400" },
+// ];
