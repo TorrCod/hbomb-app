@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { BsPeopleFill, BsCalendarDateFill } from "react-icons/bs";
+import { BsPeopleFill, BsCalendarDateFill, BsTrash2Fill } from "react-icons/bs";
 import { FaMoneyBillWaveAlt } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -23,6 +23,8 @@ import { ColumnsType } from "antd/lib/table";
 import { SoldBtn } from "../../../Feature/SoldBtn";
 import { CancelledOrderBtn } from "../../../Feature/CancelledOrderBtn";
 import { AiFillFileUnknown } from "react-icons/ai";
+import { Dashboard_Sales } from "./__types__/Dashboard.d";
+import OnDelete from "../../../Feature/OnDelete";
 
 export const Dashboard = () => {
   const [swiper, setSwiper] = useState<any>();
@@ -44,7 +46,11 @@ export const Dashboard = () => {
           <div className="flex-center">
             <div className="dashboard">
               <Charts />
-              <Sales />
+              <Sales
+                hideButton={true}
+                className="hover:scale-105 transition cursor-pointer"
+                onClick={() => swiper.slideTo(2)}
+              />
               <PendingOrders onClick={() => swiper.slideTo(1)} />
             </div>
           </div>
@@ -63,6 +69,10 @@ export const Dashboard = () => {
             </Breadcrumb>
           </div>
           <PendingOrdersMenu orderList={orderList} />
+        </SwiperSlide>
+
+        <SwiperSlide>
+          <Sales />
         </SwiperSlide>
       </Swiper>
     </div>
@@ -153,13 +163,16 @@ type TableData = {
   orderNumber: number;
 }[];
 
-const Sales = () => {
+const Sales = (props: Dashboard_Sales) => {
   const userContext = UserContext();
   const orderList = userContext.state.OrderList;
   const tableData = useOrderListTable("success", orderList);
 
   return (
-    <div className="dashboard-child box-shadow-default">
+    <div
+      onClick={() => (props.onClick ? props.onClick() : "")}
+      className={"dashboard-child box-shadow-default " + props.className ?? ""}
+    >
       <h1 className="text-2xl flex-center mb-10">SALES</h1>
       <table className="dashboard-table text-lg text-black opacity-75 max-h-40 w-full">
         <tbody>
@@ -168,6 +181,17 @@ const Sales = () => {
               <td>{name}</td>
               <td className="text-left">{date.toLocaleDateString("en-US")}</td>
               <td className="text-end">{price}</td>
+              {props.hideButton ? null : (
+                <td className="flex-center">
+                  <OnDelete
+                    shape="circle"
+                    type="primary"
+                    className="flex-center"
+                  >
+                    <BsTrash2Fill />
+                  </OnDelete>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
