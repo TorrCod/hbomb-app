@@ -16,7 +16,7 @@ import {
 import { Orders } from "../../../api/CustomType";
 import { UserContext } from "../../../hooks/UserContext";
 import "./Dashboard.css";
-import { Breadcrumb, Menu, Table } from "antd";
+import { Breadcrumb, Menu, message, Table } from "antd";
 import BreadcrumbItem from "antd/lib/breadcrumb/BreadcrumbItem";
 import { ItemType } from "antd/lib/menu/hooks/useItems";
 import { ColumnsType } from "antd/lib/table";
@@ -25,6 +25,7 @@ import { CancelledOrderBtn } from "../../../Feature/CancelledOrderBtn";
 import { AiFillFileUnknown } from "react-icons/ai";
 import { Dashboard_Sales } from "./__types__/Dashboard.d";
 import OnDelete from "../../../Feature/OnDelete";
+import { clearPath } from "../../../FirebaseService/RealtimeDatabase";
 
 export const Dashboard = () => {
   const [swiper, setSwiper] = useState<any>();
@@ -71,8 +72,21 @@ export const Dashboard = () => {
           <PendingOrdersMenu orderList={orderList} />
         </SwiperSlide>
 
-        <SwiperSlide>
-          <Sales />
+        <SwiperSlide className="flex flex-col">
+          <div className="p-5 my-5 w-fit rounded-r-lg bg-white opacity-80">
+            <Breadcrumb>
+              <BreadcrumbItem
+                className="cursor-pointer"
+                onClick={() => swiper.slideTo(0)}
+              >
+                DASHBOARD
+              </BreadcrumbItem>
+              <BreadcrumbItem>SALES</BreadcrumbItem>
+            </Breadcrumb>
+          </div>
+          <div className="w-11/12 place-self-center max-w-2xl">
+            <Sales />
+          </div>
         </SwiperSlide>
       </Swiper>
     </div>
@@ -168,6 +182,11 @@ const Sales = (props: Dashboard_Sales) => {
   const orderList = userContext.state.OrderList;
   const tableData = useOrderListTable("success", orderList);
 
+  const onDelete = (orderNumber: number, name: string) => {
+    clearPath("order-list/" + orderNumber);
+    message.success(name + " Deleted");
+  };
+
   return (
     <div
       onClick={() => (props.onClick ? props.onClick() : "")}
@@ -176,7 +195,7 @@ const Sales = (props: Dashboard_Sales) => {
       <h1 className="text-2xl flex-center mb-10">SALES</h1>
       <table className="dashboard-table text-lg text-black opacity-75 max-h-40 w-full">
         <tbody>
-          {tableData.map(({ date, name, price }, index) => (
+          {tableData.map(({ date, name, price, orderNumber }, index) => (
             <tr key={index}>
               <td>{name}</td>
               <td className="text-left">{date.toLocaleDateString("en-US")}</td>
@@ -187,6 +206,7 @@ const Sales = (props: Dashboard_Sales) => {
                     shape="circle"
                     type="primary"
                     className="flex-center"
+                    onDelete={() => onDelete(orderNumber, name)}
                   >
                     <BsTrash2Fill />
                   </OnDelete>
