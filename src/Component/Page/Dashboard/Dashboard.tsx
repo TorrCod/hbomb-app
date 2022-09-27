@@ -187,6 +187,7 @@ const Sales = (props: Dashboard_Sales) => {
     message.success(name + " Deleted");
   };
 
+
   return (
     <div
       onClick={() => (props.onClick ? props.onClick() : "")}
@@ -289,6 +290,7 @@ const useOrderListTable = (
 
   return tableData;
 };
+
 const itemColumns: ColumnsType<ItemSource> = [
   { dataIndex: "itemName", key: "name" },
   { dataIndex: "itemCount", key: "price" },
