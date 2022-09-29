@@ -3,11 +3,11 @@ import Footer from "../../Footer/Footer";
 function AboutUs() {
   return (
     <>
-      <div className="grid gap-5 place-items-center">
-        <div className="bg-white text-center rounded-xl w-11/12 mt-20">
-          <img className="h-96" src="" alt="" />
+      <div className="grid gap-5 place-items-center md:py-32 py-20 grid-rows-2 md:grid-cols-2 md:grid-rows-1">
+        <div className="bg-slate-700 h-full text-center rounded-xl w-11/12 md:grid-cols-2 md:col-start-2 md:row-start-1">
+          <img className="h-full" src="" alt="" />
         </div>
-        <div className="bg-white p-5 text-center rounded-xl w-11/12 mb-10">
+        <div className="bg-white p-5 text-center rounded-xl w-11/12">
           <h1 className="text-lg">
             <b>HBOMB STORY</b>
           </h1>
