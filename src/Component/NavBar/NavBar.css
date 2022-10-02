@@ -79,10 +79,10 @@
     width: 18em;
 }
 .web-navbar {
-    display: flex;
     justify-content: center;
     align-items: center;
     gap: 1em;
+    display: none;
 }
 .web-navbar a{
     color: rgb(240, 240, 240);

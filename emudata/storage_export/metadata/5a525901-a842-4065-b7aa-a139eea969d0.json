@@ -1,0 +1,19 @@
+{
+  "name": "collection-image/rc-upload-1663313474288-7",
+  "bucket": "hbomb-d8887.appspot.com",
+  "metageneration": 1,
+  "generation": 1663313552797,
+  "contentType": "image/jpeg",
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "downloadTokens": [
+    "9cd658fc-df3c-457b-997f-03dc605f2bad"
+  ],
+  "etag": "Acw2cMv9ZceP4g1Y8nwpYzG18vg",
+  "customMetadata": {},
+  "timeCreated": "2022-09-16T07:32:32.797Z",
+  "updated": "2022-09-16T07:32:32.797Z",
+  "size": 151289,
+  "md5Hash": "r3FsMFBuH5U8tNU70GPY6g==",
+  "crc32c": "1920777645"
+}

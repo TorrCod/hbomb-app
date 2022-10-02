@@ -3,9 +3,11 @@ import {
   _imageData,
   _ImageDataDb,
   _OfferContentTypes,
-  _UploadData,
 } from "../api/CustomType";
-import { getListImageFromCloud } from "../FirebaseService/CloudStorage";
+import {
+  getImageFromCloud,
+  getListImageFromCloud,
+} from "../FirebaseService/CloudStorage";
 import { readData } from "../FirebaseService/RealtimeDatabase";
 import ProductPageContext from "./ProductPageContext";
 
@@ -56,7 +58,7 @@ export const globalReducerInit: GlobalState = {
     secondBox: { icons: "", content: "" },
     thirdBox: { icons: "", content: "" },
   },
-  imageApi: { ModelData: {}, ClassicData: {}, CollectionData: {} },
+  imageApi: { ModelData: {}, ClassicData: {}, CollectionData: {}, AboutUs: "" },
   imageApiDefault: {
     modelImgData: [],
     classicImgData: [],
@@ -164,34 +166,23 @@ export function GlobalProvider({ children }: any) {
       });
     };
 
+    const setAboutUsImage = () => {
+      getListImageFromCloud("about-us").then((res) => {
+        try {
+          dispatch({
+            type: "setImageApi",
+            payload: { ...data, AboutUs: res.urlList[0] },
+          });
+        } catch (e) {
+          alert(e);
+        }
+      });
+    };
+
     await updateImageInDb("model-data", "ModelData");
     await updateImageInDb("collection-data", "CollectionData");
     await updateImageInDb("classic-data", "ClassicData");
-
-    // await readData("model-data").then((res) => {
-    //   data["ModelData"] = res;
-    //   if (res === null) {
-    //     data["ModelData"] = [] as any;
-    //   }
-    //   dispatch({ type: "setImageApi", payload: data });
-    // });
-
-    // await readData("collection-data").then((res) => {
-    //   data["CollectionData"] = res;
-    //   if (res === null) {
-    //     data["CollectionData"] = [] as any;
-    //   }
-    //   dispatch({ type: "setImageApi", payload: data });
-    // });
-
-    // await readData("classic-data").then((res) => {
-    //   data["ClassicData"] = res;
-    //   if (res === null) {
-    //     data["ClassicData"] = [] as any;
-    //   }
-    //   dispatch({ type: "setImageApi", payload: data });
-    // });
-
+    setAboutUsImage();
     dispatch({ type: "loadingDone" });
   };
 

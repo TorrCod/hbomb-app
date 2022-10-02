@@ -1,3 +1,19 @@
+import { OLSitems } from "../Component/Page/Product/ShopProduct";
+
+export type Orders = {
+  date: string;
+  orderNumber: number;
+  name: string;
+  emailcontact: string;
+  address: string;
+  totalPrice: number;
+  status: "pending" | "success";
+  itemOrdered: {
+    itemCount: number;
+    item: OLSitems;
+  }[];
+};
+//----Order Details------//
 //----OfferSection----//
 export type _OfferContent_Data = {
   icons: any;
@@ -24,6 +40,7 @@ export type _ImageDataDb = {
   ModelData: _UploadData;
   CollectionData: _UploadData;
   ClassicData: _UploadData;
+  AboutUs: string;
 };
 export type _Path = "ImageDataApi/" | "User/" | "OfferData/";
 

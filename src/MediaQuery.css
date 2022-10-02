@@ -1,0 +1,68 @@
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) and (min-height: 600px) {
+    .web-navbar {
+        display: flex;
+    }
+
+    .defaultNav > button, .defaultNav > .hbomblogo{
+        display: none;
+    }
+
+    .charts  {
+        display: grid;
+        grid-template-columns: 30% 70%;
+        gap: 0;
+        grid-column: span 2;
+        gap: 0;
+    }
+
+    .dashboard {
+        grid-template-columns: auto auto;
+    }
+
+    .dashboard-child {
+        /* min-height: 20em;
+        max-height: 20em; */
+        height: 30vh;
+        min-height: auto;
+        overflow: hidden;
+    }
+
+    .dashboard-container {
+        /* display: flex;
+        width: 100%; */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .dashboard-swiper {
+        padding-top: 7em;
+    }
+
+    .md-pc-60vh {
+        height: 60vh;
+    }
+
+    .order-details {
+        grid-template-areas: 
+        "a b"
+        "c c";
+        overflow-y: scroll;
+    }
+    .area-a {grid-area: a;}
+    .area-b {grid-area: b;}
+    .area-c {grid-area: c;}
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+}

@@ -6,7 +6,7 @@ import FullScrollSlide, {
   FullScrollSection,
   FsHandle,
 } from "../../../Feature/FullScrollSlide";
-import { useReducer, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import MyCart from "./MyCart";
 import ProductPageContext from "../../../hooks/ProductPageContext";
 import OnlineShopSwipe, {
@@ -26,6 +26,7 @@ import Cart_TotalPrice, {
 } from "../../../Feature/Cart_TotalPrice";
 import { writeDatabase } from "../../../FirebaseService/RealtimeDatabase";
 import OrderResult from "./OrderResult";
+import { Orders } from "../../../api/CustomType";
 
 function ProductPage() {
   const productPageCtx = ProductPageContext();
@@ -205,6 +206,8 @@ const inputReducer = (
   action: InptRdcerAct
 ): InptRdcerState => {
   switch (action.type) {
+    case "setordernumber":
+      return { ...state, orderNumber: action.payload };
     case "updatename":
       return {
         ...state,
@@ -233,12 +236,13 @@ const InptState_init = {
   name: "",
   contactInfo: "",
   address: "",
-  orderNumber: Math.floor(Date.now() * Math.random()),
+  orderNumber: 0,
 };
 type InptRdcerAct =
   | { type: "updatename"; payload: string }
   | { type: "updatecontactinfo"; payload: string }
-  | { type: "updateaddress"; payload: string };
+  | { type: "updateaddress"; payload: string }
+  | { type: "setordernumber"; payload: number };
 
 export const CheckOutPage = () => {
   const userContext = UserContext();
@@ -251,29 +255,35 @@ export const CheckOutPage = () => {
     state.contactInfo.includes("09");
   const isFilled =
     emailCheck && state.address.length !== 0 && state.name.length !== 0;
-  const dateNow = new Date().toLocaleDateString("en-us", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const dateNow = new Date().toString();
   const priceList = itemPriceList(cartItemList);
   const totalPrice = priceList.reduce((prev, curr) => prev + curr, 0);
 
   const onPlaceOrder = () => {
-    const orderDetailes = {
+    const clearCartItem = userContext.cartItemHandler.clear;
+    const orderDetailes: Orders = {
       date: dateNow,
       orderNumber: state.orderNumber,
       name: state.name,
+      status: "pending",
       emailcontact: state.contactInfo,
       address: state.address,
       totalPrice: totalPrice,
       itemOrdered: cartItemList,
     };
-    const clearCartItem = userContext.cartItemHandler.clear;
 
     writeDatabase("order-list/" + orderDetailes.orderNumber, orderDetailes);
     clearCartItem();
   };
+
+  useEffect(() => {
+    // Update ordernumber
+    let generatedNumber = Math.floor(Date.now() * Math.random());
+    dispatch({ type: "setordernumber", payload: generatedNumber });
+    return () => {
+      generatedNumber = 0;
+    };
+  }, []);
 
   return onSubmit ? (
     <div className="box-shadow-default padding-1em bg-white roundcorner-1em">

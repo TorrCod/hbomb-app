@@ -30,7 +30,7 @@ function CollectionSection() {
     <div className="positionRelative">
       <div className="allbg bgViolet bgright"></div>
       <div className="section collectionSection flex-column defaultPadding">
-        <h1>COLLECTIONS</h1>
+        <h1 className="text-4xl font-semibold opacity-80">COLLECTIONS</h1>
         <div className="collection-box-container">
           {collectionImages.length ? (
             collectionImages

@@ -1,13 +1,9 @@
-import { getBase64, onSwipe } from "../../../../../api/utils";
+import { onSwipe } from "../../../../../api/utils";
 import { GlobalContext } from "../../../../../hooks/GlobalContext";
 import "./ClassicteeSection.css";
 import * as AiIcons from "react-icons/ai";
 import { ClassicContext } from "../../../../../hooks/HomeContext";
-import { Button, Modal, Space, Upload, UploadFile, UploadProps } from "antd";
-import { Content } from "antd/lib/layout/layout";
-import { PlusOutlined } from "@ant-design/icons";
-import { RcFile } from "antd/lib/upload";
-import { UserContext } from "../../../../../hooks/UserContext";
+import { UploadFile } from "antd";
 import EditImageButton from "../../../../../Feature/EditImageAdmin";
 
 function ClassicteeSection() {
@@ -43,7 +39,6 @@ function ClassicteeSlider() {
   const classicSlide = classicContext.state.classicSlide;
   const clasicData = globalContext.globalState.imageApi.ClassicData;
   const classicLength = Object.keys(clasicData).length;
-  const isLogin = UserContext().state.UserState.checkCredential;
   const value = "translateX(-" + (100 / classicLength) * classicSlide + "%)";
   let onSwipeLocation = { start: 0, end: 0 };
   const slideStyle = {
