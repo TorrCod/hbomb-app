@@ -8,10 +8,10 @@ function AboutUs() {
   return (
     <>
       <div className="grid gap-5 place-items-center md:py-32 py-20 grid-rows-2 md:grid-cols-2 md:grid-rows-1 md:max-w-6xl md:mx-auto">
-        <div className="bg-slate-700/50 drop-shadow-lg h-full text-center rounded-xl w-11/12 md:grid-cols-2 md:col-start-2 md:row-start-1 overflow-hidden">
-          <img className="w-full h-full object-fill" src={imgSrc} alt="" />
+        <div className="bg-slate-700/50 drop-shadow-lg text-center rounded-xl w-11/12 md:grid-cols-2 md:col-start-2 md:row-start-1 overflow-hidden h-full">
+          <img className="object-fill h-full" src={imgSrc} alt="" />
         </div>
-        <div className="bg-white p-5 text-center rounded-xl w-11/12 drop-shadow-lg">
+        <div className="bg-white p-5 text-center rounded-xl w-11/12 drop-shadow-lg md:h-full">
           <h1 className="text-lg">
             <b>HBOMB STORY</b>
           </h1>
