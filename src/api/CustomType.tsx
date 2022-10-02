@@ -40,6 +40,7 @@ export type _ImageDataDb = {
   ModelData: _UploadData;
   CollectionData: _UploadData;
   ClassicData: _UploadData;
+  AboutUs: string;
 };
 export type _Path = "ImageDataApi/" | "User/" | "OfferData/";
 
