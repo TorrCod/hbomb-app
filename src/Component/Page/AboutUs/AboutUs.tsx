@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { GlobalContext } from "../../../hooks/GlobalContext";
 import Footer from "../../Footer/Footer";
 

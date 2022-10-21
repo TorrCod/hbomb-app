@@ -146,7 +146,8 @@ export function GlobalProvider({ children }: any) {
 
   const updateOfferData = () => {
     readData("offer-data").then((res) => {
-      dispatch({ type: "setOfferApi", payload: res });
+      if (res) dispatch({ type: "setOfferApi", payload: res });
+      else dispatch({ type: "setOfferApi", payload: state.offerSectionApi });
     });
   };
 
